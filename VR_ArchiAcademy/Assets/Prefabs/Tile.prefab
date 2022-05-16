@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 293907629523662695}
   - component: {fileID: 7793284117292753207}
   - component: {fileID: 1263175719613975815}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592817972242862801}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6032224341791713657}
@@ -105,7 +105,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6032224341791713657}
   - component: {fileID: 769860210898101015}
-  m_Layer: 0
+  - component: {fileID: 7507154548319123307}
+  m_Layer: 6
   m_Name: Tile
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -135,8 +136,20 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6534488648382059630}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7507154548319123307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6534488648382059630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10e344529655443eda565cbe959981f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

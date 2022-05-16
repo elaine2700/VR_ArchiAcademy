@@ -4,6 +4,13 @@ public class Selector : MonoBehaviour
 {
     [SerializeField] GameObject prefabTest;
 
+    bool haveSelection;
+
+    private void Start()
+    {
+        haveSelection = false;
+    }
+
     private void Update()
     {
         FollowMousePosition();
@@ -22,6 +29,17 @@ public class Selector : MonoBehaviour
     // Gets the Prefab information from BlockButton script.
     public void ChooseBlock(Block chosenBlock)
     {
+        if(haveSelection) { return; }
+        haveSelection = true;
         Instantiate(chosenBlock.gameObject, transform.position, Quaternion.identity);
+
+        // todo turn off haveSelection when placing object on grid
     }
+
+    public void SetSelector(bool selection)
+    {
+        haveSelection = selection;
+    }
+
+
 }

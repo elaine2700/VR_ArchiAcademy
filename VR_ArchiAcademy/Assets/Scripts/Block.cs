@@ -24,8 +24,12 @@ public class Block : MonoBehaviour
         transform.position = selector.transform.position;
     }
 
-    private void PlaceOnGrid()
+    // It gets Position from GridTile position, and Parents the block with its respective folder
+    public void PlaceOnGrid(Vector3 newPos, GameObject newParent)
     {
-
+        isPlaced = true;
+        transform.position = newPos;
+        transform.parent = newParent.transform;
+            
     }
 }
