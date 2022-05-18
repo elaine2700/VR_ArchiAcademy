@@ -1,43 +1,53 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Selector : MonoBehaviour
 {
-    bool haveSelection;
+    public Vector3 offsetBlock = new Vector3();
+    Block selectedBlock = null;
 
-    private void Start()
+    public void PlaceBlock(SelectEnterEventArgs args)
     {
-        haveSelection = false;
-    }
-
-    private void Update()
-    {
-        //FollowMousePosition();
-    }
-
-    // Method used for testing purposes. It will be replaced by XR Controllers Input
-    private void FollowMousePosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit))
+        
+        if (!selectedBlock)
+            return;
+        // selects a GridTile and places the selected Block
+        Debug.Log("placing");
+        if (args.interactableObject.GetType() == typeof(GridTile))
         {
-            transform.position = raycastHit.point;
+            Debug.Log("placing2");
+            GridTile gridTile = args.interactableObject.transform.GetComponent<GridTile>();
+            selectedBlock.PlaceOnGrid(gridTile.transform.position);
+            Debug.Log("placing3");
+        }
+        DeselectBlock();
+    }
+
+    public void DeselectBlock()
+    {
+        selectedBlock = null;
+    }
+
+    public void HoveringOnGrid(HoverEnterEventArgs args)
+    {
+        if (!selectedBlock)
+            return;
+        // todo set block to null not working
+        if(args.interactableObject.GetType() == typeof(GridTile))
+        {
+            Debug.Log("hovering");
+            GridTile gridTile = args.interactableObject.transform.GetComponent<GridTile>();
+            selectedBlock.PreviewPos(gridTile);
         }
     }
 
     // Gets the Prefab information from BlockButton script.
     public void ChooseBlock(Block chosenBlock)
     {
-        if(haveSelection) { return; }
-        haveSelection = true;
-        Instantiate(chosenBlock.gameObject, transform.position, Quaternion.identity);
-        GameObject previewCopy = Instantiate(chosenBlock.gameObject, transform.position, Quaternion.identity); // A copy to preview placement
-        previewCopy.GetComponent<Block>().SetAsPreview();
+        if (selectedBlock != null) { return; }
+        Vector3 blockPos = transform.position + offsetBlock;
+        
+        selectedBlock = Instantiate(chosenBlock, blockPos, Quaternion.identity);
     }
-
-    public void SetSelector(bool selection)
-    {
-        haveSelection = selection;
-    }
-
 
 }

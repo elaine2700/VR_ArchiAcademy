@@ -1,0 +1,122 @@
+{
+    "name": "Actions",
+    "maps": [
+        {
+            "name": "Interaction",
+            "id": "33486981-3d03-4779-aeda-97864e97c4d8",
+            "actions": [
+                {
+                    "name": "SelectBlock",
+                    "type": "Button",
+                    "id": "3896307a-d462-4d19-9492-b9772368e073",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateBlock",
+                    "type": "Value",
+                    "id": "2145e2f9-5a0a-4cea-aa12-5a6cf92703b4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ChooseBlock",
+                    "type": "Button",
+                    "id": "665ca700-5fd4-46d6-b957-169f25a472e2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fcd85f58-4cb8-4579-bc7a-ff99929e7639",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectBlock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8935dd9f-76bf-40a2-97f6-45adaeb789f7",
+                    "path": "<HID::Unknown Joy-Con (R)>/hat",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateBlock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3594bd96-c4d1-411e-8f29-481ee72e5385",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChooseBlock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Switch",
+            "id": "eb8eac4c-98f6-4c94-9e7c-c44cc97fb2b7",
+            "actions": [
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "2b3047a7-4cb0-42b3-947e-c715e3f2c9c1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectValue",
+                    "type": "Value",
+                    "id": "916499a2-f4fa-4bc3-bca2-b2dff7e13edd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "58356aeb-3133-4541-9156-1110c6b1d618",
+                    "path": "<HID::Unknown Joy-Con (R)>/button15",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "636f222a-8854-4ea0-933d-a4fbb8d1b3ca",
+                    "path": "<HID::Unknown Joy-Con (R)>/button15",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectValue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

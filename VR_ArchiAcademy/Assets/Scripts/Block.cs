@@ -1,68 +1,76 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Block : MonoBehaviour
 {
-    [SerializeField] Material previewMaterial;
+    public Material previewMaterial;
+    public float scaleVar = 0.05f;
 
-    bool isPreview = false;
     bool isPlaced = false;
-    bool touchingGrid = false;
     Selector selector;
     Vector3 gridPos;
+    GridLayers gridLayers;
+    PreviewBlock previewBlock;
+
+    Actions actions;
+
+    Vector2 rotate;
+
+    private void Awake()
+    {
+        actions = new Actions();
+
+        actions.Interaction.RotateBlock.performed += cntxt => rotate = cntxt.ReadValue<Vector2>();
+        actions.Interaction.RotateBlock.canceled += cntxt => rotate = Vector2.zero;
+    }
 
     private void Start()
     {
+        previewBlock = GetComponentInChildren<PreviewBlock>();
+        gridLayers = FindObjectOfType<GridLayers>();
         gridPos = new Vector3();
         selector = FindObjectOfType<Selector>();
-        transform.localScale *= 0.05f; // todo set 0.05 as variable of scale of grid
+        transform.localScale *= scaleVar;
     }
 
     private void Update()
     {
-        // if not placed
-        if (isPlaced)
-        {
-            return;
-        }
-
-        if (isPreview && touchingGrid)
-        {
-            GetComponentInChildren<MeshRenderer>().enabled = true;
-            transform.position = gridPos;
-        }
-        else
-        {
-            // update location to follow selector
-            transform.position = selector.transform.position;
-            GetComponentInChildren<MeshRenderer>().enabled = false;
-        }      
+        Rotate();
     }
 
-    // It gets Position from GridTile position, and Parents the block with its respective folder
-    public void PlaceOnGrid(Vector3 newPos, GameObject newParent)
+    //Preview the rotation
+    void Rotate()
+    {
+        Vector3 newRotate = new Vector3(rotate.x, 0, rotate.y);
+        if(newRotate != Vector3.zero)
+            previewBlock.transform.rotation = Quaternion.LookRotation(newRotate, Vector3.up);
+    }
+
+    public void PlaceOnGrid(Vector3 newPos)
     {
         isPlaced = true;
         transform.position = gridPos;
-        transform.parent = newParent.transform;
-        if (isPreview)
-        {
-            Destroy(gameObject);
-        }
+        transform.parent = gridLayers.ParentToCurrentLayer().transform;
+        previewBlock.Show(false);
+        transform.rotation = previewBlock.transform.rotation;
     }
 
-    public void SetAsPreview()
+    public void PreviewPos(GridTile gridTile)
     {
-        isPreview = true;
-        MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
-        meshRenderer.material = previewMaterial;
-        meshRenderer.enabled = false;
+        previewBlock.Show(gridTile);
+        if (gridTile != null)
+            previewBlock.AdjustPosition(gridTile.transform.position);
+        transform.position = selector.transform.position;
     }
 
-    public void GetGridPos(Vector3 selectedGridPos, bool onGrid)
+    private void OnEnable()
     {
-        touchingGrid = onGrid;
-        if(onGrid)
-        gridPos = selectedGridPos;
+        actions.Interaction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        actions.Interaction.Disable();
     }
 
 }
