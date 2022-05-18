@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 3542695151096297209}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5549253353458730057
 MeshFilter:
@@ -125,8 +125,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1350204246945955595}
   - {fileID: 4037784401019733301}
+  - {fileID: 1350204246945955595}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dede8063c654c432cb8a7c13f351f74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewMaterial: {fileID: 2100000, guid: 08bf0a4d861cd49cebcfa25d64232481, type: 2}
 --- !u!65 &3292545421346063476
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -180,11 +181,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
       propertyPath: m_LocalPosition.y

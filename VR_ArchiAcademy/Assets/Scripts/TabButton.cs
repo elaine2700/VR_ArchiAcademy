@@ -13,6 +13,9 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public UnityEvent onTabSelected;
     public UnityEvent onTabDeselected;
 
+    // todo Open UI page depending on active layer
+    // todo Opening a page sets the active layer
+
     public void OnPointerClick(PointerEventData eventData)
     {
         tabGroup.OnTabSelected(this);

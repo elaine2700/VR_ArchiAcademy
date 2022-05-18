@@ -16,23 +16,29 @@ public class GridTile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("trigger");
+        // todo Change function to OnHover (XR Toolkit)
+        // todo PreviewModel
+        // todo Instantiate two Models to selector, one with transparent color. Hidden until it hovers something that snaps to every tile it hovers.
+
+
         // todo Change function to OnSelected (XR Toolkit)
-
-        // todo check active layer
-        // todo if layer wall is active and
-
-        // todo if there is a Click Input
-
-        // send place block on grid position
+        // send block to grid tile position
         if (other.GetComponent<Block>())
         {
+            other.GetComponent<Block>().GetGridPos(transform.position, true);
             if(Input.GetMouseButton(0)) // Button 0 is primary button
             PlaceOnTile(other.GetComponent<Block>());
+
         }
         
-        
-        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Block>())
+        {
+            other.GetComponent<Block>().GetGridPos(transform.position, false);
+        }
     }
 
     private void PlaceOnTile(Block block)

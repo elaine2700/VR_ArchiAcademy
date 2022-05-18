@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class Selector : MonoBehaviour
 {
-    [SerializeField] GameObject prefabTest;
-
     bool haveSelection;
 
     private void Start()
@@ -13,7 +11,7 @@ public class Selector : MonoBehaviour
 
     private void Update()
     {
-        FollowMousePosition();
+        //FollowMousePosition();
     }
 
     // Method used for testing purposes. It will be replaced by XR Controllers Input
@@ -32,8 +30,8 @@ public class Selector : MonoBehaviour
         if(haveSelection) { return; }
         haveSelection = true;
         Instantiate(chosenBlock.gameObject, transform.position, Quaternion.identity);
-
-        // todo turn off haveSelection when placing object on grid
+        GameObject previewCopy = Instantiate(chosenBlock.gameObject, transform.position, Quaternion.identity); // A copy to preview placement
+        previewCopy.GetComponent<Block>().SetAsPreview();
     }
 
     public void SetSelector(bool selection)
