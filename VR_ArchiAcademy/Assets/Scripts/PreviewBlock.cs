@@ -5,6 +5,7 @@ public class PreviewBlock : MonoBehaviour
     [SerializeField] Vector3 adjustments;
     Block block;
     MeshRenderer meshRenderer;
+    MeshFilter meshFilter;
 
     private void Start()
     {
@@ -12,6 +13,8 @@ public class PreviewBlock : MonoBehaviour
         Show(false);
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         meshRenderer.material = block.previewMaterial;
+        meshFilter = GetComponentInChildren<MeshFilter>();
+        meshFilter.mesh = block.GetComponentInChildren<MeshFilter>().mesh;
         Debug.Log(meshRenderer.material.name);
         adjustments *= block.scaleVar;
     }

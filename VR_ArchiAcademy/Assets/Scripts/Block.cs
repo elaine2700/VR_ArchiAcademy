@@ -49,7 +49,7 @@ public class Block : MonoBehaviour
     public void PlaceOnGrid(Vector3 newPos)
     {
         isPlaced = true;
-        transform.position = gridPos;
+        transform.position = newPos;
         transform.parent = gridLayers.ParentToCurrentLayer().transform;
         previewBlock.Show(false);
         transform.rotation = previewBlock.transform.rotation;

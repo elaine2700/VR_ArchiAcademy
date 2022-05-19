@@ -8,17 +8,23 @@ public class Selector : MonoBehaviour
 
     public void PlaceBlock(SelectEnterEventArgs args)
     {
-        
-        if (!selectedBlock)
+        Debug.Log("Placing Block");
+        Debug.Log(selectedBlock.name);
+        if (selectedBlock == null)
+        {
+            Debug.Log("Null block selection");
             return;
+        }
+            
         // selects a GridTile and places the selected Block
         Debug.Log("placing");
         if (args.interactableObject.GetType() == typeof(GridTile))
         {
-            Debug.Log("placing2");
+            Debug.Log("grid Selected");
             GridTile gridTile = args.interactableObject.transform.GetComponent<GridTile>();
             selectedBlock.PlaceOnGrid(gridTile.transform.position);
-            Debug.Log("placing3");
+            Debug.Log("placed on Grid");
+            Debug.Log(gridTile.transform.position);
         }
         DeselectBlock();
     }

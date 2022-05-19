@@ -834,33 +834,11 @@
                 },
                 {
                     "name": "",
-                    "id": "cfccf703-2da9-4c98-a41e-c5605f51add6",
-                    "path": "<HID::Unknown Joy-Con (R)>/button15",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "dd433817-216c-46b9-8dd3-f3a4ea1767b9",
                     "path": "<XRController>{RightHand}/grip",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
-                    "action": "Select Value",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ed861a0e-2588-4389-9051-d1771833b7c2",
-                    "path": "<HID::Unknown Joy-Con (R)>/button15",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
                     "action": "Select Value",
                     "isComposite": false,
                     "isPartOfComposite": false

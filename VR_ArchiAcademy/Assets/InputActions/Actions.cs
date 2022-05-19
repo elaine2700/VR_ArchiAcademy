@@ -80,6 +80,17 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3292e11e-158e-4151-a4e0-4ea45e7c83b8"",
+                    ""path"": ""<XRController>{RightHand}/joystick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateBlock"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""3594bd96-c4d1-411e-8f29-481ee72e5385"",
                     ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
