@@ -15,6 +15,7 @@ public class Block : MonoBehaviour
     Actions actions;
 
     Vector2 rotate;
+    float rotationIncrements = 90f;
 
     private void Awake()
     {
@@ -35,15 +36,20 @@ public class Block : MonoBehaviour
 
     private void Update()
     {
-        Rotate();
+        if(!isPlaced)
+            Rotate();
     }
 
     //Preview the rotation
     void Rotate()
     {
-        Vector3 newRotate = new Vector3(rotate.x, 0, rotate.y);
-        if(newRotate != Vector3.zero)
-            previewBlock.transform.rotation = Quaternion.LookRotation(newRotate, Vector3.up);
+        //float rotationX = Mathf.Round(rotate.x);
+        //float rotationY = Mathf.Round(rotate.y);
+        float rotationX = Mathf.Round(rotate.x/rotationIncrements)*rotationIncrements;//todo test
+        float rotationY = Mathf.Round(rotate.y/rotationIncrements)*rotationIncrements;// todo test
+        Vector3 newRotation = new Vector3(rotationX, 0, rotationY);
+        if(newRotation != Vector3.zero)
+            previewBlock.transform.rotation = Quaternion.LookRotation(newRotation, Vector3.up);
     }
 
     public void PlaceOnGrid(Vector3 newPos)
@@ -61,6 +67,12 @@ public class Block : MonoBehaviour
         if (gridTile != null)
             previewBlock.AdjustPosition(gridTile.transform.position);
         transform.position = selector.transform.position;
+    }
+
+    public void PreviewPosGrid(Vector3 hitPosition)
+    {
+        previewBlock.Show(true);
+        transform.position = hitPosition;
     }
 
     private void OnEnable()

@@ -3,20 +3,32 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class GridTile : XRBaseInteractable
 {
+    [SerializeField] Vector2 gridSize;
     bool isPlaceable;
     Selector selector;
+    
 
     private void Start()
     {
         isPlaceable = true;
         selector = FindObjectOfType<Selector>();
+        gridSize *= 0.05f; // todo move scaleVar to other Script
     }
 
-    private void PlaceOnTile(Block block)
+    public Vector3 SnapPosition(Vector3 hitPos)
     {
-        if(!isPlaceable) { return; }
+        // calculate snapping position
+        Debug.Log("HitPos " + hitPos);
+        float posX = Mathf.Round(hitPos.x/gridSize.x) * gridSize.x;
+        float posZ = Mathf.Round(hitPos.z/gridSize.y) * gridSize.y + gridSize.y;
+        
+        Vector3 snapPos = new Vector3(posX, hitPos.y, posZ);
+        Debug.Log("GridPos " + snapPos);
+        return snapPos;
+        /*if(!isPlaceable) { return; }
         block.PlaceOnGrid(transform.position);
         isPlaceable = false;
+        */
     }
 
     public void OnHovering()
