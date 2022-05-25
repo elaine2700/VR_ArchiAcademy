@@ -25,10 +25,6 @@ public class GridTile : XRBaseInteractable
         Vector3 snapPos = new Vector3(posX, hitPos.y, posZ);
         Debug.Log("GridPos " + snapPos);
         return snapPos;
-        /*if(!isPlaceable) { return; }
-        block.PlaceOnGrid(transform.position);
-        isPlaceable = false;
-        */
     }
 
     public void OnHovering()

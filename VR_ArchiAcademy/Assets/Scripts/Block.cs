@@ -3,14 +3,17 @@ using UnityEngine.InputSystem;
 
 public class Block : MonoBehaviour
 {
-    public Material previewMaterial;
+    //public Material previewMaterial;
+    //public Material previewMaterialoverlap;
+    
     public float scaleVar = 0.05f;
 
     bool isPlaced = false;
+    
     Selector selector;
-    Vector3 gridPos;
     GridLayers gridLayers;
     PreviewBlock previewBlock;
+    
 
     Actions actions;
 
@@ -29,22 +32,23 @@ public class Block : MonoBehaviour
     {
         previewBlock = GetComponentInChildren<PreviewBlock>();
         gridLayers = FindObjectOfType<GridLayers>();
-        gridPos = new Vector3();
         selector = FindObjectOfType<Selector>();
         transform.localScale *= scaleVar;
     }
 
     private void Update()
     {
-        if(!isPlaced)
+        if (!isPlaced)
+        {
             Rotate();
+        }
     }
 
     //Preview the rotation
     void Rotate()
     {
-        //float rotationX = Mathf.Round(rotate.x);
-        //float rotationY = Mathf.Round(rotate.y);
+        //float rotationX = Mathf.Round(rotate.x); // todo test
+        //float rotationY = Mathf.Round(rotate.y); // todo test
         float rotationX = Mathf.Round(rotate.x/rotationIncrements)*rotationIncrements;//todo test
         float rotationY = Mathf.Round(rotate.y/rotationIncrements)*rotationIncrements;// todo test
         Vector3 newRotation = new Vector3(rotationX, 0, rotationY);
@@ -54,25 +58,27 @@ public class Block : MonoBehaviour
 
     public void PlaceOnGrid(Vector3 newPos)
     {
-        isPlaced = true;
-        transform.position = newPos;
-        transform.parent = gridLayers.ParentToCurrentLayer().transform;
-        previewBlock.Show(false);
-        transform.rotation = previewBlock.transform.rotation;
-    }
-
-    public void PreviewPos(GridTile gridTile)
-    {
-        previewBlock.Show(gridTile);
-        if (gridTile != null)
-            previewBlock.AdjustPosition(gridTile.transform.position);
-        transform.position = selector.transform.position;
+        if (previewBlock.positionOk)
+        {
+            isPlaced = true;
+            transform.position = newPos;
+            transform.parent = gridLayers.ParentToCurrentLayer().transform;
+            previewBlock.Show(false);
+            transform.rotation = previewBlock.transform.rotation;
+            GetComponent<Collider>().enabled = true;
+        }
+        else
+        {
+            Debug.Log("Place not available");
+        }
     }
 
     public void PreviewPosGrid(Vector3 hitPosition)
     {
         previewBlock.Show(true);
-        transform.position = hitPosition;
+        transform.position = selector.transform.position;
+        previewBlock.AdjustPosition(hitPosition); // good
+        previewBlock.CheckPosition(hitPosition); // todo repair bug
     }
 
     private void OnEnable()
@@ -84,5 +90,7 @@ public class Block : MonoBehaviour
     {
         actions.Interaction.Disable();
     }
+
+    
 
 }

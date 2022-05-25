@@ -4,10 +4,11 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Selector : MonoBehaviour
 {
     public Vector3 offsetBlock = new Vector3();
-    Block selectedBlock = null;
+    [SerializeField] Block selectedBlock = null;
     XRRayInteractor rayController;
     bool isHovering = false;
     GridTile gridTile;
+    Vector3 hitPosition;
 
     private void Awake()
     {
@@ -24,19 +25,8 @@ public class Selector : MonoBehaviour
             return;
         }
 
-        // selects a GridTile and places the selected Block
-        /*Debug.Log("placing");
-        if (args.interactableObject.GetType() == typeof(GridTile))
-        {
-            Debug.Log("grid Selected");
-            GridTile gridTile = args.interactableObject.transform.GetComponent<GridTile>();
-            selectedBlock.PlaceOnGrid(gridTile.transform.position);
-            Debug.Log("placed on Grid");
-            Debug.Log(gridTile.transform.position);
-        }*/
-
         // todo test this new Grid Placement
-        if (rayController.TryGetHitInfo(out var hitPosition, out var hitNormal, out _, out _))
+        if (rayController.TryGetHitInfo(out hitPosition, out var hitNormal, out _, out _))
         {
             Vector3 rayHitPosition = hitPosition;
             Vector3 blockPos = gridTile.SnapPosition(rayHitPosition);
@@ -44,23 +34,24 @@ public class Selector : MonoBehaviour
             selectedBlock.PlaceOnGrid(blockPos);
         }
 
-
-
         DeselectBlock();
-
 
     }
 
     private void Update()
     {
+        if (selectedBlock == null)
+            return;
         if (!isHovering)
             return;
-        if (rayController.TryGetHitInfo(out var hitPosition, out var hitNormal, out _, out _))
-        {
-            Vector3 rayHitPosition = hitPosition;
-            Vector3 blockPos = gridTile.SnapPosition(rayHitPosition);
-            selectedBlock.PreviewPosGrid(blockPos);
-            //selectedBlock.PlaceOnGrid(blockPos);
+        if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
+            {
+            if(hitPosition != null)
+            {
+                Vector3 rayHitPosition = hitPosition;
+                Vector3 blockPos = gridTile.SnapPosition(rayHitPosition);
+                selectedBlock.PreviewPosGrid(blockPos);
+            }    
         }
     }
 
@@ -77,14 +68,12 @@ public class Selector : MonoBehaviour
         Debug.Log("hovering");
 
         args.interactableObject.transform.TryGetComponent<GridTile>(out gridTile);
-        
-        // todo set block to null not working
-        /*if (args.interactableObject.GetType() == typeof(GridTile))
-        {
-            Debug.Log("hovering");
-            GridTile gridTile = args.interactableObject.transform.GetComponent<GridTile>();
-            selectedBlock.PreviewPos(gridTile);
-        }*/
+    }
+
+    public void NotHovering()
+    {
+        isHovering = false;
+        Debug.Log("not hovering");
     }
 
     // Gets the Prefab information from BlockButton script.
@@ -92,8 +81,8 @@ public class Selector : MonoBehaviour
     {
         if (selectedBlock != null) { return; }
         Vector3 blockPos = transform.position + offsetBlock;
-        
         selectedBlock = Instantiate(chosenBlock, blockPos, Quaternion.identity);
+        chosenBlock.GetComponent<Collider>().enabled = false;
     }
 
 }
