@@ -47,10 +47,10 @@ public class Block : MonoBehaviour
     //Preview the rotation
     void Rotate()
     {
-        //float rotationX = Mathf.Round(rotate.x); // todo test
-        //float rotationY = Mathf.Round(rotate.y); // todo test
-        float rotationX = Mathf.Round(rotate.x/rotationIncrements)*rotationIncrements;//todo test
-        float rotationY = Mathf.Round(rotate.y/rotationIncrements)*rotationIncrements;// todo test
+        float rotationX = Mathf.Round(rotate.x); // todo test
+        float rotationY = Mathf.Round(rotate.y); // todo test
+        //float rotationX = Mathf.Round(rotate.x/rotationIncrements)*rotationIncrements;//todo test
+        //float rotationY = Mathf.Round(rotate.y/rotationIncrements)*rotationIncrements;// todo test
         Vector3 newRotation = new Vector3(rotationX, 0, rotationY);
         if(newRotation != Vector3.zero)
             previewBlock.transform.rotation = Quaternion.LookRotation(newRotation, Vector3.up);
@@ -60,12 +60,14 @@ public class Block : MonoBehaviour
     {
         if (previewBlock.positionOk)
         {
+            Debug.Log("Placing");
             isPlaced = true;
             transform.position = newPos;
             transform.parent = gridLayers.ParentToCurrentLayer().transform;
             previewBlock.Show(false);
             transform.rotation = previewBlock.transform.rotation;
             GetComponent<Collider>().enabled = true;
+            selector.DeselectBlock();
         }
         else
         {

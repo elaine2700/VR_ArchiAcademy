@@ -15,6 +15,25 @@ public class Selector : MonoBehaviour
         rayController = GetComponentInParent<XRRayInteractor>();
     }
 
+    private void Update()
+    {
+        if (selectedBlock == null)
+            return;
+        if (!isHovering)
+            return;
+        if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
+        {
+            if (hitPosition != null)
+            {
+                Vector3 rayHitPosition = hitPosition;
+                Vector3 blockPos = gridTile.SnapPosition(rayHitPosition);
+
+                selectedBlock.PreviewPosGrid(blockPos);
+
+            }
+        }
+    }
+
     public void PlaceBlock(SelectEnterEventArgs args)
     {
         Debug.Log("Placing Block");
@@ -32,27 +51,11 @@ public class Selector : MonoBehaviour
             Vector3 blockPos = gridTile.SnapPosition(rayHitPosition);
             selectedBlock.PreviewPosGrid(blockPos);
             selectedBlock.PlaceOnGrid(blockPos);
+             //todo when to deselect block
         }
 
-        DeselectBlock();
+        //DeselectBlock();
 
-    }
-
-    private void Update()
-    {
-        if (selectedBlock == null)
-            return;
-        if (!isHovering)
-            return;
-        if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
-            {
-            if(hitPosition != null)
-            {
-                Vector3 rayHitPosition = hitPosition;
-                Vector3 blockPos = gridTile.SnapPosition(rayHitPosition);
-                selectedBlock.PreviewPosGrid(blockPos);
-            }    
-        }
     }
 
     public void DeselectBlock()
@@ -65,7 +68,7 @@ public class Selector : MonoBehaviour
         if (!selectedBlock)
             return;
         isHovering = true;
-        Debug.Log("hovering");
+        //Debug.Log("hovering");
 
         args.interactableObject.transform.TryGetComponent<GridTile>(out gridTile);
     }
@@ -73,7 +76,7 @@ public class Selector : MonoBehaviour
     public void NotHovering()
     {
         isHovering = false;
-        Debug.Log("not hovering");
+        //Debug.Log("not hovering");
     }
 
     // Gets the Prefab information from BlockButton script.

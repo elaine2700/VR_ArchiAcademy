@@ -24,6 +24,11 @@ public class PreviewBlock : MonoBehaviour
         adjustments *= block.scaleVar;
     }
 
+    private void Update()
+    {
+        Debug.Log("Position ok? " + positionOk);
+    }
+
     public void Show(bool show)
     {
         gameObject.SetActive(show);
