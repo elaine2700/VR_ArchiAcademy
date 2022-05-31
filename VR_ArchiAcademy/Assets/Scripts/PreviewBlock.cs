@@ -3,8 +3,8 @@ using UnityEngine;
 public class PreviewBlock : MonoBehaviour
 {
     [SerializeField] Vector3 adjustments;
-    [SerializeField] Material previewMaterial;
-    [SerializeField] Material materialOverlap;
+
+    ThemeSettings themeSettings;
 
     public bool positionOk = false;
     Block block;
@@ -15,10 +15,11 @@ public class PreviewBlock : MonoBehaviour
 
     private void Start()
     {
+        themeSettings = FindObjectOfType<ThemeSettings>();
         block = GetComponentInParent<Block>();
         Show(false);
         meshRenderer = GetComponentInChildren<MeshRenderer>();
-        meshRenderer.material = previewMaterial;
+        meshRenderer.material = themeSettings.previewBlockMaterial;
         meshFilter = GetComponentInChildren<MeshFilter>();
         meshFilter.mesh = block.GetComponentInChildren<MeshFilter>().mesh;
         adjustments *= block.scaleVar;
@@ -45,11 +46,11 @@ public class PreviewBlock : MonoBehaviour
         positionOk = okPos;
         if (positionOk)
         {
-            meshRenderer.material = previewMaterial;
+            meshRenderer.material = themeSettings.previewBlockMaterial;
         }
         else
         {
-            meshRenderer.material = materialOverlap;
+            meshRenderer.material = themeSettings.overlapBlockMaterial;
         }
     }
 

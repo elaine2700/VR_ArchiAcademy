@@ -4,35 +4,78 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(Block))]
 public class BlockFloor : MonoBehaviour
 {
-    [SerializeField] GameObject handleNorth;
-    [SerializeField] GameObject handleEast;
-    [SerializeField] GameObject handleSouth;
-    [SerializeField] GameObject handleWest;
+    [SerializeField] List<Handle> handles = new List<Handle>();
 
-    // Make quad
-    // define size
+    Handle handleNorth;
+    Handle handleEast;
+    Handle handleSouth;
+    Handle handleWest;
+
+    Block block;
+    bool enterEditMode = false;
+
     int width = 1; //transformX
     int depth = 1; // transformZ
     int height = 1; // transformY
+
     Mesh mesh;
     Vector3[] vertices;
     int[] triangles;
     Vector3[] normals;
     Vector2[] uvs;
-    Vector3[] otherVertices;
 
     private void Start()
     {
+        block = GetComponent<Block>();
+        SetHandles();
+
         GenerateMeshData();
         CreateMesh();
+
     }
 
     private void Update()
     {
-        ModifyVertices();
-        mesh.SetVertices(vertices);
+        if (!enterEditMode)
+        {
+            EditFloor(block.edit);
+            enterEditMode = true;
+        }
+        if (block.edit)
+        {
+            ModifyVertices();
+            mesh.SetVertices(vertices);
+        }
+        else
+        {
+            enterEditMode = false;
+        }
+    }
+
+    private void SetHandles()
+    {
+        Debug.Log("Get Handles");
+        foreach (Handle handle in handles)
+        {
+            switch (handle.handleDir)
+            {
+                case Handle.handleDirection.north:
+                    handleNorth = handle;
+                    break;
+                case Handle.handleDirection.east:
+                    handleEast = handle;
+                    break;
+                case Handle.handleDirection.south:
+                    handleSouth = handle;
+                    break;
+                case Handle.handleDirection.west:
+                    handleWest = handle;
+                    break;
+            }
+        }
     }
 
     private void GenerateMeshData()
@@ -50,16 +93,6 @@ public class BlockFloor : MonoBehaviour
             //lower right triangle
             0,2,3
         };
-
-        // Define normals
-        /*normals = new Vector3[4]
-        {
-            -Vector3.down,
-            -Vector3.down,
-            -Vector3.down,
-            -Vector3.down,
-        };
-        */
 
         // Define uvs
 
@@ -87,8 +120,8 @@ public class BlockFloor : MonoBehaviour
     private void ModifyVertices()
     {
         // Update North Vertices
-        vertices[1].z = handleNorth.transform.position.z;
-        vertices[2].z = handleNorth.transform.position.z;
+        vertices[1].z = handleNorth.gameObject.transform.position.z;
+        vertices[2].z = handleNorth.gameObject.transform.position.z;
 
         //Update East Vertices
         vertices[2].x = handleEast.transform.position.x;
@@ -108,11 +141,21 @@ public class BlockFloor : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.normals = normals;
-        //mesh.uv = uvs;
         mesh.RecalculateNormals();
 
         // show mesh
         GetComponent<MeshFilter>().mesh = mesh;
     }
+
+    public void EditFloor(bool isEditing)
+    {
+        // enable or disable Blocks
+        foreach(Handle handle in handles)
+        {
+            handle.gameObject.SetActive(isEditing);
+        }
+    }
+
+    
 
 }

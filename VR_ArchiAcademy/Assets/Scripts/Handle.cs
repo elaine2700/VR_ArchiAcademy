@@ -2,48 +2,68 @@ using UnityEngine;
 
 public class Handle : MonoBehaviour
 {
-    enum handleDirection { north, east, south, west }
-    [SerializeField] handleDirection handleDir;
+    public enum handleDirection { north, east, south, west }
+    public handleDirection handleDir;
+
     [SerializeField] bool isActive = false;
     [SerializeField] GameObject pointer;
 
+    ThemeSettings themeSettings;
+
+    MeshRenderer meshRenderer;
     GridTile gridTile;
-    Vector3 pos;
+
+    private void Awake()
+    {
+        themeSettings = FindObjectOfType<ThemeSettings>();
+    }
 
     private void Start()
     {
-        pos = transform.position;
         gridTile = FindObjectOfType<GridTile>();
-        ConstrainPosition();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
+        SetHandleInactive();
     }
-    //show when floor is in edition mode (selected)
-    // Snap to grid
 
     private void Update()
     {
-        if(isActive)
-            transform.position = gridTile.SnapPosition(pointer.transform.position);
+        if (isActive)
+        {
+            Vector3 newHandlePos = gridTile.SnapPosition(pointer.transform.position);
+            transform.position = ConstrainPosition(newHandlePos);
+        }    
     }
 
-    
-
-    private void ConstrainPosition()
+    private Vector3 ConstrainPosition(Vector3 followPos)
     {
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        Vector3 constrainedPos = transform.position;
         switch (handleDir)
         {
             case handleDirection.north:
-                rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY;
+                constrainedPos.z = followPos.z;
                 break;
             case handleDirection.east:
-                rigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
+                constrainedPos.x = followPos.x;
                 break;
             case handleDirection.south:
-                rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY;
+                constrainedPos.z = followPos.z;
                 break;
             case handleDirection.west:
-                rigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
+                constrainedPos.x = followPos.x;
                 break;
         }
+        return constrainedPos;
+    }
+
+    public void SetHandleActive()
+    {
+        isActive = true;
+        meshRenderer.material = themeSettings.activeHandleMat;
+    }
+
+    public void SetHandleInactive()
+    {
+        isActive = false;
+        meshRenderer.material = themeSettings.inactiveHandleMat;
     }
 }

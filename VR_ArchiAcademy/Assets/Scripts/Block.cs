@@ -9,11 +9,11 @@ public class Block : MonoBehaviour
     public float scaleVar = 0.05f;
 
     bool isPlaced = false;
+    public bool edit = false;
     
     Selector selector;
     GridLayers gridLayers;
     PreviewBlock previewBlock;
-    
 
     Actions actions;
 
@@ -79,8 +79,8 @@ public class Block : MonoBehaviour
     {
         previewBlock.Show(true);
         transform.position = selector.transform.position;
-        previewBlock.AdjustPosition(hitPosition); // good
-        previewBlock.CheckPosition(hitPosition); // todo repair bug
+        previewBlock.AdjustPosition(hitPosition);
+        previewBlock.CheckPosition(hitPosition);
     }
 
     private void OnEnable()
@@ -93,6 +93,16 @@ public class Block : MonoBehaviour
         actions.Interaction.Disable();
     }
 
-    
+    public void EditBlock()
+    {
+        edit = !edit;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //todo delete after testing
+        EditBlock();
+    }
+
 
 }
