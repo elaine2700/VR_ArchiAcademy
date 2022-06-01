@@ -145,6 +145,7 @@ public class BlockFloor : MonoBehaviour
 
         // show mesh
         GetComponent<MeshFilter>().mesh = mesh;
+        gameObject.AddComponent(typeof(MeshCollider));
     }
 
     public void EditFloor(bool isEditing)
@@ -156,6 +157,10 @@ public class BlockFloor : MonoBehaviour
         }
     }
 
+    public void SetAreaType()
+    {
+        // set as Kitchen, Living room, dining room, etc, etc.
+    }
     
 
 }

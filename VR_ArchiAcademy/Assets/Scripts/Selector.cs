@@ -85,7 +85,8 @@ public class Selector : MonoBehaviour
         if (selectedBlock != null) { return; }
         Vector3 blockPos = transform.position + offsetBlock;
         selectedBlock = Instantiate(chosenBlock, blockPos, Quaternion.identity);
-        chosenBlock.GetComponent<Collider>().enabled = false;
+        if(chosenBlock.GetComponent<Collider>())
+            chosenBlock.GetComponent<Collider>().enabled = false;
     }
 
 }
