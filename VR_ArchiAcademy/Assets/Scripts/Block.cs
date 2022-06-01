@@ -1,24 +1,21 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 
 public class Block : MonoBehaviour
 {
-    //public Material previewMaterial;
-    //public Material previewMaterialoverlap;
-    
-    public float scaleVar = 0.05f;
-
     bool isPlaced = false;
     public bool edit = false;
+    Material blockMaterial;
     
     Selector selector;
     GridLayers gridLayers;
     PreviewBlock previewBlock;
+    Scaler scaler;
 
     Actions actions;
 
     Vector2 rotate;
-    float rotationIncrements = 90f;
+    float rotationIncrements = 1/90f;
 
     private void Awake()
     {
@@ -33,7 +30,9 @@ public class Block : MonoBehaviour
         previewBlock = GetComponentInChildren<PreviewBlock>();
         gridLayers = FindObjectOfType<GridLayers>();
         selector = FindObjectOfType<Selector>();
-        transform.localScale *= scaleVar;
+        scaler = FindObjectOfType<Scaler>();
+        transform.localScale *= scaler.modelScale;
+        blockMaterial = GetComponentInChildren<MeshRenderer>().material;
     }
 
     private void Update()
@@ -47,10 +46,10 @@ public class Block : MonoBehaviour
     //Preview the rotation
     void Rotate()
     {
-        float rotationX = Mathf.Round(rotate.x); // todo test
-        float rotationY = Mathf.Round(rotate.y); // todo test
-        //float rotationX = Mathf.Round(rotate.x/rotationIncrements)*rotationIncrements;//todo test
-        //float rotationY = Mathf.Round(rotate.y/rotationIncrements)*rotationIncrements;// todo test
+        //float rotationX = Mathf.Round(rotate.x); // todo test
+        //float rotationY = Mathf.Round(rotate.y); // todo test
+        float rotationX = Mathf.Round(rotate.x/rotationIncrements)*rotationIncrements;//todo test
+        float rotationY = Mathf.Round(rotate.y/rotationIncrements)*rotationIncrements;// todo test
         Vector3 newRotation = new Vector3(rotationX, 0, rotationY);
         if(newRotation != Vector3.zero)
             previewBlock.transform.rotation = Quaternion.LookRotation(newRotation, Vector3.up);
@@ -62,12 +61,14 @@ public class Block : MonoBehaviour
         {
             Debug.Log("Placing");
             isPlaced = true;
-            transform.position = newPos;
+            edit = false;
+            //transform.position = newPos;
             transform.parent = gridLayers.ParentToCurrentLayer().transform;
-            previewBlock.Show(false);
+            //previewBlock.Show(false);
             transform.rotation = previewBlock.transform.rotation;
             GetComponent<Collider>().enabled = true;
             selector.DeselectBlock();
+            GetComponentInChildren<MeshRenderer>().material = blockMaterial;
         }
         else
         {
@@ -77,8 +78,8 @@ public class Block : MonoBehaviour
 
     public void PreviewPosGrid(Vector3 hitPosition)
     {
-        previewBlock.Show(true);
-        transform.position = selector.transform.position;
+        //previewBlock.Show(true);
+        //transform.position = selector.transform.position;
         previewBlock.AdjustPosition(hitPosition);
         previewBlock.CheckPosition(hitPosition);
     }
@@ -95,14 +96,20 @@ public class Block : MonoBehaviour
 
     public void EditBlock()
     {
+        // todo test
+        Debug.Log("Editing Block Place");
+        // function called from XR event.
         edit = !edit;
+        isPlaced = !isPlaced;
+        if (edit)
+        {
+            selector.ChooseBlock(this, true);
+        }
+
+        // todo return to place if selected another without placing this one
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        //todo delete after testing
-        EditBlock();
-    }
+    
 
 
 }

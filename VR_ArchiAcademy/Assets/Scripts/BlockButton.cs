@@ -15,6 +15,7 @@ public class BlockButton : MonoBehaviour
 
     public void ChooseBlock()
     {
-        selector.ChooseBlock(blockPrefab);
+            selector.ChooseBlock(blockPrefab, false);
     }
+    
 }

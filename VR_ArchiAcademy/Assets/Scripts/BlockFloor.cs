@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -14,7 +15,9 @@ public class BlockFloor : MonoBehaviour
     Handle handleSouth;
     Handle handleWest;
 
+    AreaType areaType;
     Block block;
+    BlocksTracker areaManager;
     bool enterEditMode = false;
 
     int width = 1; //transformX
@@ -29,6 +32,9 @@ public class BlockFloor : MonoBehaviour
 
     private void Start()
     {
+        areaType = FindObjectOfType<AreaType>();
+        areaManager = FindObjectOfType<BlocksTracker>();
+        areaManager.AddAreaToList(this);
         block = GetComponent<Block>();
         SetHandles();
 
@@ -157,9 +163,17 @@ public class BlockFloor : MonoBehaviour
         }
     }
 
+    public Vector3 GetFloorSize()
+    {
+        Vector3 size = new Vector3();
+        // todo to set physics.Overlap box
+        return size;
+    }
+
     public void SetAreaType()
     {
-        // set as Kitchen, Living room, dining room, etc, etc.
+        
+        
     }
     
 

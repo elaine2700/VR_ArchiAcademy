@@ -3,7 +3,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class Selector : MonoBehaviour
 {
-    public Vector3 offsetBlock = new Vector3();
+    [SerializeField] Vector3 offsetBlock = new Vector3();
     [SerializeField] Block selectedBlock = null;
     XRRayInteractor rayController;
     bool isHovering = false;
@@ -20,8 +20,14 @@ public class Selector : MonoBehaviour
         if (selectedBlock == null)
             return;
         if (!isHovering)
+        {
+            if(selectedBlock != null)
+            {
+                selectedBlock.transform.position = transform.position + offsetBlock ;
+            }
             return;
-        if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
+        }    
+        if (rayController.TryGetHitInfo(out hitPosition, out var hitNormals, out _, out _))
         {
             if (hitPosition != null)
             {
@@ -37,21 +43,19 @@ public class Selector : MonoBehaviour
     public void PlaceBlock(SelectEnterEventArgs args)
     {
         Debug.Log("Placing Block");
-        Debug.Log(selectedBlock.name);
+        //Debug.Log(selectedBlock.name);
         if (selectedBlock == null)
         {
             Debug.Log("Null block selection");
             return;
         }
 
-        // todo test this new Grid Placement
-        if (rayController.TryGetHitInfo(out hitPosition, out var hitNormal, out _, out _))
+        if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
         {
             Vector3 rayHitPosition = hitPosition;
             Vector3 blockPos = gridTile.SnapPosition(rayHitPosition);
-            selectedBlock.PreviewPosGrid(blockPos);
+            //selectedBlock.PreviewPosGrid(blockPos);
             selectedBlock.PlaceOnGrid(blockPos);
-             //todo when to deselect block
         }
 
         //DeselectBlock();
@@ -65,10 +69,9 @@ public class Selector : MonoBehaviour
 
     public void HoveringOnGrid(HoverEnterEventArgs args)
     {
-        if (!selectedBlock)
-            return;
+        /*if (selectedBlock == null)
+            return;*/
         isHovering = true;
-        //Debug.Log("hovering");
 
         args.interactableObject.transform.TryGetComponent<GridTile>(out gridTile);
     }
@@ -76,15 +79,22 @@ public class Selector : MonoBehaviour
     public void NotHovering()
     {
         isHovering = false;
-        //Debug.Log("not hovering");
     }
 
     // Gets the Prefab information from BlockButton script.
-    public void ChooseBlock(Block chosenBlock)
+    // or from Block.EditBlock()
+    public void ChooseBlock(Block chosenBlock, bool isInScene)
     {
         if (selectedBlock != null) { return; }
         Vector3 blockPos = transform.position + offsetBlock;
-        selectedBlock = Instantiate(chosenBlock, blockPos, Quaternion.identity);
+        if (isInScene)
+        {
+            selectedBlock = chosenBlock;
+        }
+        else
+        {
+            selectedBlock = Instantiate(chosenBlock, blockPos, Quaternion.identity);
+        }
         if(chosenBlock.GetComponent<Collider>())
             chosenBlock.GetComponent<Collider>().enabled = false;
     }

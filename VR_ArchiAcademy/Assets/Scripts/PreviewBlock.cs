@@ -5,6 +5,7 @@ public class PreviewBlock : MonoBehaviour
     [SerializeField] Vector3 adjustments;
 
     ThemeSettings themeSettings;
+    Scaler scaler;
 
     public bool positionOk = false;
     Block block;
@@ -16,13 +17,13 @@ public class PreviewBlock : MonoBehaviour
     private void Start()
     {
         themeSettings = FindObjectOfType<ThemeSettings>();
+        scaler = FindObjectOfType<Scaler>();
         block = GetComponentInParent<Block>();
-        Show(false);
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         meshRenderer.material = themeSettings.previewBlockMaterial;
         meshFilter = GetComponentInChildren<MeshFilter>();
         meshFilter.mesh = block.GetComponentInChildren<MeshFilter>().mesh;
-        adjustments *= block.scaleVar;
+        adjustments *= scaler.modelScale;
     }
 
     private void Update()
@@ -30,14 +31,8 @@ public class PreviewBlock : MonoBehaviour
         Debug.Log("Position ok? " + positionOk);
     }
 
-    public void Show(bool show)
-    {
-        gameObject.SetActive(show);
-    }
-
     public void AdjustPosition(Vector3 position)
     {
-        // preview in possible new position
         transform.position = adjustments + position;
     }
 
@@ -60,7 +55,7 @@ public class PreviewBlock : MonoBehaviour
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
         
         Vector3 centerPiece = new Vector3(placePosition.x, wallMeshRef.transform.position.y, placePosition.z);
-        Vector3 sizeOverlapBox = wallMeshRef.transform.localScale / 2 * 0.05f;
+        Vector3 sizeOverlapBox = wallMeshRef.transform.localScale / 2 * scaler.modelScale;
         //Check when there is a new collider coming into contact with the box
         for (int i = 0; i < 10; i++)
         {
@@ -77,5 +72,13 @@ public class PreviewBlock : MonoBehaviour
         Gizmos.color = Color.red;
         Vector3 centerPiece = new Vector3(transform.position.x, wallMeshRef.transform.position.y, transform.position.z);
         Gizmos.DrawWireCube(centerPiece, new Vector3(1,3,1) * 0.05f);
+    }
+
+    public void EditBlockPlace()
+    {
+        // put in edition mode
+        // change material to previewMaterial
+        // Preview new pos in Grid
+        // Set position 
     }
 }

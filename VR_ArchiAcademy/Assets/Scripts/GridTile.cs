@@ -5,7 +5,6 @@ public class GridTile : XRBaseInteractable
 {
     public Vector2 gridMinUnit;
     float scale;
-    Selector selector;
     Scaler scaler;
     
 
@@ -13,7 +12,6 @@ public class GridTile : XRBaseInteractable
     {
         scaler = FindObjectOfType<Scaler>();
         scale = scaler.modelScale;
-        selector = FindObjectOfType<Selector>();
         gridMinUnit *= scale;
     }
 
