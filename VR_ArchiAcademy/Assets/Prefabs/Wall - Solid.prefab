@@ -133,6 +133,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   wallMeshRef: {fileID: 4202572923736761541}
+  blockSize: {x: 0, y: 0, z: 0}
 --- !u!65 &5768776430052666787
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -231,6 +232,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   wallMeshRef: {fileID: 3693733625936043919}
+  blockSize: {x: 1, y: 3, z: 1}
 --- !u!65 &3292545421346063476
 BoxCollider:
   m_ObjectHideFlags: 0

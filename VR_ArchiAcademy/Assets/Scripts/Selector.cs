@@ -4,7 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Selector : MonoBehaviour
 {
     [SerializeField] Vector3 offsetBlock = new Vector3();
-    [SerializeField] Block selectedBlock = null;
+    public Block selectedBlock = null;
     XRRayInteractor rayController;
     bool isHovering = false;
     GridTile gridTile;

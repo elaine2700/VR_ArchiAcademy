@@ -12,7 +12,8 @@ public class PreviewBlock : MonoBehaviour
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
     [SerializeField] LayerMask wallLayerMask;
-    [SerializeField] GameObject wallMeshRef; 
+    [SerializeField] GameObject wallMeshRef;
+    [SerializeField] Vector3 blockSize;
 
     private void Start()
     {
@@ -53,13 +54,13 @@ public class PreviewBlock : MonoBehaviour
     {
         //Use the OverlapBox to detect if there are any other colliders within this box area.
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
-        
-        Vector3 centerPiece = new Vector3(placePosition.x, wallMeshRef.transform.position.y, placePosition.z);
-        Vector3 sizeOverlapBox = wallMeshRef.transform.localScale / 2 * scaler.modelScale;
+        //Vector3 centerPiece = new Vector3(placePosition.x, wallMeshRef.transform.position.y, placePosition.z);
+        Vector3 centerPiece = new Vector3(transform.position.x, transform.position.y + (blockSize.y/2), transform.position.z);
+        Vector3 halfSizeOverlapBox = blockSize / 2 * scaler.modelScale;
         //Check when there is a new collider coming into contact with the box
         for (int i = 0; i < 10; i++)
         {
-            Collider[] hitColliders = Physics.OverlapBox(centerPiece, sizeOverlapBox, Quaternion.identity, wallLayerMask);
+            Collider[] hitColliders = Physics.OverlapBox(centerPiece, halfSizeOverlapBox, Quaternion.identity, wallLayerMask);
             bool isPlaceable = hitColliders.Length == 0;
             ShowOverlap(isPlaceable);
             if (isPlaceable)
@@ -70,8 +71,8 @@ public class PreviewBlock : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Vector3 centerPiece = new Vector3(transform.position.x, wallMeshRef.transform.position.y, transform.position.z);
-        Gizmos.DrawWireCube(centerPiece, new Vector3(1,3,1) * 0.05f);
+        Vector3 centerPiece = new Vector3(transform.position.x, transform.position.y + (blockSize.y/2), transform.position.z);
+        Gizmos.DrawWireCube(centerPiece, blockSize * scaler.modelScale);
     }
 
     public void EditBlockPlace()

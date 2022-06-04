@@ -1220,6 +1220,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03fd800788a824372b7d8dd02d4860f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  areaLabel: {fileID: 8317778083662369267, guid: 2f7255fc1db8c4c2aac84f686a983261, type: 3}
+  contentLabel: {fileID: 4134159800387487643}
+  area: 
 --- !u!1 &5883044931776340762
 GameObject:
   m_ObjectHideFlags: 0
@@ -3629,6 +3632,10 @@ PrefabInstance:
       propertyPath: blockPrefab
       value: 
       objectReference: {fileID: 8256330136723886623, guid: f99fcf48929064b9fb3dd8ae017d51b1, type: 3}
+    - target: {fileID: 1994669698424424851, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChooseFloor
+      objectReference: {fileID: 0}
     - target: {fileID: 1994669698424424860, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

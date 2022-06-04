@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -15,6 +16,7 @@ public class BlockFloor : MonoBehaviour
     Handle handleSouth;
     Handle handleWest;
 
+    XRBaseInteractable xRBaseInteractable;
     AreaType areaType;
     Block block;
     BlocksTracker areaManager;
@@ -23,6 +25,7 @@ public class BlockFloor : MonoBehaviour
     int width = 1; //transformX
     int depth = 1; // transformZ
     int height = 1; // transformY
+    string areaName;
 
     Mesh mesh;
     Vector3[] vertices;
@@ -30,17 +33,22 @@ public class BlockFloor : MonoBehaviour
     Vector3[] normals;
     Vector2[] uvs;
 
+    private void Awake()
+    {
+        GenerateMeshData();
+        CreateMesh();
+    }
+
     private void Start()
     {
         areaType = FindObjectOfType<AreaType>();
         areaManager = FindObjectOfType<BlocksTracker>();
         areaManager.AddAreaToList(this);
         block = GetComponent<Block>();
+        
         SetHandles();
-
-        GenerateMeshData();
-        CreateMesh();
-
+        SetAreaType();
+        ShowName(true);
     }
 
     private void Update()
@@ -63,7 +71,6 @@ public class BlockFloor : MonoBehaviour
 
     private void SetHandles()
     {
-        Debug.Log("Get Handles");
         foreach (Handle handle in handles)
         {
             switch (handle.handleDir)
@@ -151,12 +158,14 @@ public class BlockFloor : MonoBehaviour
 
         // show mesh
         GetComponent<MeshFilter>().mesh = mesh;
-        gameObject.AddComponent(typeof(MeshCollider));
+        GetComponent<MeshCollider>().sharedMesh = mesh;
+
     }
 
     public void EditFloor(bool isEditing)
     {
         // enable or disable Blocks
+        // checking in update if Block is in edit mode
         foreach(Handle handle in handles)
         {
             handle.gameObject.SetActive(isEditing);
@@ -172,8 +181,12 @@ public class BlockFloor : MonoBehaviour
 
     public void SetAreaType()
     {
-        
-        
+        areaName = areaType.area;
+    }
+
+    private void ShowName(bool showName)
+    {
+        // show name text
     }
     
 
