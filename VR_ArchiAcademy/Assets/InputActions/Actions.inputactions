@@ -6,7 +6,7 @@
             "id": "33486981-3d03-4779-aeda-97864e97c4d8",
             "actions": [
                 {
-                    "name": "SelectBlock",
+                    "name": "Confirm",
                     "type": "Button",
                     "id": "3896307a-d462-4d19-9492-b9772368e073",
                     "expectedControlType": "Button",
@@ -37,11 +37,22 @@
                 {
                     "name": "",
                     "id": "fcd85f58-4cb8-4579-bc7a-ff99929e7639",
-                    "path": "<Keyboard>/s",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SelectBlock",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d4449a9-102a-45b3-8ecf-d97afe5f22e6",
+                    "path": "<HID::Unknown Joy-Con (R)>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -75,54 +86,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "ChooseBlock",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Switch",
-            "id": "eb8eac4c-98f6-4c94-9e7c-c44cc97fb2b7",
-            "actions": [
-                {
-                    "name": "Select",
-                    "type": "Button",
-                    "id": "2b3047a7-4cb0-42b3-947e-c715e3f2c9c1",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SelectValue",
-                    "type": "Value",
-                    "id": "916499a2-f4fa-4bc3-bca2-b2dff7e13edd",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "58356aeb-3133-4541-9156-1110c6b1d618",
-                    "path": "<HID::Unknown Joy-Con (R)>/button15",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "636f222a-8854-4ea0-933d-a4fbb8d1b3ca",
-                    "path": "<HID::Unknown Joy-Con (R)>/button15",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SelectValue",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

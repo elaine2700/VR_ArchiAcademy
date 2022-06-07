@@ -42,11 +42,11 @@ public class Selector : MonoBehaviour
 
     public void PlaceBlock(SelectEnterEventArgs args)
     {
-        Debug.Log("Placing Block");
+        //Debug.Log("Placing Block");
         //Debug.Log(selectedBlock.name);
         if (selectedBlock == null)
         {
-            Debug.Log("Null block selection");
+            //Debug.Log("Null block selection");
             return;
         }
 

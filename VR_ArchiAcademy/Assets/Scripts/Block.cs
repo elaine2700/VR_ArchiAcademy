@@ -4,13 +4,14 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     bool isPlaced = false;
-    public bool edit = false;
+    //public bool edit = false;
     Material blockMaterial;
     
     Selector selector;
     GridLayers gridLayers;
     PreviewBlock previewBlock;
     Scaler scaler;
+    BlockTransform blockTransform;
 
     Actions actions;
 
@@ -27,6 +28,7 @@ public class Block : MonoBehaviour
 
     private void Start()
     {
+        blockTransform = FindObjectOfType<BlockTransform>();
         previewBlock = GetComponentInChildren<PreviewBlock>();
         gridLayers = FindObjectOfType<GridLayers>();
         selector = FindObjectOfType<Selector>();
@@ -59,9 +61,9 @@ public class Block : MonoBehaviour
     {
         if (previewBlock.positionOk)
         {
-            Debug.Log("Placing");
+            //Debug.Log("Placing");
             isPlaced = true;
-            edit = false;
+            //edit = false;
             //transform.position = newPos;
             transform.parent = gridLayers.ParentToCurrentLayer().transform;
             //previewBlock.Show(false);
@@ -72,7 +74,7 @@ public class Block : MonoBehaviour
         }
         else
         {
-            Debug.Log("Place not available");
+            //Debug.Log("Place not available");
         }
     }
 
@@ -94,14 +96,14 @@ public class Block : MonoBehaviour
         actions.Interaction.Disable();
     }
 
-    public void EditBlock()
+    public void MoveBlock()
     {
         // todo test
-        Debug.Log("Editing Block Place");
+        //Debug.Log("Editing Block Place");
         // function called from XR event.
-        edit = !edit;
+        
         isPlaced = !isPlaced;
-        if (edit)
+        if (blockTransform.editPosition)
         {
             selector.ChooseBlock(this, true);
         }

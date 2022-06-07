@@ -4,15 +4,13 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class GridTile : XRBaseInteractable
 {
     public Vector2 gridMinUnit;
-    float scale;
     Scaler scaler;
     
 
     private void Start()
     {
         scaler = FindObjectOfType<Scaler>();
-        scale = scaler.modelScale;
-        gridMinUnit *= scale;
+        gridMinUnit *= scaler.modelScale;
     }
 
     public Vector3 SnapPosition(Vector3 hitPos)

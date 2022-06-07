@@ -28,7 +28,7 @@ public partial class @Actions : IInputActionCollection2, IDisposable
             ""id"": ""33486981-3d03-4779-aeda-97864e97c4d8"",
             ""actions"": [
                 {
-                    ""name"": ""SelectBlock"",
+                    ""name"": ""Confirm"",
                     ""type"": ""Button"",
                     ""id"": ""3896307a-d462-4d19-9492-b9772368e073"",
                     ""expectedControlType"": ""Button"",
@@ -59,11 +59,22 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fcd85f58-4cb8-4579-bc7a-ff99929e7639"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SelectBlock"",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d4449a9-102a-45b3-8ecf-d97afe5f22e6"",
+                    ""path"": ""<HID::Unknown Joy-Con (R)>/button2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -101,67 +112,15 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""Switch"",
-            ""id"": ""eb8eac4c-98f6-4c94-9e7c-c44cc97fb2b7"",
-            ""actions"": [
-                {
-                    ""name"": ""Select"",
-                    ""type"": ""Button"",
-                    ""id"": ""2b3047a7-4cb0-42b3-947e-c715e3f2c9c1"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SelectValue"",
-                    ""type"": ""Value"",
-                    ""id"": ""916499a2-f4fa-4bc3-bca2-b2dff7e13edd"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""58356aeb-3133-4541-9156-1110c6b1d618"",
-                    ""path"": ""<HID::Unknown Joy-Con (R)>/button15"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Select"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""636f222a-8854-4ea0-933d-a4fbb8d1b3ca"",
-                    ""path"": ""<HID::Unknown Joy-Con (R)>/button15"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SelectValue"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": []
 }");
         // Interaction
         m_Interaction = asset.FindActionMap("Interaction", throwIfNotFound: true);
-        m_Interaction_SelectBlock = m_Interaction.FindAction("SelectBlock", throwIfNotFound: true);
+        m_Interaction_Confirm = m_Interaction.FindAction("Confirm", throwIfNotFound: true);
         m_Interaction_RotateBlock = m_Interaction.FindAction("RotateBlock", throwIfNotFound: true);
         m_Interaction_ChooseBlock = m_Interaction.FindAction("ChooseBlock", throwIfNotFound: true);
-        // Switch
-        m_Switch = asset.FindActionMap("Switch", throwIfNotFound: true);
-        m_Switch_Select = m_Switch.FindAction("Select", throwIfNotFound: true);
-        m_Switch_SelectValue = m_Switch.FindAction("SelectValue", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -221,14 +180,14 @@ public partial class @Actions : IInputActionCollection2, IDisposable
     // Interaction
     private readonly InputActionMap m_Interaction;
     private IInteractionActions m_InteractionActionsCallbackInterface;
-    private readonly InputAction m_Interaction_SelectBlock;
+    private readonly InputAction m_Interaction_Confirm;
     private readonly InputAction m_Interaction_RotateBlock;
     private readonly InputAction m_Interaction_ChooseBlock;
     public struct InteractionActions
     {
         private @Actions m_Wrapper;
         public InteractionActions(@Actions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @SelectBlock => m_Wrapper.m_Interaction_SelectBlock;
+        public InputAction @Confirm => m_Wrapper.m_Interaction_Confirm;
         public InputAction @RotateBlock => m_Wrapper.m_Interaction_RotateBlock;
         public InputAction @ChooseBlock => m_Wrapper.m_Interaction_ChooseBlock;
         public InputActionMap Get() { return m_Wrapper.m_Interaction; }
@@ -240,9 +199,9 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_InteractionActionsCallbackInterface != null)
             {
-                @SelectBlock.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnSelectBlock;
-                @SelectBlock.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnSelectBlock;
-                @SelectBlock.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnSelectBlock;
+                @Confirm.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnConfirm;
+                @Confirm.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnConfirm;
+                @Confirm.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnConfirm;
                 @RotateBlock.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnRotateBlock;
                 @RotateBlock.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnRotateBlock;
                 @RotateBlock.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnRotateBlock;
@@ -253,9 +212,9 @@ public partial class @Actions : IInputActionCollection2, IDisposable
             m_Wrapper.m_InteractionActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @SelectBlock.started += instance.OnSelectBlock;
-                @SelectBlock.performed += instance.OnSelectBlock;
-                @SelectBlock.canceled += instance.OnSelectBlock;
+                @Confirm.started += instance.OnConfirm;
+                @Confirm.performed += instance.OnConfirm;
+                @Confirm.canceled += instance.OnConfirm;
                 @RotateBlock.started += instance.OnRotateBlock;
                 @RotateBlock.performed += instance.OnRotateBlock;
                 @RotateBlock.canceled += instance.OnRotateBlock;
@@ -266,56 +225,10 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         }
     }
     public InteractionActions @Interaction => new InteractionActions(this);
-
-    // Switch
-    private readonly InputActionMap m_Switch;
-    private ISwitchActions m_SwitchActionsCallbackInterface;
-    private readonly InputAction m_Switch_Select;
-    private readonly InputAction m_Switch_SelectValue;
-    public struct SwitchActions
-    {
-        private @Actions m_Wrapper;
-        public SwitchActions(@Actions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Select => m_Wrapper.m_Switch_Select;
-        public InputAction @SelectValue => m_Wrapper.m_Switch_SelectValue;
-        public InputActionMap Get() { return m_Wrapper.m_Switch; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(SwitchActions set) { return set.Get(); }
-        public void SetCallbacks(ISwitchActions instance)
-        {
-            if (m_Wrapper.m_SwitchActionsCallbackInterface != null)
-            {
-                @Select.started -= m_Wrapper.m_SwitchActionsCallbackInterface.OnSelect;
-                @Select.performed -= m_Wrapper.m_SwitchActionsCallbackInterface.OnSelect;
-                @Select.canceled -= m_Wrapper.m_SwitchActionsCallbackInterface.OnSelect;
-                @SelectValue.started -= m_Wrapper.m_SwitchActionsCallbackInterface.OnSelectValue;
-                @SelectValue.performed -= m_Wrapper.m_SwitchActionsCallbackInterface.OnSelectValue;
-                @SelectValue.canceled -= m_Wrapper.m_SwitchActionsCallbackInterface.OnSelectValue;
-            }
-            m_Wrapper.m_SwitchActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @Select.started += instance.OnSelect;
-                @Select.performed += instance.OnSelect;
-                @Select.canceled += instance.OnSelect;
-                @SelectValue.started += instance.OnSelectValue;
-                @SelectValue.performed += instance.OnSelectValue;
-                @SelectValue.canceled += instance.OnSelectValue;
-            }
-        }
-    }
-    public SwitchActions @Switch => new SwitchActions(this);
     public interface IInteractionActions
     {
-        void OnSelectBlock(InputAction.CallbackContext context);
+        void OnConfirm(InputAction.CallbackContext context);
         void OnRotateBlock(InputAction.CallbackContext context);
         void OnChooseBlock(InputAction.CallbackContext context);
-    }
-    public interface ISwitchActions
-    {
-        void OnSelect(InputAction.CallbackContext context);
-        void OnSelectValue(InputAction.CallbackContext context);
     }
 }

@@ -8,9 +8,8 @@ public class PreviewBlock : MonoBehaviour
     Scaler scaler;
 
     public bool positionOk = false;
-    Block block;
     MeshRenderer meshRenderer;
-    MeshFilter meshFilter;
+
     [SerializeField] LayerMask wallLayerMask;
     [SerializeField] GameObject wallMeshRef;
     [SerializeField] Vector3 blockSize;
@@ -19,18 +18,12 @@ public class PreviewBlock : MonoBehaviour
     {
         themeSettings = FindObjectOfType<ThemeSettings>();
         scaler = FindObjectOfType<Scaler>();
-        block = GetComponentInParent<Block>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         meshRenderer.material = themeSettings.previewBlockMaterial;
-        meshFilter = GetComponentInChildren<MeshFilter>();
-        meshFilter.mesh = block.GetComponentInChildren<MeshFilter>().mesh;
+
         adjustments *= scaler.modelScale;
     }
 
-    private void Update()
-    {
-        Debug.Log("Position ok? " + positionOk);
-    }
 
     public void AdjustPosition(Vector3 position)
     {

@@ -306,7 +306,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2069916901384302416}
         m_TargetAssemblyTypeName: Block, Assembly-CSharp
-        m_MethodName: EditBlock
+        m_MethodName: MoveBlock
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

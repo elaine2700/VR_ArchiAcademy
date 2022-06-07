@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Handle : MonoBehaviour
 {
@@ -6,9 +7,12 @@ public class Handle : MonoBehaviour
     public handleDirection handleDir;
 
     [SerializeField] bool isActive = false;
-    [SerializeField] GameObject pointer;
+    [SerializeField] bool debugMode = false;
+    public GameObject pointer; // RayCast hit position
+    XRRayInteractor xrRayInteractor;
 
     ThemeSettings themeSettings;
+    Actions inputActions;
 
     MeshRenderer meshRenderer;
     GridTile gridTile;
@@ -16,6 +20,8 @@ public class Handle : MonoBehaviour
     private void Awake()
     {
         themeSettings = FindObjectOfType<ThemeSettings>();
+        inputActions = new Actions();
+        inputActions.Interaction.Confirm.performed += _ => SetHandleInactive();
     }
 
     private void Start()
@@ -27,11 +33,30 @@ public class Handle : MonoBehaviour
 
     private void Update()
     {
-        if (isActive)
+        if (isActive) // todo && onGrid
         {
-            Vector3 newHandlePos = gridTile.SnapPosition(pointer.transform.position);
+            Vector3 newPos = new Vector3();
+            if (!debugMode)
+            {
+                xrRayInteractor.TryGetHitInfo(out newPos, out _, out _, out _);
+            }
+            else
+            {
+                newPos = pointer.transform.position;
+            }
+            Vector3 newHandlePos = gridTile.SnapPosition(newPos);
             transform.position = ConstrainPosition(newHandlePos);
         }    
+    }
+
+    private void OnEnable()
+    {
+        inputActions.Interaction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Interaction.Disable();
     }
 
     private Vector3 ConstrainPosition(Vector3 followPos)
@@ -55,15 +80,30 @@ public class Handle : MonoBehaviour
         return constrainedPos;
     }
 
-    public void SetHandleActive()
+    public void SetHandleActive(SelectEnterEventArgs args)
     {
+        Debug.Log("Set Handle Active");
         isActive = true;
         meshRenderer.material = themeSettings.activeHandleMat;
+        pointer = args.interactorObject.transform.gameObject;
+        xrRayInteractor = pointer.GetComponent<XRRayInteractor>();
+        Debug.Log(pointer.name);
+
     }
 
-    public void SetHandleInactive()
+
+    // Called from button X
+    private void SetHandleInactive()
     {
+        Debug.Log("Set Handle Inactive");
         isActive = false;
         meshRenderer.material = themeSettings.inactiveHandleMat;
+        //pointer = null;
+        //GetComponent<BlockFloor>().ReconvertVertices();
+    }
+
+    public void HoverHandle()
+    {
+        Debug.Log("hovering Handle");
     }
 }

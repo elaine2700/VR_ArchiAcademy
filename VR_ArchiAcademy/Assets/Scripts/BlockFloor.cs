@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
-[RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(Block))]
 public class BlockFloor : MonoBehaviour
 {
@@ -20,6 +18,7 @@ public class BlockFloor : MonoBehaviour
     AreaType areaType;
     Block block;
     BlocksTracker areaManager;
+    BlockTransform blockTransform;
     bool enterEditMode = false;
 
     int width = 1; //transformX
@@ -37,28 +36,33 @@ public class BlockFloor : MonoBehaviour
     {
         GenerateMeshData();
         CreateMesh();
+        blockTransform = FindObjectOfType<BlockTransform>();
+        areaType = FindObjectOfType<AreaType>();
+        areaManager = FindObjectOfType<BlocksTracker>();
+        //areaManager.AddAreaToList(this);
+        block = GetComponent<Block>();
+
+        SetHandles();
+        //SetAreaType();
+        ShowName(true);
     }
 
     private void Start()
     {
-        areaType = FindObjectOfType<AreaType>();
-        areaManager = FindObjectOfType<BlocksTracker>();
-        areaManager.AddAreaToList(this);
-        block = GetComponent<Block>();
         
-        SetHandles();
-        SetAreaType();
-        ShowName(true);
+        
     }
 
     private void Update()
     {
-        if (!enterEditMode)
+        Debug.Log("Update");
+        
+        if (!enterEditMode) // todo && this is active
         {
-            EditFloor(block.edit);
+            EditFloor(blockTransform.editSize);
             enterEditMode = true;
         }
-        if (block.edit)
+        if (blockTransform.editSize) // todo && this is active
         {
             ModifyVertices();
             mesh.SetVertices(vertices);
@@ -132,21 +136,22 @@ public class BlockFloor : MonoBehaviour
 
     private void ModifyVertices()
     {
+        // Convert to world position
         // Update North Vertices
-        vertices[1].z = handleNorth.gameObject.transform.position.z;
-        vertices[2].z = handleNorth.gameObject.transform.position.z;
+        vertices[1].z = transform.InverseTransformPoint(handleNorth.gameObject.transform.position).z;
+        vertices[2].z = transform.InverseTransformPoint(handleNorth.gameObject.transform.position).z;
 
         //Update East Vertices
-        vertices[2].x = handleEast.transform.position.x;
-        vertices[3].x = handleEast.transform.position.x;
+        vertices[2].x = transform.InverseTransformPoint(handleEast.transform.position).x;
+        vertices[3].x = transform.InverseTransformPoint(handleEast.transform.position).x;
 
         //Update South Vertices
-        vertices[3].z = handleSouth.transform.position.z;
-        vertices[0].z = handleSouth.transform.position.z;
+        vertices[3].z = transform.InverseTransformPoint(handleSouth.transform.position).z;
+        vertices[0].z = transform.InverseTransformPoint(handleSouth.transform.position).z;
 
         //Update West Vertices
-        vertices[0].x = handleWest.transform.position.x;
-        vertices[1].x = handleWest.transform.position.x;
+        vertices[0].x = transform.InverseTransformPoint(handleWest.transform.position).x;
+        vertices[1].x = transform.InverseTransformPoint(handleWest.transform.position).x;
     }
 
     private void CreateMesh()
@@ -157,7 +162,7 @@ public class BlockFloor : MonoBehaviour
         mesh.RecalculateNormals();
 
         // show mesh
-        GetComponent<MeshFilter>().mesh = mesh;
+        GetComponentInChildren<MeshFilter>().mesh = mesh;
         GetComponent<MeshCollider>().sharedMesh = mesh;
 
     }
@@ -170,6 +175,7 @@ public class BlockFloor : MonoBehaviour
         {
             handle.gameObject.SetActive(isEditing);
         }
+        SetHandles();
     }
 
     public Vector3 GetFloorSize()
