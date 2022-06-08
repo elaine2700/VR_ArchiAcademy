@@ -40,7 +40,7 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                     ""name"": ""RotateBlock"",
                     ""type"": ""Value"",
                     ""id"": ""2145e2f9-5a0a-4cea-aa12-5a6cf92703b4"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true

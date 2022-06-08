@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Block))]
 public class PreviewBlock : MonoBehaviour
 {
     [SerializeField] Vector3 adjustments;
@@ -20,7 +21,6 @@ public class PreviewBlock : MonoBehaviour
         scaler = FindObjectOfType<Scaler>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         meshRenderer.material = themeSettings.previewBlockMaterial;
-
         adjustments *= scaler.modelScale;
     }
 
@@ -51,7 +51,7 @@ public class PreviewBlock : MonoBehaviour
         Vector3 centerPiece = new Vector3(transform.position.x, transform.position.y + (blockSize.y/2), transform.position.z);
         Vector3 halfSizeOverlapBox = blockSize / 2 * scaler.modelScale;
         //Check when there is a new collider coming into contact with the box
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 2; i++)
         {
             Collider[] hitColliders = Physics.OverlapBox(centerPiece, halfSizeOverlapBox, Quaternion.identity, wallLayerMask);
             bool isPlaceable = hitColliders.Length == 0;
@@ -68,11 +68,10 @@ public class PreviewBlock : MonoBehaviour
         Gizmos.DrawWireCube(centerPiece, blockSize * scaler.modelScale);
     }
 
-    public void EditBlockPlace()
+    public void SetBlockSize(Vector3 updatedSize)
     {
-        // put in edition mode
-        // change material to previewMaterial
-        // Preview new pos in Grid
-        // Set position 
+        blockSize.x = updatedSize.x;
+        blockSize.z = updatedSize.z;
     }
+
 }

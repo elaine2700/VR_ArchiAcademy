@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    bool isPlaced = false;
+    [SerializeField] bool isPlaced = false;
     //public bool edit = false;
     Material blockMaterial;
     
@@ -12,19 +12,7 @@ public class Block : MonoBehaviour
     PreviewBlock previewBlock;
     Scaler scaler;
     BlockTransform blockTransform;
-
-    Actions actions;
-
-    Vector2 rotate;
-    float rotationIncrements = 1/90f;
-
-    private void Awake()
-    {
-        actions = new Actions();
-
-        actions.Interaction.RotateBlock.performed += cntxt => rotate = cntxt.ReadValue<Vector2>();
-        actions.Interaction.RotateBlock.canceled += cntxt => rotate = Vector2.zero;
-    }
+    Rotate rotator;
 
     private void Start()
     {
@@ -35,26 +23,15 @@ public class Block : MonoBehaviour
         scaler = FindObjectOfType<Scaler>();
         transform.localScale *= scaler.modelScale;
         blockMaterial = GetComponentInChildren<MeshRenderer>().material;
+        rotator = GetComponent<Rotate>();
     }
 
     private void Update()
     {
         if (!isPlaced)
         {
-            Rotate();
+            rotator.canRotate = true;
         }
-    }
-
-    //Preview the rotation
-    void Rotate()
-    {
-        //float rotationX = Mathf.Round(rotate.x); // todo test
-        //float rotationY = Mathf.Round(rotate.y); // todo test
-        float rotationX = Mathf.Round(rotate.x/rotationIncrements)*rotationIncrements;//todo test
-        float rotationY = Mathf.Round(rotate.y/rotationIncrements)*rotationIncrements;// todo test
-        Vector3 newRotation = new Vector3(rotationX, 0, rotationY);
-        if(newRotation != Vector3.zero)
-            previewBlock.transform.rotation = Quaternion.LookRotation(newRotation, Vector3.up);
     }
 
     public void PlaceOnGrid(Vector3 newPos)
@@ -63,14 +40,12 @@ public class Block : MonoBehaviour
         {
             //Debug.Log("Placing");
             isPlaced = true;
-            //edit = false;
-            //transform.position = newPos;
             transform.parent = gridLayers.ParentToCurrentLayer().transform;
-            //previewBlock.Show(false);
             transform.rotation = previewBlock.transform.rotation;
             GetComponent<Collider>().enabled = true;
             selector.DeselectBlock();
             GetComponentInChildren<MeshRenderer>().material = blockMaterial;
+            rotator.canRotate = false;
         }
         else
         {
@@ -86,15 +61,7 @@ public class Block : MonoBehaviour
         previewBlock.CheckPosition(hitPosition);
     }
 
-    private void OnEnable()
-    {
-        actions.Interaction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        actions.Interaction.Disable();
-    }
+    
 
     public void MoveBlock()
     {
@@ -110,8 +77,5 @@ public class Block : MonoBehaviour
 
         // todo return to place if selected another without placing this one
     }
-
-    
-
 
 }

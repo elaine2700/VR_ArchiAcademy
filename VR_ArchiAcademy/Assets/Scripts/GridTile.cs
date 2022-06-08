@@ -5,7 +5,6 @@ public class GridTile : XRBaseInteractable
 {
     public Vector2 gridMinUnit;
     Scaler scaler;
-    
 
     private void Start()
     {
@@ -17,7 +16,7 @@ public class GridTile : XRBaseInteractable
     {
         // calculate snapping position
         float posX = Mathf.Round(hitPos.x/gridMinUnit.x) * gridMinUnit.x;
-        float posZ = Mathf.Round(hitPos.z/gridMinUnit.y) * gridMinUnit.y + gridMinUnit.y;
+        float posZ = Mathf.Round(hitPos.z/gridMinUnit.y) * gridMinUnit.y;
         
         Vector3 snapPos = new Vector3(posX, hitPos.y, posZ);
         return snapPos;

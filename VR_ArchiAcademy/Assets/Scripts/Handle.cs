@@ -33,8 +33,9 @@ public class Handle : MonoBehaviour
 
     private void Update()
     {
-        if (isActive) // todo && onGrid
+        if (isActive && StillOnGrid())
         {
+            FindOverlaps();
             Vector3 newPos = new Vector3();
             if (!debugMode)
             {
@@ -44,9 +45,12 @@ public class Handle : MonoBehaviour
             {
                 newPos = pointer.transform.position;
             }
+            
+            // Sets the handle in a NewPos
             Vector3 newHandlePos = gridTile.SnapPosition(newPos);
             transform.position = ConstrainPosition(newHandlePos);
-        }    
+
+        }
     }
 
     private void OnEnable()
@@ -98,6 +102,7 @@ public class Handle : MonoBehaviour
         Debug.Log("Set Handle Inactive");
         isActive = false;
         meshRenderer.material = themeSettings.inactiveHandleMat;
+        // todo set here updateblockSize()?
         //pointer = null;
         //GetComponent<BlockFloor>().ReconvertVertices();
     }
@@ -105,5 +110,26 @@ public class Handle : MonoBehaviour
     public void HoverHandle()
     {
         Debug.Log("hovering Handle");
+    }
+
+    private void FindOverlaps()
+    {
+        // todo
+        // check collisions with physics,overlapsphere
+        Collider[] otherColliders = Physics.OverlapSphere(transform.position, 0.5f);
+        if(otherColliders.Length > 0)
+        {
+            isActive = false;
+        }
+    }
+
+    private bool StillOnGrid()
+    {
+        bool isOnGrid;
+        // todo
+        // When not hovering on grid stop moving
+        // and disable isActive
+        isOnGrid = gridTile.isHovered;
+        return isOnGrid;
     }
 }

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
+using TMPro;
 
 [RequireComponent(typeof(Block))]
 public class BlockFloor : MonoBehaviour
 {
     [SerializeField] List<Handle> handles = new List<Handle>();
+    [SerializeField] TextMeshPro areaNameText;
 
     Handle handleNorth;
     Handle handleEast;
@@ -44,13 +46,12 @@ public class BlockFloor : MonoBehaviour
 
         SetHandles();
         //SetAreaType();
-        ShowName(true);
+        
     }
 
     private void Start()
     {
-        
-        
+        ShowName(true);
     }
 
     private void Update()
@@ -138,8 +139,8 @@ public class BlockFloor : MonoBehaviour
     {
         // Convert to world position
         // Update North Vertices
-        vertices[1].z = transform.InverseTransformPoint(handleNorth.gameObject.transform.position).z;
-        vertices[2].z = transform.InverseTransformPoint(handleNorth.gameObject.transform.position).z;
+        vertices[1].z = transform.InverseTransformPoint(handleNorth.transform.position).z;
+        vertices[2].z = transform.InverseTransformPoint(handleNorth.transform.position).z;
 
         //Update East Vertices
         vertices[2].x = transform.InverseTransformPoint(handleEast.transform.position).x;
@@ -188,12 +189,25 @@ public class BlockFloor : MonoBehaviour
     public void SetAreaType()
     {
         areaName = areaType.area;
+        areaNameText.text = areaName;
     }
 
     private void ShowName(bool showName)
     {
         // show name text
+        areaNameText.gameObject.SetActive(showName);
     }
-    
+
+    // Called when selected on XR interaction on handle? or blockfloor?
+    public void UpdateSize()
+    {
+        Vector3 newSize = new Vector3();
+        newSize.y = 0;
+        newSize.x = handleWest.transform.position.x - handleEast.transform.position.x;
+        newSize.z = handleNorth.transform.position.z - handleSouth.transform.position.z;
+        GetComponent<PreviewBlock>().SetBlockSize(newSize);
+        // todo see newCollider
+        GetComponent<MeshCollider>().sharedMesh = mesh;
+    }
 
 }
