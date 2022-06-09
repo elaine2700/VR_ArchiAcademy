@@ -45,5 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previewBlockMaterial: {fileID: 2100000, guid: 08bf0a4d861cd49cebcfa25d64232481, type: 2}
   overlapBlockMaterial: {fileID: 2100000, guid: 23105178f80b44adf86efce9200bebd0, type: 2}
-  activeHandleMat: {fileID: 2100000, guid: 83322579b7b9745dcb59559bbcb2c709, type: 2}
+  hoveredBlockMaterial: {fileID: 2100000, guid: 83322579b7b9745dcb59559bbcb2c709, type: 2}
+  selectedBlockMaterial: {fileID: 2100000, guid: 91ad6f84b79d29b4f8933d5c7540259c, type: 2}
+  activeHandleMat: {fileID: 2100000, guid: b6d6dffab6a49409c8185e0da7310d5a, type: 2}
   inactiveHandleMat: {fileID: 2100000, guid: e5137b7b9822a4a01a8b4eeffa8fba76, type: 2}

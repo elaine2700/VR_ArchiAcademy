@@ -4,7 +4,6 @@ using UnityEngine;
 public class PreviewBlock : MonoBehaviour
 {
     [SerializeField] Vector3 adjustments;
-
     ThemeSettings themeSettings;
     Scaler scaler;
 
@@ -23,7 +22,6 @@ public class PreviewBlock : MonoBehaviour
         meshRenderer.material = themeSettings.previewBlockMaterial;
         adjustments *= scaler.modelScale;
     }
-
 
     public void AdjustPosition(Vector3 position)
     {
@@ -72,6 +70,23 @@ public class PreviewBlock : MonoBehaviour
     {
         blockSize.x = updatedSize.x;
         blockSize.z = updatedSize.z;
+    }
+
+    public void HoveredBlock(bool hovered)
+    {
+        // Called when the Block is hovered by selector
+        if (hovered)
+            meshRenderer.material = themeSettings.hoveredBlockMaterial;
+        else
+            meshRenderer.material = GetComponent<Block>().blockMaterial;
+    }
+
+    public void SelectingBlock(bool selected)
+    {
+        if (selected)
+            meshRenderer.material = themeSettings.selectedBlockMaterial;
+        else
+            meshRenderer.material = GetComponent<Block>().blockMaterial;
     }
 
 }

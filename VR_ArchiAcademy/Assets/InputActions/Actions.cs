@@ -80,6 +80,17 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4b6e50e0-ee00-48fb-b59b-d193a9deddc8"",
+                    ""path"": ""<XRController>{RightHand}/primaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""8935dd9f-76bf-40a2-97f6-45adaeb789f7"",
                     ""path"": ""<HID::Unknown Joy-Con (R)>/hat"",
                     ""interactions"": """",

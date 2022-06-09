@@ -5,7 +5,7 @@ public class Block : MonoBehaviour
 {
     [SerializeField] bool isPlaced = false;
     //public bool edit = false;
-    Material blockMaterial;
+    public Material blockMaterial;
     
     Selector selector;
     GridLayers gridLayers;
@@ -61,8 +61,6 @@ public class Block : MonoBehaviour
         previewBlock.CheckPosition(hitPosition);
     }
 
-    
-
     public void MoveBlock()
     {
         // todo test
@@ -77,5 +75,6 @@ public class Block : MonoBehaviour
 
         // todo return to place if selected another without placing this one
     }
+
 
 }

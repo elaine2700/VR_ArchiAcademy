@@ -35,7 +35,7 @@ public class Handle : MonoBehaviour
     {
         if (isActive && StillOnGrid())
         {
-            FindOverlaps();
+            //FindOverlaps();
             Vector3 newPos = new Vector3();
             if (!debugMode)
             {
@@ -116,10 +116,11 @@ public class Handle : MonoBehaviour
     {
         // todo
         // check collisions with physics,overlapsphere
-        Collider[] otherColliders = Physics.OverlapSphere(transform.position, 0.5f);
+        Collider[] otherColliders = Physics.OverlapSphere(transform.position, 0.00125f);
         if(otherColliders.Length > 0)
         {
             isActive = false;
+            Debug.Log("colliding with something");
         }
     }
 
