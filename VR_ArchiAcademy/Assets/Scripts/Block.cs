@@ -4,8 +4,11 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     [SerializeField] bool isPlaced = false;
+    [Tooltip("1 = Floor, 2 = Wall, 3 = Furniture")]
+    [SerializeField] int typeOfBlock;
+    public bool snap;
     //public bool edit = false;
-    public Material blockMaterial;
+    //public Material blockMaterial;
     
     Selector selector;
     GridLayers gridLayers;
@@ -22,7 +25,7 @@ public class Block : MonoBehaviour
         selector = FindObjectOfType<Selector>();
         scaler = FindObjectOfType<Scaler>();
         transform.localScale *= scaler.modelScale;
-        blockMaterial = GetComponentInChildren<MeshRenderer>().material;
+        //blockMaterial = GetComponentInChildren<MeshRenderer>().material;
         rotator = GetComponent<Rotate>();
     }
 
@@ -40,11 +43,12 @@ public class Block : MonoBehaviour
         {
             //Debug.Log("Placing");
             isPlaced = true;
-            transform.parent = gridLayers.ParentToCurrentLayer().transform;
+            transform.parent = gridLayers.ParentToCurrentLayer(typeOfBlock).transform;
+            // todo test without this line.
             transform.rotation = previewBlock.transform.rotation;
             GetComponent<Collider>().enabled = true;
             selector.DeselectBlock();
-            GetComponentInChildren<MeshRenderer>().material = blockMaterial;
+            //GetComponentInChildren<MeshRenderer>().material = blockMaterial;
             rotator.canRotate = false;
         }
         else
@@ -55,25 +59,18 @@ public class Block : MonoBehaviour
 
     public void PreviewPosGrid(Vector3 hitPosition)
     {
-        //previewBlock.Show(true);
-        //transform.position = selector.transform.position;
         previewBlock.AdjustPosition(hitPosition);
         previewBlock.CheckPosition(hitPosition);
     }
 
     public void MoveBlock()
     {
-        // todo test
-        //Debug.Log("Editing Block Place");
         // function called from XR event.
-        
         isPlaced = !isPlaced;
         if (blockTransform.editPosition)
         {
             selector.ChooseBlock(this, true);
         }
-
-        // todo return to place if selected another without placing this one
     }
 
 

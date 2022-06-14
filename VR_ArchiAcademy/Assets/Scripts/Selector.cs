@@ -7,7 +7,7 @@ public class Selector : MonoBehaviour
     public Block selectedBlock = null;
     XRRayInteractor rayController;
     bool isHovering = false;
-    GridTile gridTile;
+    [SerializeField] GridTile gridTile;
     Vector3 hitPosition;
 
     private void Awake()
@@ -17,6 +17,7 @@ public class Selector : MonoBehaviour
 
     private void Update()
     {
+        isHovering = gridTile.OnGrid();
         if (selectedBlock == null)
             return;
         if (!isHovering)
@@ -32,7 +33,7 @@ public class Selector : MonoBehaviour
             if (hitPosition != null)
             {
                 Vector3 rayHitPosition = hitPosition;
-                Vector3 blockPos = gridTile.SnapPosition(rayHitPosition);
+                Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
 
                 selectedBlock.PreviewPosGrid(blockPos);
 
@@ -53,7 +54,7 @@ public class Selector : MonoBehaviour
         if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
         {
             Vector3 rayHitPosition = hitPosition;
-            Vector3 blockPos = gridTile.SnapPosition(rayHitPosition);
+            Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
             //selectedBlock.PreviewPosGrid(blockPos);
             selectedBlock.PlaceOnGrid(blockPos);
         }
@@ -67,19 +68,20 @@ public class Selector : MonoBehaviour
         selectedBlock = null;
     }
 
-    public void HoveringOnGrid(HoverEnterEventArgs args)
+    /*public void HoveringOnGrid(HoverEnterEventArgs args)
     {
         /*if (selectedBlock == null)
-            return;*/
+            return; //
         isHovering = true;
 
         args.interactableObject.transform.TryGetComponent<GridTile>(out gridTile);
     }
 
+
     public void NotHovering()
     {
         isHovering = false;
-    }
+    }*/
 
     // Gets the Prefab information from BlockButton script.
     // or from Block.EditBlock()

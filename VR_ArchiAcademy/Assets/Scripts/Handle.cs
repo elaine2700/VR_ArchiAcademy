@@ -47,7 +47,7 @@ public class Handle : MonoBehaviour
             }
             
             // Sets the handle in a NewPos
-            Vector3 newHandlePos = gridTile.SnapPosition(newPos);
+            Vector3 newHandlePos = gridTile.SnapPosition(newPos, true);
             transform.position = ConstrainPosition(newHandlePos);
 
         }

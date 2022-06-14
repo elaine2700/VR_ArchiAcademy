@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Block))]
@@ -6,20 +7,29 @@ public class PreviewBlock : MonoBehaviour
     [SerializeField] Vector3 adjustments;
     ThemeSettings themeSettings;
     Scaler scaler;
+    Collider blockCollider;
 
     public bool positionOk = false;
-    MeshRenderer meshRenderer;
+    List<Material> blockMaterials = new List<Material>();
 
-    [SerializeField] LayerMask wallLayerMask;
+    [SerializeField] LayerMask layerMasks;
     [SerializeField] GameObject wallMeshRef;
-    [SerializeField] Vector3 blockSize;
+    public Vector3 blockSize; // todo set block size by collider size
 
+    private void Awake()
+    {
+        scaler = FindObjectOfType<Scaler>();
+        blockCollider = GetComponent<Collider>();
+        blockSize = blockCollider.bounds.size;
+        Debug.Log(blockSize);
+    }
+    
     private void Start()
     {
         themeSettings = FindObjectOfType<ThemeSettings>();
-        scaler = FindObjectOfType<Scaler>();
-        meshRenderer = GetComponentInChildren<MeshRenderer>();
-        meshRenderer.material = themeSettings.previewBlockMaterial;
+        RememberBlockMaterials();
+        //meshRenderer = GetComponentInChildren<MeshRenderer>();
+        ChangeMaterial(themeSettings.previewBlockMaterial);
         adjustments *= scaler.modelScale;
     }
 
@@ -33,11 +43,11 @@ public class PreviewBlock : MonoBehaviour
         positionOk = okPos;
         if (positionOk)
         {
-            meshRenderer.material = themeSettings.previewBlockMaterial;
+            ChangeMaterial(themeSettings.previewBlockMaterial);
         }
         else
         {
-            meshRenderer.material = themeSettings.overlapBlockMaterial;
+            ChangeMaterial(themeSettings.overlapBlockMaterial);
         }
     }
 
@@ -47,11 +57,11 @@ public class PreviewBlock : MonoBehaviour
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
         //Vector3 centerPiece = new Vector3(placePosition.x, wallMeshRef.transform.position.y, placePosition.z);
         Vector3 centerPiece = new Vector3(transform.position.x, transform.position.y + (blockSize.y/2), transform.position.z);
-        Vector3 halfSizeOverlapBox = blockSize / 2 * scaler.modelScale;
+        Vector3 halfSizeOverlapBox = (blockSize / 2);
         //Check when there is a new collider coming into contact with the box
         for (int i = 0; i < 2; i++)
         {
-            Collider[] hitColliders = Physics.OverlapBox(centerPiece, halfSizeOverlapBox, Quaternion.identity, wallLayerMask);
+            Collider[] hitColliders = Physics.OverlapBox(centerPiece, halfSizeOverlapBox, Quaternion.identity, layerMasks);
             bool isPlaceable = hitColliders.Length == 0;
             ShowOverlap(isPlaceable);
             if (isPlaceable)
@@ -63,9 +73,10 @@ public class PreviewBlock : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Vector3 centerPiece = new Vector3(transform.position.x, transform.position.y + (blockSize.y/2), transform.position.z);
-        Gizmos.DrawWireCube(centerPiece, blockSize * scaler.modelScale);
+        Gizmos.DrawWireCube(centerPiece, blockSize);
     }
 
+    // to use on blockFloor
     public void SetBlockSize(Vector3 updatedSize)
     {
         blockSize.x = updatedSize.x;
@@ -76,17 +87,48 @@ public class PreviewBlock : MonoBehaviour
     {
         // Called when the Block is hovered by selector
         if (hovered)
-            meshRenderer.material = themeSettings.hoveredBlockMaterial;
+            ChangeMaterial(themeSettings.hoveredBlockMaterial);
         else
-            meshRenderer.material = GetComponent<Block>().blockMaterial;
+            ReverseOriginalMaterials(blockMaterials);
+            //meshRenderer.material = GetComponent<Block>().blockMaterial;
     }
 
     public void SelectingBlock(bool selected)
     {
         if (selected)
-            meshRenderer.material = themeSettings.selectedBlockMaterial;
+            ChangeMaterial(themeSettings.selectedBlockMaterial);
         else
-            meshRenderer.material = GetComponent<Block>().blockMaterial;
+            ReverseOriginalMaterials(blockMaterials);
+            //meshRenderer.material = GetComponent<Block>().blockMaterial;
+    }
+
+    private void ChangeMaterial(Material newMaterial)
+    {
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        foreach (MeshRenderer renderer in meshRenderers)
+        {
+            renderer.material = newMaterial;
+        }
+    }
+
+    private void ReverseOriginalMaterials(List<Material> originalMaterials)
+    {
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        int index = 0;
+        foreach ( MeshRenderer renderer in meshRenderers)
+        {
+            renderer.material = originalMaterials[index];
+            index++;
+        }
+    }
+
+    private void RememberBlockMaterials()
+    {
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        foreach (MeshRenderer renderer in meshRenderers)
+        {
+            blockMaterials.Add(renderer.material);
+        }
     }
 
 }
