@@ -53,6 +53,15 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Drag"",
+                    ""type"": ""Value"",
+                    ""id"": ""3a57694f-42c0-4d33-9c52-63cf2369514c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -113,7 +122,18 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""73e48b78-16dd-481f-b2f2-48d317c19b7e"",
+                    ""id"": ""3594bd96-c4d1-411e-8f29-481ee72e5385"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChooseBlock"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0a95453-bfa9-4fda-9496-c097c4032357"",
                     ""path"": ""<XRController>{RightHand}/triggerPressed"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -124,12 +144,12 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3594bd96-c4d1-411e-8f29-481ee72e5385"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""id"": ""aebc2914-0fcb-453b-a9fc-26bdc187429b"",
+                    ""path"": ""<XRController>{RightHand}/triggerPressed"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ChooseBlock"",
+                    ""action"": ""Drag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -143,6 +163,7 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         m_Interaction_Confirm = m_Interaction.FindAction("Confirm", throwIfNotFound: true);
         m_Interaction_RotateBlock = m_Interaction.FindAction("RotateBlock", throwIfNotFound: true);
         m_Interaction_ChooseBlock = m_Interaction.FindAction("ChooseBlock", throwIfNotFound: true);
+        m_Interaction_Drag = m_Interaction.FindAction("Drag", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -205,6 +226,7 @@ public partial class @Actions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Interaction_Confirm;
     private readonly InputAction m_Interaction_RotateBlock;
     private readonly InputAction m_Interaction_ChooseBlock;
+    private readonly InputAction m_Interaction_Drag;
     public struct InteractionActions
     {
         private @Actions m_Wrapper;
@@ -212,6 +234,7 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         public InputAction @Confirm => m_Wrapper.m_Interaction_Confirm;
         public InputAction @RotateBlock => m_Wrapper.m_Interaction_RotateBlock;
         public InputAction @ChooseBlock => m_Wrapper.m_Interaction_ChooseBlock;
+        public InputAction @Drag => m_Wrapper.m_Interaction_Drag;
         public InputActionMap Get() { return m_Wrapper.m_Interaction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,6 +253,9 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 @ChooseBlock.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnChooseBlock;
                 @ChooseBlock.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnChooseBlock;
                 @ChooseBlock.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnChooseBlock;
+                @Drag.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnDrag;
+                @Drag.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnDrag;
+                @Drag.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnDrag;
             }
             m_Wrapper.m_InteractionActionsCallbackInterface = instance;
             if (instance != null)
@@ -243,6 +269,9 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 @ChooseBlock.started += instance.OnChooseBlock;
                 @ChooseBlock.performed += instance.OnChooseBlock;
                 @ChooseBlock.canceled += instance.OnChooseBlock;
+                @Drag.started += instance.OnDrag;
+                @Drag.performed += instance.OnDrag;
+                @Drag.canceled += instance.OnDrag;
             }
         }
     }
@@ -252,5 +281,6 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         void OnConfirm(InputAction.CallbackContext context);
         void OnRotateBlock(InputAction.CallbackContext context);
         void OnChooseBlock(InputAction.CallbackContext context);
+        void OnDrag(InputAction.CallbackContext context);
     }
 }

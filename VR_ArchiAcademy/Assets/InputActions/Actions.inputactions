@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Drag",
+                    "type": "Value",
+                    "id": "3a57694f-42c0-4d33-9c52-63cf2369514c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -91,7 +100,18 @@
                 },
                 {
                     "name": "",
-                    "id": "73e48b78-16dd-481f-b2f2-48d317c19b7e",
+                    "id": "3594bd96-c4d1-411e-8f29-481ee72e5385",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChooseBlock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0a95453-bfa9-4fda-9496-c097c4032357",
                     "path": "<XRController>{RightHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
@@ -102,12 +122,12 @@
                 },
                 {
                     "name": "",
-                    "id": "3594bd96-c4d1-411e-8f29-481ee72e5385",
-                    "path": "<Keyboard>/c",
+                    "id": "aebc2914-0fcb-453b-a9fc-26bdc187429b",
+                    "path": "<XRController>{RightHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ChooseBlock",
+                    "action": "Drag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

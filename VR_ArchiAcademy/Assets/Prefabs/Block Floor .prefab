@@ -392,7 +392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2d014e83af45ba9590d92d04fa66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adjustments: {x: 0, y: 1, z: 0}
+  adjustments: {x: 0, y: 0.1, z: 0}
   positionOk: 0
   layerMasks:
     serializedVersion: 2

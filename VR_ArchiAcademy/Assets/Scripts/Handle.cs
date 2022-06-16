@@ -18,14 +18,15 @@ public class Handle : MonoBehaviour
     GridTile gridTile;
 
     float buttonValue;
+    bool dragging = false;
 
     private void Awake()
     {
         themeSettings = FindObjectOfType<ThemeSettings>();
         inputActions = new Actions();
         inputActions.Interaction.Confirm.performed += _ => SetHandleInactive();
-        inputActions.Interaction.ChooseBlock.performed += cntxt => buttonValue = cntxt.ReadValue<float>();
-        inputActions.Interaction.ChooseBlock.canceled += cntxt => buttonValue = 0;
+        inputActions.Interaction.Drag.performed += cntxt => buttonValue = cntxt.ReadValue<float>();
+        inputActions.Interaction.Drag.canceled += cntxt => buttonValue = 0;
     }
 
     private void Start()
@@ -37,7 +38,12 @@ public class Handle : MonoBehaviour
 
     private void Update()
     {
-        if (isActive && StillOnGrid())
+        
+        dragging = buttonValue > 0.5f;
+        if (!dragging)
+            SetHandleInactive();
+
+        if (isActive && StillOnGrid() && dragging)
         {
             //FindOverlaps();
             Vector3 newPos = new Vector3();
@@ -97,7 +103,6 @@ public class Handle : MonoBehaviour
         xrRayInteractor = pointer.GetComponent<XRRayInteractor>();
         Debug.Log(pointer.name);
         // todo if button is not still pressed, set handle inactive
-
     }
 
 
@@ -107,10 +112,13 @@ public class Handle : MonoBehaviour
         Debug.Log("Set Handle Inactive");
         isActive = false;
         meshRenderer.material = themeSettings.inactiveHandleMat;
+        BlockFloor floor = GetComponentInParent<BlockFloor>();
+        floor.UpdateSize();
         // todo set here updateblockSize()?
         //pointer = null;
         //GetComponent<BlockFloor>().ReconvertVertices();
     }
+
 
     public void HoverHandle()
     {
@@ -135,7 +143,11 @@ public class Handle : MonoBehaviour
         // todo
         // When not hovering on grid stop moving
         // and disable isActive
-        isOnGrid = gridTile.isHovered;
+        //isOnGrid = gridTile.isHovered;
+        isOnGrid = true;
+        // todo rewrite if transform is in position over grid
+        // get collider bounds // get max and min
+        // and compare to position
         return isOnGrid;
     }
 }
