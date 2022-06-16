@@ -91,6 +91,17 @@
                 },
                 {
                     "name": "",
+                    "id": "73e48b78-16dd-481f-b2f2-48d317c19b7e",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChooseBlock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "3594bd96-c4d1-411e-8f29-481ee72e5385",
                     "path": "<Keyboard>/c",
                     "interactions": "",

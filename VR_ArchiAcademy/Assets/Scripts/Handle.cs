@@ -17,11 +17,15 @@ public class Handle : MonoBehaviour
     MeshRenderer meshRenderer;
     GridTile gridTile;
 
+    float buttonValue;
+
     private void Awake()
     {
         themeSettings = FindObjectOfType<ThemeSettings>();
         inputActions = new Actions();
         inputActions.Interaction.Confirm.performed += _ => SetHandleInactive();
+        inputActions.Interaction.ChooseBlock.performed += cntxt => buttonValue = cntxt.ReadValue<float>();
+        inputActions.Interaction.ChooseBlock.canceled += cntxt => buttonValue = 0;
     }
 
     private void Start()
@@ -92,12 +96,13 @@ public class Handle : MonoBehaviour
         pointer = args.interactorObject.transform.gameObject;
         xrRayInteractor = pointer.GetComponent<XRRayInteractor>();
         Debug.Log(pointer.name);
+        // todo if button is not still pressed, set handle inactive
 
     }
 
 
     // Called from button X
-    private void SetHandleInactive()
+    public void SetHandleInactive()
     {
         Debug.Log("Set Handle Inactive");
         isActive = false;

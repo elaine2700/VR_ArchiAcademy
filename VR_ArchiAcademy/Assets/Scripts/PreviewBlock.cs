@@ -8,6 +8,7 @@ public class PreviewBlock : MonoBehaviour
     ThemeSettings themeSettings;
     Scaler scaler;
     Collider blockCollider;
+    ChangeMaterial materialChanger;
 
     public bool positionOk = false;
     List<Material> blockMaterials = new List<Material>();
@@ -31,6 +32,7 @@ public class PreviewBlock : MonoBehaviour
         //meshRenderer = GetComponentInChildren<MeshRenderer>();
         ChangeMaterial(themeSettings.previewBlockMaterial);
         adjustments *= scaler.modelScale;
+        materialChanger = GetComponent<ChangeMaterial>();
     }
 
     public void AdjustPosition(Vector3 position)
@@ -95,6 +97,7 @@ public class PreviewBlock : MonoBehaviour
 
     public void SelectingBlock(bool selected)
     {
+        Debug.Log("Selecting block");
         if (selected)
             ChangeMaterial(themeSettings.selectedBlockMaterial);
         else

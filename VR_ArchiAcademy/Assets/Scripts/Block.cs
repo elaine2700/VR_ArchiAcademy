@@ -66,12 +66,12 @@ public class Block : MonoBehaviour
     public void MoveBlock()
     {
         // function called from XR event.
+        Debug.Log("Moving block");
         isPlaced = !isPlaced;
         if (blockTransform.editPosition)
         {
             selector.ChooseBlock(this, true);
         }
     }
-
 
 }

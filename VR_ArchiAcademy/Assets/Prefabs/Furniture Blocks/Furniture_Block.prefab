@@ -51,8 +51,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlaced: 0
-  blockMaterial: {fileID: 0}
   typeOfBlock: 3
+  snap: 0
 --- !u!114 &130182583312078686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +134,18 @@ MonoBehaviour:
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 8726986801977154297}
+        m_TargetAssemblyTypeName: Block, Assembly-CSharp
+        m_MethodName: MoveBlock
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1007562286684457556}
         m_TargetAssemblyTypeName: PreviewBlock, Assembly-CSharp
         m_MethodName: SelectingBlock
@@ -148,19 +160,7 @@ MonoBehaviour:
         m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1007562286684457556}
-        m_TargetAssemblyTypeName: PreviewBlock, Assembly-CSharp
-        m_MethodName: SelectingBlock
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_Activated:
     m_PersistentCalls:
       m_Calls: []
@@ -212,6 +212,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 768
   wallMeshRef: {fileID: 0}
+  blockSize: {x: 0, y: 0, z: 0}
 --- !u!114 &6737167241603161841
 MonoBehaviour:
   m_ObjectHideFlags: 0
