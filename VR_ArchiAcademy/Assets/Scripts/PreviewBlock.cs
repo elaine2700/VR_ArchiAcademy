@@ -5,34 +5,33 @@ using UnityEngine;
 public class PreviewBlock : MonoBehaviour
 {
     [SerializeField] Vector3 adjustments;
-    ThemeSettings themeSettings;
+    [SerializeField] ThemeSettings themeSettings;
     Scaler scaler;
     Collider blockCollider;
-    ChangeMaterial materialChanger;
+    //ChangeMaterial changeMaterial;
 
     public bool positionOk = false;
-    List<Material> blockMaterials = new List<Material>();
+    [SerializeField] List<Renderer> meshesWithMaterials = new List<Renderer>();
+    List<Material> originalMaterials = new List<Material>();
 
     [SerializeField] LayerMask layerMasks;
-    [SerializeField] GameObject wallMeshRef;
-    public Vector3 blockSize; // todo set block size by collider size
+    public Vector3 blockSize; // Set block size by collider size.
 
     private void Awake()
     {
         scaler = FindObjectOfType<Scaler>();
-        blockCollider = GetComponent<Collider>();
+        blockCollider = GetComponent<Block>().blockMaincollider;
         blockSize = blockCollider.bounds.size;
         Debug.Log(blockSize);
+        
     }
     
     private void Start()
     {
-        themeSettings = FindObjectOfType<ThemeSettings>();
-        RememberBlockMaterials();
-        //meshRenderer = GetComponentInChildren<MeshRenderer>();
-        ChangeMaterial(themeSettings.previewBlockMaterial);
+        //changeMaterial = FindObjectOfType<ChangeMaterial>();
+        RememberOriginalMaterials();
+        ChangingMaterial(themeSettings.previewBlockMaterial, meshesWithMaterials);
         adjustments *= scaler.modelScale;
-        materialChanger = GetComponent<ChangeMaterial>();
     }
 
     public void AdjustPosition(Vector3 position)
@@ -45,12 +44,25 @@ public class PreviewBlock : MonoBehaviour
         positionOk = okPos;
         if (positionOk)
         {
-            ChangeMaterial(themeSettings.previewBlockMaterial);
+            ChangingMaterial(themeSettings.previewBlockMaterial, meshesWithMaterials);
         }
         else
         {
-            ChangeMaterial(themeSettings.overlapBlockMaterial);
+            ChangingMaterial(themeSettings.overlapBlockMaterial, meshesWithMaterials);
         }
+    }
+
+    public void ChangingMaterial(Material newMaterial, List<Renderer> currentRenderers)
+    {
+        foreach (MeshRenderer renderer in currentRenderers)
+        {
+            renderer.material = newMaterial;
+        }
+    }
+
+    public void ChangingMaterial(Material newMaterial, Renderer currentRenderer)
+    {
+        currentRenderer.material = newMaterial;
     }
 
     public void CheckPosition(Vector3 placePosition)
@@ -89,49 +101,40 @@ public class PreviewBlock : MonoBehaviour
     {
         // Called when the Block is hovered by selector
         if (hovered)
-            ChangeMaterial(themeSettings.hoveredBlockMaterial);
+            ChangingMaterial(themeSettings.hoveredBlockMaterial, meshesWithMaterials);
         else
-            ReverseOriginalMaterials(blockMaterials);
+            ReverseOriginalMaterials();
             //meshRenderer.material = GetComponent<Block>().blockMaterial;
     }
 
     public void SelectingBlock(bool selected)
     {
-        Debug.Log("Selecting block");
         if (selected)
-            ChangeMaterial(themeSettings.selectedBlockMaterial);
+            ChangingMaterial(themeSettings.selectedBlockMaterial, meshesWithMaterials);
         else
-            ReverseOriginalMaterials(blockMaterials);
-            //meshRenderer.material = GetComponent<Block>().blockMaterial;
+            ReverseOriginalMaterials();
     }
 
-    private void ChangeMaterial(Material newMaterial)
-    {
-        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
-        foreach (MeshRenderer renderer in meshRenderers)
-        {
-            renderer.material = newMaterial;
-        }
-    }
 
-    private void ReverseOriginalMaterials(List<Material> originalMaterials)
+    
+
+    public void ReverseOriginalMaterials()
     {
-        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
         int index = 0;
-        foreach ( MeshRenderer renderer in meshRenderers)
+        foreach ( MeshRenderer renderer in meshesWithMaterials)
         {
             renderer.material = originalMaterials[index];
             index++;
         }
     }
 
-    private void RememberBlockMaterials()
+    private void RememberOriginalMaterials()
     {
-        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
-        foreach (MeshRenderer renderer in meshRenderers)
+        foreach (Renderer rendererObject in meshesWithMaterials)
         {
-            blockMaterials.Add(renderer.material);
+            originalMaterials.Add(rendererObject.material);
         }
     }
+
 
 }

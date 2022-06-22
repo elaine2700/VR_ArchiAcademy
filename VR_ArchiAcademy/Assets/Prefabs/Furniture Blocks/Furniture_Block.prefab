@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlaced: 0
   typeOfBlock: 3
+  blockMaincollider: {fileID: 5976480250602553710}
   snap: 0
 --- !u!114 &130182583312078686
 MonoBehaviour:
@@ -207,6 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adjustments: {x: 0, y: 0, z: 0}
+  themeSettings: {fileID: 11400000, guid: 704a56bcff8e443f090f6d1a39ed99b6, type: 2}
   positionOk: 0
   layerMasks:
     serializedVersion: 2

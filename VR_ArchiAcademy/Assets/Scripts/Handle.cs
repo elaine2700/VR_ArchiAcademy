@@ -11,26 +11,28 @@ public class Handle : MonoBehaviour
     public GameObject pointer; // RayCast hit position
     XRRayInteractor xrRayInteractor;
 
-    ThemeSettings themeSettings;
+    [SerializeField] ThemeSettings themeSettings;
     Actions inputActions;
 
     MeshRenderer meshRenderer;
     GridTile gridTile;
+    //ChangeMaterial changeMaterial;
 
     float buttonValue;
     bool dragging = false;
+    bool isOnGrid = false;
 
     private void Awake()
     {
-        themeSettings = FindObjectOfType<ThemeSettings>();
         inputActions = new Actions();
-        inputActions.Interaction.Confirm.performed += _ => SetHandleInactive();
+        //inputActions.Interaction.Confirm.performed += _ => SetHandleInactive();
         inputActions.Interaction.Drag.performed += cntxt => buttonValue = cntxt.ReadValue<float>();
         inputActions.Interaction.Drag.canceled += cntxt => buttonValue = 0;
     }
 
     private void Start()
     {
+        //changeMaterial = FindObjectOfType<ChangeMaterial>();
         gridTile = FindObjectOfType<GridTile>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         SetHandleInactive();
@@ -38,12 +40,20 @@ public class Handle : MonoBehaviour
 
     private void Update()
     {
-        
-        dragging = buttonValue > 0.5f;
-        if (!dragging)
-            SetHandleInactive();
+        if (!debugMode)
+        {
+            dragging = buttonValue > 0.5f;
+            if (!dragging)
+                SetHandleInactive();
+            isOnGrid = StillOnGrid();
+        }
+        if (debugMode)
+        {
+            isOnGrid = true;
+            dragging = true;
+        }
 
-        if (isActive && StillOnGrid() && dragging)
+        if (isActive && isOnGrid && dragging)
         {
             //FindOverlaps();
             Vector3 newPos = new Vector3();
@@ -59,7 +69,7 @@ public class Handle : MonoBehaviour
             // Sets the handle in a NewPos
             Vector3 newHandlePos = gridTile.SnapPosition(newPos, true);
             transform.position = ConstrainPosition(newHandlePos);
-
+            // todo update information
         }
     }
 
@@ -101,29 +111,36 @@ public class Handle : MonoBehaviour
         meshRenderer.material = themeSettings.activeHandleMat;
         pointer = args.interactorObject.transform.gameObject;
         xrRayInteractor = pointer.GetComponent<XRRayInteractor>();
-        Debug.Log(pointer.name);
-        // todo if button is not still pressed, set handle inactive
+        //Debug.Log(pointer.name);
     }
 
 
     // Called from button X
     public void SetHandleInactive()
     {
-        Debug.Log("Set Handle Inactive");
         isActive = false;
-        meshRenderer.material = themeSettings.inactiveHandleMat;
-        BlockFloor floor = GetComponentInParent<BlockFloor>();
-        floor.UpdateSize();
+        //meshRenderer.material = themeSettings.inactiveHandleMat;
+        //BlockFloor floor = GetComponentInParent<BlockFloor>();
+        //floor.UpdateSize();
         // todo set here updateblockSize()?
         //pointer = null;
         //GetComponent<BlockFloor>().ReconvertVertices();
     }
 
-
-    public void HoverHandle()
+    /*public void ChangeHandleMatToInactive()
     {
-        Debug.Log("hovering Handle");
+        ChangeMaterial.ChangingMaterial(themeSettings.inactiveHandleMat, meshRenderer);
+    }*/
+
+
+    public void HoverHandle(bool isHovering)
+    {
+        if (isHovering)
+            meshRenderer.material = themeSettings.hoveredBlockMaterial;
+        else
+            meshRenderer.material = themeSettings.inactiveHandleMat;
     }
+    
 
     private void FindOverlaps()
     {
@@ -139,15 +156,16 @@ public class Handle : MonoBehaviour
 
     private bool StillOnGrid()
     {
-        bool isOnGrid;
+        bool stillOnGrid = false;
         // todo
         // When not hovering on grid stop moving
         // and disable isActive
-        //isOnGrid = gridTile.isHovered;
-        isOnGrid = true;
+        stillOnGrid = gridTile.isHovered;
+        //isOnGrid = true;
         // todo rewrite if transform is in position over grid
         // get collider bounds // get max and min
         // and compare to position
-        return isOnGrid;
+        return stillOnGrid;
     }
+
 }

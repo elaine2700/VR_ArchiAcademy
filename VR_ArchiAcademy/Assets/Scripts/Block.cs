@@ -6,7 +6,9 @@ public class Block : MonoBehaviour
     [SerializeField] bool isPlaced = false;
     [Tooltip("1 = Floor, 2 = Wall, 3 = Furniture")]
     [SerializeField] int typeOfBlock;
+    public Collider blockMaincollider;
     public bool snap;
+    public bool isEditing = false;
     //public bool edit = false;
     //public Material blockMaterial;
     
@@ -33,6 +35,8 @@ public class Block : MonoBehaviour
     {
         if (!isPlaced)
         {
+            if (rotator == null)
+                return;
             rotator.canRotate = true;
         }
     }
@@ -45,11 +49,17 @@ public class Block : MonoBehaviour
             isPlaced = true;
             transform.parent = gridLayers.ParentToCurrentLayer(typeOfBlock).transform;
             // todo test without this line.
-            transform.rotation = previewBlock.transform.rotation;
-            GetComponent<Collider>().enabled = true;
+            // transform.rotation = previewBlock.transform.rotation;
+            blockMaincollider.enabled = true;
             selector.DeselectBlock();
-            //GetComponentInChildren<MeshRenderer>().material = blockMaterial;
-            rotator.canRotate = false;
+            previewBlock.ReverseOriginalMaterials();
+            if(rotator!= null)
+                rotator.canRotate = false;
+            // only if Block is Floor
+            if (GetComponent<Blockfloor_V2>())
+            {
+                GetComponent<Blockfloor_V2>().EditFloor(true);
+            }
         }
         else
         {

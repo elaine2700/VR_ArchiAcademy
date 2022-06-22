@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ThemeSettings : MonoBehaviour
+[CreateAssetMenu(fileName = "ThemeSettings", menuName ="ScriptableObjects/ThemeSettingsData", order = 1)]
+public class ThemeSettings : ScriptableObject
 {
     public Material previewBlockMaterial;
     public Material overlapBlockMaterial;

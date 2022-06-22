@@ -97,8 +97,12 @@ public class Selector : MonoBehaviour
         {
             selectedBlock = Instantiate(chosenBlock, blockPos, Quaternion.identity);
         }
-        if(chosenBlock.GetComponent<Collider>())
-            chosenBlock.GetComponent<Collider>().enabled = false;
+        if(chosenBlock.blockMaincollider != null)
+        {
+            //Debug.Log("Disabling collider");
+            chosenBlock.blockMaincollider.enabled = false;
+        }
+            
     }
 
 }
