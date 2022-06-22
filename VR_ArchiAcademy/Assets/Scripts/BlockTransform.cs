@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class BlockTransform : MonoBehaviour
 {
-    public bool editPosition = false;
-    public bool editRotation = false;
-    public bool editSize = false;
+    public bool editPosition = true;
+    public bool editRotation = true;
+    public bool editSize = true;
 
     public void EditPosition()
     {

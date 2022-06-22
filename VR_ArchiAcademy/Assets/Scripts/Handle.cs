@@ -6,7 +6,7 @@ public class Handle : MonoBehaviour
     public enum handleDirection { north, east, south, west }
     public handleDirection handleDir;
 
-    [SerializeField] bool isActive = false;
+    public bool isActive = false;
     [SerializeField] bool debugMode = false;
     public GameObject pointer; // RayCast hit position
     XRRayInteractor xrRayInteractor;
@@ -19,7 +19,7 @@ public class Handle : MonoBehaviour
     //ChangeMaterial changeMaterial;
 
     float buttonValue;
-    bool dragging = false;
+    public bool dragging = false;
     bool isOnGrid = false;
 
     private void Awake()
@@ -53,6 +53,7 @@ public class Handle : MonoBehaviour
             dragging = true;
         }
 
+        Debug.Log($"isActive: {isActive}, isOnGrid: {isOnGrid}, dragging: {dragging}");
         if (isActive && isOnGrid && dragging)
         {
             //FindOverlaps();
@@ -68,10 +69,12 @@ public class Handle : MonoBehaviour
             
             // Sets the handle in a NewPos
             Vector3 newHandlePos = gridTile.SnapPosition(newPos, true);
-            transform.position = ConstrainPosition(newHandlePos);
+            if(isActive)
+                transform.position = ConstrainPosition(newHandlePos);
             // todo update information
         }
     }
+
 
     private void OnEnable()
     {
@@ -119,19 +122,9 @@ public class Handle : MonoBehaviour
     public void SetHandleInactive()
     {
         isActive = false;
-        //meshRenderer.material = themeSettings.inactiveHandleMat;
-        //BlockFloor floor = GetComponentInParent<BlockFloor>();
-        //floor.UpdateSize();
+        
         // todo set here updateblockSize()?
-        //pointer = null;
-        //GetComponent<BlockFloor>().ReconvertVertices();
     }
-
-    /*public void ChangeHandleMatToInactive()
-    {
-        ChangeMaterial.ChangingMaterial(themeSettings.inactiveHandleMat, meshRenderer);
-    }*/
-
 
     public void HoverHandle(bool isHovering)
     {
@@ -146,7 +139,7 @@ public class Handle : MonoBehaviour
     {
         // todo
         // check collisions with physics,overlapsphere
-        Collider[] otherColliders = Physics.OverlapSphere(transform.position, 0.00125f);
+        Collider[] otherColliders = Physics.OverlapSphere(transform.position, 0.05f);
         if(otherColliders.Length > 0)
         {
             isActive = false;
@@ -157,14 +150,11 @@ public class Handle : MonoBehaviour
     private bool StillOnGrid()
     {
         bool stillOnGrid = false;
-        // todo
-        // When not hovering on grid stop moving
-        // and disable isActive
-        stillOnGrid = gridTile.isHovered;
-        //isOnGrid = true;
-        // todo rewrite if transform is in position over grid
-        // get collider bounds // get max and min
-        // and compare to position
+        //stillOnGrid = gridTile.isHovered;
+        //stillOnGrid = true;
+        // Search if handle is inside grid collider bounds
+        stillOnGrid = gridTile.GetComponentInChildren<Collider>().bounds.Contains(transform.position);
+
         return stillOnGrid;
     }
 

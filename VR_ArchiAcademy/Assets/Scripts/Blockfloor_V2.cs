@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Blockfloor_V2 : MonoBehaviour
 {
     [SerializeField] Transform floorUnit;
     [SerializeField] Transform unitsParent;
-
     List<Transform> unitFloorTiles = new List<Transform>();
-    
+    [SerializeField] bool isEditing = false;
+    [SerializeField] List<Handle> handles = new List<Handle>();
+    [SerializeField] TextMeshPro nameField;
+    AreaType areaType;
+    string roomName;
+
+    Vector2 roomSize;
     Vector2 unitSize;
 
     Handle handleNorth;
@@ -16,27 +22,42 @@ public class Blockfloor_V2 : MonoBehaviour
     Handle handleSouth;
     Handle handleWest;
 
-    Vector2 roomSize;
-
-    [SerializeField] bool isEditing = false;
-
-    [SerializeField] List<Handle> handles = new List<Handle>();
+    BlockTransform blockTransform;
+    int count = 0;
 
     private void Start()
     {
+        areaType = FindObjectOfType<AreaType>();
+        blockTransform = FindObjectOfType<BlockTransform>();
         SetHandles();
+        ShowHandles(false);
         unitSize = new Vector2(1, 1);
     }
 
     private void Update()
     {
+        isEditing = blockTransform.editSize && GetComponent<Block>().currentBlockState == Block.blockState.selected;
+        //Debug.Log($"isEditing: {isEditing}");
         if (isEditing)
         {
             // update size
             ShowHandles(isEditing);
             CalculateRoomSize();
-            ConstructFloor();
+            
+            if (SeeIfHandleMoved())
+            {
+                count++;
+                Debug.Log($"Construct count: {count}");
+                ConstructFloor();
+            }
+            UpdateHandlesPosition();
         }
+    }
+
+    public void SetAreaType()
+    {
+        roomName = areaType.area;
+        nameField.text = roomName;
     }
 
     private void SetHandles()
@@ -76,14 +97,9 @@ public class Blockfloor_V2 : MonoBehaviour
         int width = Mathf.RoundToInt((handleWest.transform.position.x - handleEast.transform.position.x) / unitSize.x);
         // depth z
         int depth = Mathf.RoundToInt((handleSouth.transform.position.z - handleNorth.transform.position.z) / unitSize.y);
-        Debug.Log($"width: {width}, depth: {depth}");
+        //Debug.Log($"width: {width}, depth: {depth}");
         roomSize.x = Mathf.Abs(width);
         roomSize.y = Mathf.Abs(depth);
-    }
-
-    public void EditFloor(bool edit)
-    {
-        isEditing = edit;
     }
 
     private void ConstructFloor()
@@ -114,6 +130,40 @@ public class Blockfloor_V2 : MonoBehaviour
         {
             Destroy(unit.gameObject);
         }
+    }
+
+    private bool SeeIfHandleMoved()
+    {
+        bool handleMoved = false;
+        foreach (Handle handle in handles)
+        {
+            if (handle.dragging)
+                handleMoved = true;
+        }
+        return handleMoved;
+    }
+
+    private void UpdateHandlesPosition()
+    {
+        foreach (Handle handle in handles)
+        {
+            if (!handle.isActive)
+            {
+                Vector3 currentPos = handle.transform.position;
+                if (handle.handleDir == Handle.handleDirection.north || handle.handleDir == Handle.handleDirection.south)
+                {
+                    float newPosX = ((handleWest.transform.position.x + handleEast.transform.position.x) / 2);
+                    handle.transform.position = new Vector3(newPosX, currentPos.y, currentPos.z);
+                }
+                if(handle.handleDir == Handle.handleDirection.west || handle.handleDir == Handle.handleDirection.east)
+                {
+                    float newPosZ = ((handleSouth.transform.position.z + handleNorth.transform.position.z) / 2);
+                    handle.transform.position = new Vector3(currentPos.x, currentPos.y, newPosZ);
+                } 
+            }
+            
+        }
+            
     }
 
 }

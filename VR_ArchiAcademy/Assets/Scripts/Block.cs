@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    public enum blockState {selected, placed};
+    public blockState currentBlockState = blockState.selected;
+
     [SerializeField] bool isPlaced = false;
     [Tooltip("1 = Floor, 2 = Wall, 3 = Furniture")]
     [SerializeField] int typeOfBlock;
@@ -11,7 +14,7 @@ public class Block : MonoBehaviour
     public bool isEditing = false;
     //public bool edit = false;
     //public Material blockMaterial;
-    
+
     Selector selector;
     GridLayers gridLayers;
     PreviewBlock previewBlock;
@@ -33,7 +36,7 @@ public class Block : MonoBehaviour
 
     private void Update()
     {
-        if (!isPlaced)
+        if (currentBlockState == blockState.selected)
         {
             if (rotator == null)
                 return;
@@ -52,14 +55,12 @@ public class Block : MonoBehaviour
             // transform.rotation = previewBlock.transform.rotation;
             blockMaincollider.enabled = true;
             selector.DeselectBlock();
+            currentBlockState = blockState.placed;
             previewBlock.ReverseOriginalMaterials();
             if(rotator!= null)
                 rotator.canRotate = false;
             // only if Block is Floor
-            if (GetComponent<Blockfloor_V2>())
-            {
-                GetComponent<Blockfloor_V2>().EditFloor(true);
-            }
+            
         }
         else
         {
@@ -76,12 +77,28 @@ public class Block : MonoBehaviour
     public void MoveBlock()
     {
         // function called from XR event.
+        // Dont call this on floor.
         Debug.Log("Moving block");
-        isPlaced = !isPlaced;
-        if (blockTransform.editPosition)
+        /*if (currentBlockState == blockState.selected)
+            currentBlockState = blockState.placed;
+        else if (currentBlockState == blockState.placed)
+            currentBlockState = blockState.selected;
+        */
+        EditBlock();
+        if (blockTransform.editPosition && currentBlockState == blockState.selected)
         {
             selector.ChooseBlock(this, true);
         }
+    }
+
+    public void EditBlock()
+    {
+        currentBlockState = blockState.selected;
+    }
+
+    public void SetStateToPlace()
+    {
+        currentBlockState = blockState.placed;
     }
 
 }

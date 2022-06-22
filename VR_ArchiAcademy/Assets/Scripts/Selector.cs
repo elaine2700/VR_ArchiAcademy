@@ -13,11 +13,16 @@ public class Selector : MonoBehaviour
     private void Awake()
     {
         rayController = GetComponentInParent<XRRayInteractor>();
+        gridTile = FindObjectOfType<GridTile>();
     }
 
     private void Update()
     {
-        isHovering = gridTile.OnGrid();
+        if(gridTile != null)
+        {
+            isHovering = gridTile.OnGrid();
+        }
+        
         if (selectedBlock == null)
             return;
         if (!isHovering)
@@ -58,30 +63,12 @@ public class Selector : MonoBehaviour
             //selectedBlock.PreviewPosGrid(blockPos);
             selectedBlock.PlaceOnGrid(blockPos);
         }
-
-        //DeselectBlock();
-
     }
 
     public void DeselectBlock()
     {
         selectedBlock = null;
     }
-
-    /*public void HoveringOnGrid(HoverEnterEventArgs args)
-    {
-        /*if (selectedBlock == null)
-            return; //
-        isHovering = true;
-
-        args.interactableObject.transform.TryGetComponent<GridTile>(out gridTile);
-    }
-
-
-    public void NotHovering()
-    {
-        isHovering = false;
-    }*/
 
     // Gets the Prefab information from BlockButton script.
     // or from Block.EditBlock()

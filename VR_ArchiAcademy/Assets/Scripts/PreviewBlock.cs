@@ -116,8 +116,6 @@ public class PreviewBlock : MonoBehaviour
     }
 
 
-    
-
     public void ReverseOriginalMaterials()
     {
         int index = 0;

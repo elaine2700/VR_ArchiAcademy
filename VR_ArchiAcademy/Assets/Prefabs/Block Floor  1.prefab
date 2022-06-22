@@ -202,6 +202,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 8256330136723886623}
+        m_TargetAssemblyTypeName: Block, Assembly-CSharp
+        m_MethodName: EditBlock
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
@@ -262,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dede8063c654c432cb8a7c13f351f74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBlockState: 0
   isPlaced: 0
   typeOfBlock: 1
   blockMaincollider: {fileID: 5366370408059719379}
@@ -279,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2d014e83af45ba9590d92d04fa66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adjustments: {x: 0, y: 0, z: 0}
+  adjustments: {x: 0.5, y: 0, z: 0.5}
   themeSettings: {fileID: 11400000, guid: 704a56bcff8e443f090f6d1a39ed99b6, type: 2}
   positionOk: 0
   meshesWithMaterials:
@@ -679,6 +692,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a96a298baed874631872aa308c7bc0d8, type: 3}
+--- !u!4 &8300242263492820882 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6695719921563814186, guid: a96a298baed874631872aa308c7bc0d8, type: 3}
+  m_PrefabInstance: {fileID: 3448521015233951416}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8300242263492820895 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6695719921563814183, guid: a96a298baed874631872aa308c7bc0d8, type: 3}
@@ -690,11 +708,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eee304ed1e8d48b8bf8e982ace0dc76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &8300242263492820882 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6695719921563814186, guid: a96a298baed874631872aa308c7bc0d8, type: 3}
-  m_PrefabInstance: {fileID: 3448521015233951416}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3448521015726538157
 PrefabInstance:
   m_ObjectHideFlags: 0
