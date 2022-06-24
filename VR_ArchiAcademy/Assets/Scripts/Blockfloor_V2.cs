@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -8,11 +7,11 @@ public class Blockfloor_V2 : MonoBehaviour
     [SerializeField] Transform floorUnit;
     [SerializeField] Transform unitsParent;
     List<Transform> unitFloorTiles = new List<Transform>();
-    [SerializeField] bool isEditing = false;
     [SerializeField] List<Handle> handles = new List<Handle>();
     [SerializeField] TextMeshPro nameField;
     AreaType areaType;
     string roomName;
+    bool isPlaced = false;
 
     Vector2 roomSize;
     Vector2 unitSize;
@@ -22,32 +21,37 @@ public class Blockfloor_V2 : MonoBehaviour
     Handle handleSouth;
     Handle handleWest;
 
-    BlockTransform blockTransform;
+    TransformBlock blockTransform;
+    BlocksTracker blocksTracker;
+
     int count = 0;
 
     private void Start()
     {
         areaType = FindObjectOfType<AreaType>();
-        blockTransform = FindObjectOfType<BlockTransform>();
+        blockTransform = GetComponent<TransformBlock>();
         SetHandles();
+        blockTransform.MakeBlockEditable(false);
         ShowHandles(false);
         unitSize = new Vector2(1, 1);
+        blocksTracker = FindObjectOfType<BlocksTracker>();
+        blocksTracker.AddRoomToList(this);
     }
 
     private void Update()
     {
-        isEditing = blockTransform.editSize && GetComponent<Block>().currentBlockState == Block.blockState.selected;
+        //isEditing = blockTransform.editSize && GetComponent<Block>().currentBlockState == Block.blockState.selected;
         //Debug.Log($"isEditing: {isEditing}");
-        if (isEditing)
+        if (blockTransform.isEditableSize)
         {
             // update size
-            ShowHandles(isEditing);
+            ShowHandles(blockTransform.isEditing);
             CalculateRoomSize();
             
             if (SeeIfHandleMoved())
             {
-                count++;
-                Debug.Log($"Construct count: {count}");
+                //count++;
+                //Debug.Log($"Construct count: {count}");
                 ConstructFloor();
             }
             UpdateHandlesPosition();
@@ -107,15 +111,14 @@ public class Blockfloor_V2 : MonoBehaviour
         // todo performance if prevoius pos same as new pos dont call this function
         DeleteFloor();
         unitFloorTiles.Clear();
-        Debug.Log("constructing Floor");
+        //Debug.Log("constructing Floor");
         for(int x = 0; x < roomSize.x; x++)
         {
             for (int y = 0; y < roomSize.y; y++)
             {
-                // todo create unit
-                // instantiate unit prefab
                 Transform newUnit = Instantiate(floorUnit, unitsParent);
-                // set position or local position. first position starts at handlewest pos.x + adjustment
+                // todo adjust to every scale.
+                // set position or local position. first position starts at handlewest pos.x + adjustment.
                 float posX = handleWest.transform.position.x + x + 0.5f;
                 float posZ = handleNorth.transform.position.z - y - 0.5f;
                 newUnit.transform.position = new Vector3(posX, 0.05f, posZ);
@@ -162,8 +165,8 @@ public class Blockfloor_V2 : MonoBehaviour
                 } 
             }
             
-        }
-            
+        }   
     }
+
 
 }

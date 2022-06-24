@@ -3,12 +3,7 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    public enum blockState {selected, placed};
-    public blockState currentBlockState = blockState.selected;
-
     [SerializeField] bool isPlaced = false;
-    [Tooltip("1 = Floor, 2 = Wall, 3 = Furniture")]
-    [SerializeField] int typeOfBlock;
     public Collider blockMaincollider;
     public bool snap;
     public bool isEditing = false;
@@ -16,17 +11,17 @@ public class Block : MonoBehaviour
     //public Material blockMaterial;
 
     Selector selector;
-    GridLayers gridLayers;
     PreviewBlock previewBlock;
     Scaler scaler;
-    BlockTransform blockTransform;
+    TransformBlock blockTransform;
     Rotate rotator;
+    StateManager stateManager;
 
     private void Start()
     {
-        blockTransform = FindObjectOfType<BlockTransform>();
+        stateManager = FindObjectOfType<StateManager>();
+        blockTransform = GetComponent<TransformBlock>();
         previewBlock = GetComponentInChildren<PreviewBlock>();
-        gridLayers = FindObjectOfType<GridLayers>();
         selector = FindObjectOfType<Selector>();
         scaler = FindObjectOfType<Scaler>();
         transform.localScale *= scaler.modelScale;
@@ -36,7 +31,7 @@ public class Block : MonoBehaviour
 
     private void Update()
     {
-        if (currentBlockState == blockState.selected)
+        if (stateManager.globalState == StateManager.GlobalState.transforming)
         {
             if (rotator == null)
                 return;
@@ -46,21 +41,25 @@ public class Block : MonoBehaviour
 
     public void PlaceOnGrid(Vector3 newPos)
     {
+        Debug.Log("Placing block");
         if (previewBlock.positionOk)
         {
-            //Debug.Log("Placing");
             isPlaced = true;
-            transform.parent = gridLayers.ParentToCurrentLayer(typeOfBlock).transform;
             // todo test without this line.
             // transform.rotation = previewBlock.transform.rotation;
             blockMaincollider.enabled = true;
-            selector.DeselectBlock();
-            currentBlockState = blockState.placed;
             previewBlock.ReverseOriginalMaterials();
             if(rotator!= null)
                 rotator.canRotate = false;
-            // only if Block is Floor
             
+            if (GetComponent<Blockfloor_V2>())
+            {
+                Debug.Log("Edit Floor");
+                // keep this selected and make editable to modify floor
+                stateManager.ChangeState(StateManager.GlobalState.transforming);
+
+            }
+            selector.DeselectBlock();
         }
         else
         {
@@ -74,31 +73,19 @@ public class Block : MonoBehaviour
         previewBlock.CheckPosition(hitPosition);
     }
 
-    public void MoveBlock()
+    public void EditBlock()
     {
         // function called from XR event.
-        // Dont call this on floor.
-        Debug.Log("Moving block");
-        /*if (currentBlockState == blockState.selected)
-            currentBlockState = blockState.placed;
-        else if (currentBlockState == blockState.placed)
-            currentBlockState = blockState.selected;
-        */
-        EditBlock();
-        if (blockTransform.editPosition && currentBlockState == blockState.selected)
+        Debug.Log("editing block");
+        if (blockTransform.isEditablePosition && isPlaced)
         {
             selector.ChooseBlock(this, true);
         }
     }
 
-    public void EditBlock()
+    public void ConfirmEdition()
     {
-        currentBlockState = blockState.selected;
+        stateManager.ChangeState(StateManager.GlobalState.selecting);
+        GetComponent<TransformBlock>().MakeBlockEditable(false);
     }
-
-    public void SetStateToPlace()
-    {
-        currentBlockState = blockState.placed;
-    }
-
 }

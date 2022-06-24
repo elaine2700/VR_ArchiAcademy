@@ -18,7 +18,7 @@ public class BlockFloor : MonoBehaviour
     AreaType areaType;
     Block block;
     BlocksTracker areaManager;
-    BlockTransform blockTransform;
+    TransformBlock blockTransform;
     bool enterEditMode = false;
 
     int width = 1; //transformX
@@ -36,7 +36,7 @@ public class BlockFloor : MonoBehaviour
     {
         GenerateMeshData();
         CreateMesh();
-        blockTransform = FindObjectOfType<BlockTransform>();
+        blockTransform = FindObjectOfType<TransformBlock>();
         areaType = FindObjectOfType<AreaType>();
         areaManager = FindObjectOfType<BlocksTracker>();
         //areaManager.AddAreaToList(this);
@@ -56,12 +56,12 @@ public class BlockFloor : MonoBehaviour
     {
         Debug.Log("Update");
         
-        if (!enterEditMode) // todo && this is active
+        if (!enterEditMode && blockTransform.isEditing)
         {
-            EditFloor(blockTransform.editSize);
+            EditFloor(blockTransform.isEditableSize);
             enterEditMode = true;
         }
-        if (blockTransform.editSize) // todo && this is active
+        if (blockTransform.isEditableSize)
         {
             ModifyVertices();
             mesh.SetVertices(vertices);

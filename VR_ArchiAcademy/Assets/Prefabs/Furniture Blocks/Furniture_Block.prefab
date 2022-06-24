@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6737167241603161841}
   - component: {fileID: 5976480250602553710}
   - component: {fileID: 6123109789429019976}
+  - component: {fileID: 9165779781218852441}
   m_Layer: 9
   m_Name: Furniture_Block
   m_TagString: Untagged
@@ -51,9 +52,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlaced: 0
-  typeOfBlock: 3
   blockMaincollider: {fileID: 5976480250602553710}
   snap: 0
+  isEditing: 0
 --- !u!114 &130182583312078686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,10 +211,10 @@ MonoBehaviour:
   adjustments: {x: 0, y: 0, z: 0}
   themeSettings: {fileID: 11400000, guid: 704a56bcff8e443f090f6d1a39ed99b6, type: 2}
   positionOk: 0
+  meshesWithMaterials: []
   layerMasks:
     serializedVersion: 2
     m_Bits: 768
-  wallMeshRef: {fileID: 0}
   blockSize: {x: 0, y: 0, z: 0}
 --- !u!114 &6737167241603161841
 MonoBehaviour:
@@ -256,6 +257,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &9165779781218852441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61fceb43d81c054479f35dcd269b28d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMove: 1
+  canRotate: 1
+  canChangeSize: 0
+  isEditing: 0
 --- !u!1 &1924975831741858078
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,12 +28,13 @@ public class Handle : MonoBehaviour
         //inputActions.Interaction.Confirm.performed += _ => SetHandleInactive();
         inputActions.Interaction.Drag.performed += cntxt => buttonValue = cntxt.ReadValue<float>();
         inputActions.Interaction.Drag.canceled += cntxt => buttonValue = 0;
+        gridTile = FindObjectOfType<GridTile>();
     }
 
     private void Start()
     {
         //changeMaterial = FindObjectOfType<ChangeMaterial>();
-        gridTile = FindObjectOfType<GridTile>();
+        
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         SetHandleInactive();
     }

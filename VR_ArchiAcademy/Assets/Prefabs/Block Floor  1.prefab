@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 4627605900177317330}
   - component: {fileID: 3581588906749701460}
   - component: {fileID: 7386093383172024943}
+  - component: {fileID: 4162278407325721528}
   m_Layer: 7
   m_Name: Block Floor  1
   m_TagString: Untagged
@@ -110,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3448521015541217840}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.16277349, y: 1.2491763, z: 0.18150449}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5176806027429590870}
@@ -274,9 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dede8063c654c432cb8a7c13f351f74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBlockState: 0
   isPlaced: 0
-  typeOfBlock: 1
   blockMaincollider: {fileID: 5366370408059719379}
   snap: 1
   isEditing: 0
@@ -331,12 +330,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorUnit: {fileID: 596827005112658605}
   unitsParent: {fileID: 6661965810747441623}
-  isEditing: 0
   handles:
   - {fileID: 8300242263448499338}
   - {fileID: 8300242263492820895}
   - {fileID: 8300242262846003389}
   - {fileID: 3448521015596419971}
+  nameField: {fileID: 3584692021274647187}
+--- !u!114 &4162278407325721528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3448521015541217840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61fceb43d81c054479f35dcd269b28d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMove: 0
+  canRotate: 0
+  canChangeSize: 1
+  isEditing: 1
 --- !u!1 &8493533307457915588
 GameObject:
   m_ObjectHideFlags: 0
