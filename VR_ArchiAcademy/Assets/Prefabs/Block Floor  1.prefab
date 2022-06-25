@@ -351,7 +351,7 @@ MonoBehaviour:
   canMove: 0
   canRotate: 0
   canChangeSize: 1
-  isEditing: 1
+  isEditing: 0
 --- !u!1 &8493533307457915588
 GameObject:
   m_ObjectHideFlags: 0

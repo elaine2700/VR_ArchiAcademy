@@ -15,11 +15,11 @@ public class Block : MonoBehaviour
     Scaler scaler;
     TransformBlock blockTransform;
     Rotate rotator;
-    StateManager stateManager;
+    ToolManager toolManager;
 
     private void Start()
     {
-        stateManager = FindObjectOfType<StateManager>();
+        toolManager = FindObjectOfType<ToolManager>();
         blockTransform = GetComponent<TransformBlock>();
         previewBlock = GetComponentInChildren<PreviewBlock>();
         selector = FindObjectOfType<Selector>();
@@ -31,7 +31,7 @@ public class Block : MonoBehaviour
 
     private void Update()
     {
-        if (stateManager.globalState == StateManager.GlobalState.transforming)
+        if (toolManager.toolInUse == ToolManager.ToolSelection.edit || toolManager.toolInUse == ToolManager.ToolSelection.build)
         {
             if (rotator == null)
                 return;
@@ -54,12 +54,13 @@ public class Block : MonoBehaviour
             
             if (GetComponent<Blockfloor_V2>())
             {
-                Debug.Log("Edit Floor");
-                // keep this selected and make editable to modify floor
-                stateManager.ChangeState(StateManager.GlobalState.transforming);
-
+                toolManager.ChangeTool(2);
+                EditBlock();
             }
-            selector.DeselectBlock();
+            else
+            {
+                selector.DeselectBlock();
+            }
         }
         else
         {
@@ -77,15 +78,12 @@ public class Block : MonoBehaviour
     {
         // function called from XR event.
         Debug.Log("editing block");
-        if (blockTransform.isEditablePosition && isPlaced)
+        GetComponent<TransformBlock>().MakeBlockEditable(true);
+        selector.ChooseBlock(this, true);
+        if (blockTransform.isEditableSize)
         {
-            selector.ChooseBlock(this, true);
+            Debug.Log("Floor is editable");
         }
     }
 
-    public void ConfirmEdition()
-    {
-        stateManager.ChangeState(StateManager.GlobalState.selecting);
-        GetComponent<TransformBlock>().MakeBlockEditable(false);
-    }
 }

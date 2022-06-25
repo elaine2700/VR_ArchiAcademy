@@ -42,10 +42,11 @@ public class Blockfloor_V2 : MonoBehaviour
     {
         //isEditing = blockTransform.editSize && GetComponent<Block>().currentBlockState == Block.blockState.selected;
         //Debug.Log($"isEditing: {isEditing}");
+        ShowHandles(blockTransform.isEditing);
         if (blockTransform.isEditableSize)
         {
             // update size
-            ShowHandles(blockTransform.isEditing);
+            
             CalculateRoomSize();
             
             if (SeeIfHandleMoved())
@@ -83,8 +84,8 @@ public class Blockfloor_V2 : MonoBehaviour
                     handleWest = handle;
                     break;
             }
-            ShowHandles(false);
         }
+        ShowHandles(false);
     }
 
     private void ShowHandles(bool showHandles)

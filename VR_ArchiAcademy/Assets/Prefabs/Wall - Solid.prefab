@@ -254,7 +254,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2069916901384302416}
         m_TargetAssemblyTypeName: Block, Assembly-CSharp
-        m_MethodName: MoveBlock
+        m_MethodName: EditBlock
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -339,10 +339,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61fceb43d81c054479f35dcd269b28d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEditing: 0
   canMove: 1
   canRotate: 1
   canChangeSize: 0
-  isEditing: 0
+  editPosition: 0
+  editRotation: 0
+  editSize: 0
 --- !u!1001 &4576694028541125342
 PrefabInstance:
   m_ObjectHideFlags: 0

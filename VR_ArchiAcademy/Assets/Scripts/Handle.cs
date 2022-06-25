@@ -37,6 +37,7 @@ public class Handle : MonoBehaviour
         
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         SetHandleInactive();
+        meshRenderer.material = themeSettings.inactiveHandleMat;
     }
 
     private void Update()
@@ -129,7 +130,8 @@ public class Handle : MonoBehaviour
 
     public void HoverHandle(bool isHovering)
     {
-        if (isHovering)
+        // called from xr event
+        if (isHovering == true)
             meshRenderer.material = themeSettings.hoveredBlockMaterial;
         else
             meshRenderer.material = themeSettings.inactiveHandleMat;
