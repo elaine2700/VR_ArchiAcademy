@@ -145,6 +145,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offsetBlock: {x: 0, y: 0, z: 0}
   gridTile: {fileID: 0}
+  transformBlock:
+    m_PersistentCalls:
+      m_Calls: []
+  blockRefToPlace: {fileID: 0}
   selectedBlock: {fileID: 0}
 --- !u!114 &109803030211481426
 MonoBehaviour:
@@ -158,7 +162,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979850eac868433419002197c0ea292c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalState: 0
+  toolInUse: 0
+  OnToolSelect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnToolBuild:
+    m_PersistentCalls:
+      m_Calls: []
+  OnToolTransform:
+    m_PersistentCalls:
+      m_Calls: []
+  OnToolEdit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnToolDelete:
+    m_PersistentCalls:
+      m_Calls: []
+  OnToolExplore:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4695979297795564449
 GameObject:
   m_ObjectHideFlags: 0

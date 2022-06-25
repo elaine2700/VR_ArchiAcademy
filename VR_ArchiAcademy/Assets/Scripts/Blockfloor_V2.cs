@@ -1,41 +1,69 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Blockfloor_V2 : MonoBehaviour
 {
     [SerializeField] Transform floorUnit;
     [SerializeField] Transform unitsParent;
-    List<Transform> unitFloorTiles = new List<Transform>();
-    [SerializeField] List<Handle> handles = new List<Handle>();
     [SerializeField] TextMeshPro nameField;
-    AreaType areaType;
+    [SerializeField] List<Handle> handles = new List<Handle>();
+    [SerializeField] GameObject firstUnit;
+
+    [SerializeField] List<GameObject> unitFloorTiles = new List<GameObject>();
+   
     string roomName;
     bool isPlaced = false;
 
     Vector2 roomSize;
     Vector2 unitSize;
+    Vector3 center;
 
     Handle handleNorth;
     Handle handleEast;
     Handle handleSouth;
     Handle handleWest;
 
+    GridLayers gridLayers;
+    AreaType areaType;
     TransformBlock blockTransform;
     BlocksTracker blocksTracker;
+    XRSimpleInteractable baseInteractable;
 
     int count = 0;
 
+    private void Awake()
+    {
+        baseInteractable = GetComponent<XRSimpleInteractable>();
+    }
+
+    private void OnEnable()
+    {
+        baseInteractable.selectEntered.AddListener(EditFloor);
+    }
+
+    private void OnDisable()
+    {
+        baseInteractable.selectEntered.RemoveListener(EditFloor);
+    }
+
     private void Start()
     {
+        gridLayers = FindObjectOfType<GridLayers>();
+        transform.parent = gridLayers.ParentToCurrentLayer(1).transform;
+
         areaType = FindObjectOfType<AreaType>();
         blockTransform = GetComponent<TransformBlock>();
+
         SetHandles();
         blockTransform.MakeBlockEditable(false);
         ShowHandles(false);
         unitSize = new Vector2(1, 1);
         blocksTracker = FindObjectOfType<BlocksTracker>();
         blocksTracker.AddRoomToList(this);
+        FindName();
+        center.y = 0.05f;
     }
 
     private void Update()
@@ -48,7 +76,6 @@ public class Blockfloor_V2 : MonoBehaviour
             // update size
             
             CalculateRoomSize();
-            
             if (SeeIfHandleMoved())
             {
                 //count++;
@@ -56,6 +83,7 @@ public class Blockfloor_V2 : MonoBehaviour
                 ConstructFloor();
             }
             UpdateHandlesPosition();
+            
         }
     }
 
@@ -105,34 +133,46 @@ public class Blockfloor_V2 : MonoBehaviour
         //Debug.Log($"width: {width}, depth: {depth}");
         roomSize.x = Mathf.Abs(width);
         roomSize.y = Mathf.Abs(depth);
+
+        float centerX = (handleWest.transform.localPosition.x + handleEast.transform.localPosition.x) / 2;
+        float centerY = (handleSouth.transform.localPosition.y + handleNorth.transform.localPosition.y) / 2;
+        center = new Vector3(centerX, center.y, centerY);
     }
 
     private void ConstructFloor()
     {
-        // todo performance if prevoius pos same as new pos dont call this function
+        floorUnit.gameObject.SetActive(false);
         DeleteFloor();
         unitFloorTiles.Clear();
-        //Debug.Log("constructing Floor");
-        for(int x = 0; x < roomSize.x; x++)
+        for (int x = 0; x < roomSize.x; x++)
         {
             for (int y = 0; y < roomSize.y; y++)
             {
                 Transform newUnit = Instantiate(floorUnit, unitsParent);
+                newUnit.gameObject.SetActive(true);
                 // todo adjust to every scale.
                 // set position or local position. first position starts at handlewest pos.x + adjustment.
                 float posX = handleWest.transform.position.x + x + 0.5f;
                 float posZ = handleNorth.transform.position.z - y - 0.5f;
                 newUnit.transform.position = new Vector3(posX, 0.05f, posZ);
-                unitFloorTiles.Add(newUnit);
+                unitFloorTiles.Add(newUnit.gameObject);
+
             }
+        }
+        UpdateCollider();
+
+        PreviewBlock previewBlock = GetComponent<PreviewBlock>();
+        foreach(GameObject unitTile in unitFloorTiles)
+        {
+            previewBlock.meshesWithMaterials.Add(unitTile.GetComponentInChildren<Renderer>());
         }
     }
 
     private void DeleteFloor()
     {
-        foreach(Transform unit in unitFloorTiles)
+        foreach(GameObject unit in unitFloorTiles)
         {
-            Destroy(unit.gameObject);
+            Destroy(unit);
         }
     }
 
@@ -167,6 +207,24 @@ public class Blockfloor_V2 : MonoBehaviour
             }
             
         }   
+    }
+
+    private void EditFloor(SelectEnterEventArgs args)
+    {
+        blockTransform.MakeBlockEditable(!blockTransform.isEditing);
+        ShowHandles(blockTransform.isEditing);
+    }
+
+    private void FindName()
+    {
+
+    }
+
+    private void UpdateCollider()
+    {
+        BoxCollider boxCollider = GetComponent<Block>().blockMaincollider.GetComponent<BoxCollider>();
+        boxCollider.center = center;
+        boxCollider.size = new Vector3(roomSize.x, 0.09f, roomSize.y);
     }
 
 

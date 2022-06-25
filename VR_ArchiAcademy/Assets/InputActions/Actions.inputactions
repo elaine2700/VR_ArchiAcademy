@@ -130,6 +130,17 @@
                     "action": "Drag",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cb1966aa-eed5-4d78-9b48-b73e5eb3675f",
+                    "path": "<HID::Unknown Joy-Con (R)>/button16",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

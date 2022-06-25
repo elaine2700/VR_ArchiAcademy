@@ -1,31 +1,34 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BlockButton : MonoBehaviour
 {
-    public Block blockPrefab;
+    [SerializeField] Block blockPrefab;
 
     Selector selector;
     AreaType areaType;
 
-    private void Start()
+    private void Awake()
     {
         selector = FindObjectOfType<Selector>();
         areaType = FindObjectOfType<AreaType>();
     }
 
-    public void ChooseBlock()
+    private void OnEnable()
     {
-        selector.ChooseBlock(blockPrefab, false);
+        GetComponent<Button>().onClick.AddListener(ChooseBlock);
     }
 
-    // when button is used to select BlockFloor
-    public void ChooseFloor()
+    private void OnDisable()
     {
-        if (areaType.SetAreaName())
-        {
-            ChooseBlock();
-        }
+        GetComponent<Button>().onClick.RemoveListener(ChooseBlock);
+    }
 
+    private void ChooseBlock()
+    {
+        // choosing a new block always sets the toolInUse to build
+        selector.SetNewReference(blockPrefab);
+        selector.GetComponent<ToolManager>().ChangeTool(1);
     }
     
 }

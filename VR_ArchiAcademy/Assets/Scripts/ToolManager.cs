@@ -21,7 +21,8 @@ public class ToolManager : MonoBehaviour
     public UnityEvent OnToolExplore;
 
     /// <summary>
-    /// Changes the current tool used in application. Parameters can be 0 to 4. 0:select, 1:build, 2: Edit, 3:explore, 4: delete.
+    /// Changes the current tool used in application.
+    /// Parameters can be 0 to 4. 0:select, 1:build, 2: Transform, 3:Edit, 4: delete, 5: Explore.
     /// </summary>
     /// <param name="newTool">Number to cast as enum ToolSelection</param>
     public void ChangeTool(int newTool)

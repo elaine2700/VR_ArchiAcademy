@@ -6,6 +6,11 @@ public class GridLayers : MonoBehaviour
     [SerializeField] GameObject folderWalls;
     [SerializeField] GameObject folderFurniture;
  
+    /// <summary>
+    /// Set the parent depending of blocktype. 1: Floor, 2:Walls, 3:Furniture;
+    /// </summary>
+    /// <param name="blocktype">Number of folder for block type</param>
+    /// <returns></returns>
     public GameObject ParentToCurrentLayer(int blocktype)
     {
         // function to organize blocks on a empty gameObject

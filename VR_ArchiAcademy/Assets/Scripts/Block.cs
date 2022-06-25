@@ -29,6 +29,8 @@ public class Block : MonoBehaviour
         rotator = GetComponent<Rotate>();
     }
 
+
+
     private void Update()
     {
         if (toolManager.toolInUse == ToolManager.ToolSelection.edit || toolManager.toolInUse == ToolManager.ToolSelection.build)
@@ -59,7 +61,7 @@ public class Block : MonoBehaviour
             }
             else
             {
-                selector.DeselectBlock();
+                //selector.DeselectBlock();
             }
         }
         else
@@ -68,7 +70,7 @@ public class Block : MonoBehaviour
         }
     }
 
-    public void PreviewPosGrid(Vector3 hitPosition)
+    public void SeeOnGrid(Vector3 hitPosition)
     {
         previewBlock.AdjustPosition(hitPosition);
         previewBlock.CheckPosition(hitPosition);
@@ -80,10 +82,6 @@ public class Block : MonoBehaviour
         Debug.Log("editing block");
         GetComponent<TransformBlock>().MakeBlockEditable(true);
         selector.ChooseBlock(this, true);
-        if (blockTransform.isEditableSize)
-        {
-            Debug.Log("Floor is editable");
-        }
     }
 
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.Events;
 
 public class Handle : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Handle : MonoBehaviour
 
     [SerializeField] ThemeSettings themeSettings;
     Actions inputActions;
+
+    UnityEvent placedHandle; // todo to call constructFloor();
 
     MeshRenderer meshRenderer;
     GridTile gridTile;
@@ -137,6 +140,7 @@ public class Handle : MonoBehaviour
             meshRenderer.material = themeSettings.inactiveHandleMat;
     }
     
+
 
     private void FindOverlaps()
     {

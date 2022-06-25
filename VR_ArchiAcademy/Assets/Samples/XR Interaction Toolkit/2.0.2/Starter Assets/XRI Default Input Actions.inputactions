@@ -823,6 +823,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0d15e7fe-5a0b-4ace-b7bb-c64863e744e0",
+                    "path": "<HID::Unknown Joy-Con (R)>/button16",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "dd433817-216c-46b9-8dd3-f3a4ea1767b9",
                     "path": "<XRController>{RightHand}/grip",
                     "interactions": "",

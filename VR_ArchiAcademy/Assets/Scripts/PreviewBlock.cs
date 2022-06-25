@@ -11,7 +11,7 @@ public class PreviewBlock : MonoBehaviour
     //ChangeMaterial changeMaterial;
 
     public bool positionOk = false;
-    [SerializeField] List<Renderer> meshesWithMaterials = new List<Renderer>();
+    public List<Renderer> meshesWithMaterials = new List<Renderer>();
     List<Material> originalMaterials = new List<Material>();
 
     [SerializeField] LayerMask layerMasks;
@@ -54,9 +54,12 @@ public class PreviewBlock : MonoBehaviour
 
     public void ChangingMaterial(Material newMaterial, List<Renderer> currentRenderers)
     {
-        foreach (MeshRenderer renderer in currentRenderers)
+        if(currentRenderers.Count >= 1)
         {
-            renderer.material = newMaterial;
+            foreach (MeshRenderer renderer in currentRenderers)
+            {
+                renderer.material = newMaterial;
+            }
         }
     }
 
@@ -119,10 +122,13 @@ public class PreviewBlock : MonoBehaviour
     public void ReverseOriginalMaterials()
     {
         int index = 0;
-        foreach ( MeshRenderer renderer in meshesWithMaterials)
+        if(meshesWithMaterials.Count >= 1)
         {
-            renderer.material = originalMaterials[index];
-            index++;
+            foreach (MeshRenderer renderer in meshesWithMaterials)
+            {
+                renderer.material = originalMaterials[index];
+                index++;
+            }
         }
     }
 
