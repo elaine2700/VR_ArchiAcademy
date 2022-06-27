@@ -6,30 +6,30 @@ public class PreviewBlock : MonoBehaviour
 {
     [SerializeField] Vector3 adjustments;
     [SerializeField] ThemeSettings themeSettings;
+    [SerializeField] Material originalMaterial;
+    [SerializeField] LayerMask layerMasks;
+
     Scaler scaler;
     Collider blockCollider;
-    //ChangeMaterial changeMaterial;
 
     public bool positionOk = false;
     public List<Renderer> meshesWithMaterials = new List<Renderer>();
-    List<Material> originalMaterials = new List<Material>();
-
-    [SerializeField] LayerMask layerMasks;
-    public Vector3 blockSize; // Set block size by collider size.
+    public Vector3 blockSize = new Vector3(); // Set block size by collider size.
 
     private void Awake()
     {
         scaler = FindObjectOfType<Scaler>();
         blockCollider = GetComponent<Block>().blockMaincollider;
+    }
+
+    private void OnEnable()
+    {
         blockSize = blockCollider.bounds.size;
         Debug.Log(blockSize);
-        
     }
-    
+
     private void Start()
     {
-        //changeMaterial = FindObjectOfType<ChangeMaterial>();
-        RememberOriginalMaterials();
         ChangingMaterial(themeSettings.previewBlockMaterial, meshesWithMaterials);
         adjustments *= scaler.modelScale;
     }
@@ -73,7 +73,7 @@ public class PreviewBlock : MonoBehaviour
         //Use the OverlapBox to detect if there are any other colliders within this box area.
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
         //Vector3 centerPiece = new Vector3(placePosition.x, wallMeshRef.transform.position.y, placePosition.z);
-        Vector3 centerPiece = new Vector3(transform.position.x, transform.position.y + (blockSize.y/2), transform.position.z);
+        Vector3 centerPiece = new Vector3(transform.position.x, transform.position.y + (blockSize.y / 2), transform.position.z); ;
         Vector3 halfSizeOverlapBox = (blockSize / 2);
         //Check when there is a new collider coming into contact with the box
         for (int i = 0; i < 2; i++)
@@ -86,7 +86,7 @@ public class PreviewBlock : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Vector3 centerPiece = new Vector3(transform.position.x, transform.position.y + (blockSize.y/2), transform.position.z);
@@ -121,24 +121,12 @@ public class PreviewBlock : MonoBehaviour
 
     public void ReverseOriginalMaterials()
     {
-        int index = 0;
         if(meshesWithMaterials.Count >= 1)
         {
             foreach (MeshRenderer renderer in meshesWithMaterials)
             {
-                renderer.material = originalMaterials[index];
-                index++;
+                renderer.material = originalMaterial;
             }
         }
     }
-
-    private void RememberOriginalMaterials()
-    {
-        foreach (Renderer rendererObject in meshesWithMaterials)
-        {
-            originalMaterials.Add(rendererObject.material);
-        }
-    }
-
-
 }

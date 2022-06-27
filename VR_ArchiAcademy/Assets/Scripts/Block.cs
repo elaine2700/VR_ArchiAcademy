@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    [SerializeField] bool isPlaced = false;
+    bool isPlaced = false;
+    public bool IsPlaced {get {return isPlaced;}}
     public Collider blockMaincollider;
     public bool snap;
     public bool isEditing = false;
-    //public bool edit = false;
-    //public Material blockMaterial;
 
     Selector selector;
     PreviewBlock previewBlock;
@@ -17,27 +16,37 @@ public class Block : MonoBehaviour
     Rotate rotator;
     ToolManager toolManager;
 
+    private void Awake()
+    {
+        previewBlock = GetComponent<PreviewBlock>();
+        blockMaincollider.enabled = true;
+    }
+
     private void Start()
     {
         toolManager = FindObjectOfType<ToolManager>();
         blockTransform = GetComponent<TransformBlock>();
-        previewBlock = GetComponentInChildren<PreviewBlock>();
+        
         selector = FindObjectOfType<Selector>();
         scaler = FindObjectOfType<Scaler>();
         transform.localScale *= scaler.modelScale;
         //blockMaterial = GetComponentInChildren<MeshRenderer>().material;
         rotator = GetComponent<Rotate>();
+        blockMaincollider.enabled = false;
     }
 
 
 
     private void Update()
     {
-        if (toolManager.toolInUse == ToolManager.ToolSelection.edit || toolManager.toolInUse == ToolManager.ToolSelection.build)
+        if (toolManager.toolInUse == ToolManager.ToolSelection.build || toolManager.toolInUse == ToolManager.ToolSelection.transform)
         {
             if (rotator == null)
                 return;
-            rotator.canRotate = true;
+            if (blockTransform.isEditableRotation)
+                rotator.canRotate = true;
+            else
+                rotator.canRotate = false;
         }
     }
 
@@ -51,8 +60,7 @@ public class Block : MonoBehaviour
             // transform.rotation = previewBlock.transform.rotation;
             blockMaincollider.enabled = true;
             previewBlock.ReverseOriginalMaterials();
-            if(rotator!= null)
-                rotator.canRotate = false;
+            blockTransform.MakeBlockEditable(false);
             
             if (GetComponent<Blockfloor_V2>())
             {
@@ -82,6 +90,13 @@ public class Block : MonoBehaviour
         Debug.Log("editing block");
         GetComponent<TransformBlock>().MakeBlockEditable(true);
         selector.ChooseBlock(this, true);
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
+        // todo particle systems maybe
+        // todo audio
     }
 
 }

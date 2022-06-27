@@ -1,24 +1,18 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.Events;
 
 public class Selector : MonoBehaviour
 {
-    // this class selects objects to build and edit and wait.
+    // this class selects objects to build and transform.
 
     [SerializeField] Vector3 offsetBlock = new Vector3();
     [SerializeField] GridTile gridTile;
 
-    public UnityEvent newBlockRef;
+    public Block blockToSpawn = null; // to use in Building mode
+    public Block selectedBlock = null; // to use in Transforming mode
+    public Block blockToMove = null;
 
-    public Block blockRefToPlace = null;
-    public Block selectedBlock = null;
-
-    //bool blockIsInScene = false;
     bool isHovering = false;
-    //bool isBuilding = false;
-    //bool isEditing = false;
-    
     Vector3 hitPosition;
 
     ToolManager toolManager;
@@ -55,52 +49,26 @@ public class Selector : MonoBehaviour
             TransformingMode();
         else if (toolManager.toolInUse == ToolManager.ToolSelection.edit)
             EditMode();
+        else if (toolManager.toolInUse == ToolManager.ToolSelection.delete)
+            DeleteBlocks();
         else
             SelectMode();
-
-        /*if (isBuilding && selectedBlock != null)
-        {
-            if (!isHovering)
-            {
-                if (selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
-                    selectedBlock.transform.position = transform.position + offsetBlock;
-            }
-            else if (rayController.TryGetHitInfo(out hitPosition, out var hitNormals, out _, out _))
-            {
-                Vector3 rayHitPosition = hitPosition;
-                Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
-                selectedBlock.PreviewPosGrid(blockPos); 
-            }
-
-        }
-        else if (isEditing && selectedBlock != null)
-        {
-            if (selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
-            {
-                if (!isHovering)
-                {
-                    if (selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
-                        selectedBlock.transform.position = transform.position + offsetBlock;
-                }
-                else if (rayController.TryGetHitInfo(out hitPosition, out var hitNormals, out _, out _))
-                {
-                    Vector3 rayHitPosition = hitPosition;
-                    Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
-                    selectedBlock.PreviewPosGrid(blockPos);
-                }
-            }
-        }*/
     }
 
     private void EnterBuildMode()
     {
-        //selectedBlock = null;
+        Debug.Log("Entering Build Mode");
     }
 
     private void EnterTransformMode()
     {
-        blockRefToPlace = null;
-        selectedBlock = null;
+        Debug.Log("Entering Transform Mode");
+        blockToSpawn = null;
+        if (!selectedBlock.IsPlaced)
+        {
+            Destroy(selectedBlock.gameObject);
+            selectedBlock = null;
+        }
     }
 
     private void BuildingMode()
@@ -115,7 +83,6 @@ public class Selector : MonoBehaviour
             {
                 if (rayController.TryGetHitInfo(out hitPosition, out var hitNormals, out _, out _))
                 {
-                    // todo there is a bug around here.
                     Vector3 rayHitPosition = hitPosition;
                     Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
                     selectedBlock.SeeOnGrid(blockPos);
@@ -161,35 +128,34 @@ public class Selector : MonoBehaviour
         Debug.Log("Selector placing block");
         //blockIsInScene = true;
 
-        if (selectedBlock == null)
+        if (selectedBlock != null)
         {
-            return;
-        }
-        if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
-        {
-            // checks position of hit
-            Vector3 rayHitPosition = hitPosition;
-            Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
-            selectedBlock.PlaceOnGrid(blockPos);
-
-            if (selectedBlock.GetComponent<Blockfloor_V2>())
+            if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
             {
-                // change tool to transform.
-                toolManager.ChangeTool(2);
-                ForgetBlock();
-            }
-            else if(selectedBlock.GetComponent<BlockWall>() || selectedBlock.GetComponent<BlockFurniture>())
-            {
-                // check if available to place multiple objects. and keep in building mode if in building mode
-                ChooseBlock(blockRefToPlace, false);
+                // checks position of hit
+                Vector3 rayHitPosition = hitPosition;
+                Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
+                selectedBlock.PlaceOnGrid(blockPos);
+
+                if (selectedBlock.GetComponent<Blockfloor_V2>())
+                {
+                    toolManager.ChangeTool(2);
+                    ForgetBlock();
+                }
+                else if (selectedBlock.GetComponent<BlockWall>() || selectedBlock.GetComponent<BlockFurniture>())
+                {
+                    // check if available to place multiple objects. and keep in building mode if in building mode
+                    if(toolManager.toolInUse == ToolManager.ToolSelection.build)
+                    {
+                        ChooseBlock(blockToSpawn, false);
+                    }
+                    if(toolManager.toolInUse == ToolManager.ToolSelection.transform)
+                    {
+                        ForgetBlock();
+                    }
+                }
             }
         }
-    }
-
-    public void DeselectBlock()
-    { 
-        //toolManager.ChangeTool(0);
-        ForgetBlock();
     }
 
     public void ForgetBlock()
@@ -204,8 +170,8 @@ public class Selector : MonoBehaviour
         {
             Destroy(selectedBlock.gameObject);
         }
-        blockRefToPlace = newBlockReference;
-        ChooseBlock(blockRefToPlace, false);
+        blockToSpawn = newBlockReference;
+        ChooseBlock(blockToSpawn, false);
     }
     
     public void ChooseBlock(Block chosenBlock, bool isInScene)
@@ -213,18 +179,27 @@ public class Selector : MonoBehaviour
         if (isInScene)
         {
             selectedBlock = chosenBlock;
-            blockRefToPlace = null;
+            blockToSpawn = null;
         }
         else
         {
-            blockRefToPlace = chosenBlock;
-            selectedBlock = Instantiate(blockRefToPlace);
+            blockToSpawn = chosenBlock;
+            selectedBlock = Instantiate(blockToSpawn);
         }
         selectedBlock.GetComponent<TransformBlock>().MakeBlockEditable(true);
         if (chosenBlock.blockMaincollider != null && selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
         {
             chosenBlock.blockMaincollider.enabled = false;
         }    
+    }
+
+    private void DeleteBlocks()
+    {
+        if (selectedBlock != null)
+        {
+            selectedBlock.Delete();
+            selectedBlock = null;
+        }
     }
 
 }

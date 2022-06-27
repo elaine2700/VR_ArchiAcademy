@@ -52,7 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dede8063c654c432cb8a7c13f351f74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlaced: 0
   blockMaincollider: {fileID: 5976480250602553710}
   snap: 0
   isEditing: 0
@@ -211,11 +210,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adjustments: {x: 0, y: 0, z: 0}
   themeSettings: {fileID: 11400000, guid: 704a56bcff8e443f090f6d1a39ed99b6, type: 2}
-  positionOk: 0
-  meshesWithMaterials: []
+  originalMaterial: {fileID: 2100000, guid: e29b9fd5b052344599bd8838f6676169, type: 2}
   layerMasks:
     serializedVersion: 2
     m_Bits: 768
+  positionOk: 0
+  meshesWithMaterials: []
   blockSize: {x: 0, y: 0, z: 0}
 --- !u!114 &6737167241603161841
 MonoBehaviour:
@@ -238,7 +238,7 @@ BoxCollider:
   m_GameObject: {fileID: 100008}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 2.95}
   m_Center: {x: 0, y: 0.5, z: -0.5}
@@ -274,9 +274,6 @@ MonoBehaviour:
   canMove: 1
   canRotate: 1
   canChangeSize: 0
-  editPosition: 0
-  editRotation: 0
-  editSize: 0
 --- !u!114 &6031731942575096346
 MonoBehaviour:
   m_ObjectHideFlags: 0

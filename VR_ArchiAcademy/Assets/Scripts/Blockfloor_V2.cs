@@ -9,12 +9,10 @@ public class Blockfloor_V2 : MonoBehaviour
     [SerializeField] Transform unitsParent;
     [SerializeField] TextMeshPro nameField;
     [SerializeField] List<Handle> handles = new List<Handle>();
-    [SerializeField] GameObject firstUnit;
 
     [SerializeField] List<GameObject> unitFloorTiles = new List<GameObject>();
    
     string roomName;
-    bool isPlaced = false;
 
     Vector2 roomSize;
     Vector2 unitSize;
@@ -30,6 +28,7 @@ public class Blockfloor_V2 : MonoBehaviour
     TransformBlock blockTransform;
     BlocksTracker blocksTracker;
     XRSimpleInteractable baseInteractable;
+    PreviewBlock previewBlock;
 
     int count = 0;
 
@@ -55,6 +54,7 @@ public class Blockfloor_V2 : MonoBehaviour
 
         areaType = FindObjectOfType<AreaType>();
         blockTransform = GetComponent<TransformBlock>();
+        previewBlock = GetComponent<PreviewBlock>();
 
         SetHandles();
         blockTransform.MakeBlockEditable(false);
@@ -64,6 +64,8 @@ public class Blockfloor_V2 : MonoBehaviour
         blocksTracker.AddRoomToList(this);
         FindName();
         center.y = 0.05f;
+        //CalculateRoomSize();
+        //ConstructFloor();
     }
 
     private void Update()
@@ -141,9 +143,10 @@ public class Blockfloor_V2 : MonoBehaviour
 
     private void ConstructFloor()
     {
-        floorUnit.gameObject.SetActive(false);
         DeleteFloor();
+        previewBlock.meshesWithMaterials.Clear();
         unitFloorTiles.Clear();
+
         for (int x = 0; x < roomSize.x; x++)
         {
             for (int y = 0; y < roomSize.y; y++)
@@ -159,13 +162,11 @@ public class Blockfloor_V2 : MonoBehaviour
 
             }
         }
-        UpdateCollider();
-
-        PreviewBlock previewBlock = GetComponent<PreviewBlock>();
-        foreach(GameObject unitTile in unitFloorTiles)
+        foreach (GameObject unitTile in unitFloorTiles)
         {
             previewBlock.meshesWithMaterials.Add(unitTile.GetComponentInChildren<Renderer>());
         }
+        UpdateCollider();
     }
 
     private void DeleteFloor()

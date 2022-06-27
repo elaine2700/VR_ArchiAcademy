@@ -33,6 +33,9 @@ public class ToolManager : MonoBehaviour
             case ToolSelection.select:
                 OnToolSelect.Invoke();
                 break;
+            case ToolSelection.transform:
+                OnToolTransform.Invoke();
+                break;
             case ToolSelection.build:
                 OnToolBuild.Invoke();
                 break;
