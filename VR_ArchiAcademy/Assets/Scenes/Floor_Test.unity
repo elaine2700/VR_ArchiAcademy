@@ -539,9 +539,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d00adc21c56b4e309d47e3f8caa3a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editPosition: 0
-  editRotation: 0
-  editSize: 1
 --- !u!1 &700028794
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,6 +683,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1201269766 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4082394227095065192, guid: ffaf8ccc231d147ec9acfc12d197294b, type: 3}
+  m_PrefabInstance: {fileID: 2027021241}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1463089478
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,12 +801,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4627605900177317330, guid: ffaf8ccc231d147ec9acfc12d197294b, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7386093383172024943, guid: ffaf8ccc231d147ec9acfc12d197294b, type: 3}
       propertyPath: isEditing
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7386093383172024943, guid: ffaf8ccc231d147ec9acfc12d197294b, type: 3}
+      propertyPath: unitFloorTiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 1201269766}
     - target: {fileID: 8256330136723886623, guid: ffaf8ccc231d147ec9acfc12d197294b, type: 3}
       propertyPath: isPlaced
       value: 1

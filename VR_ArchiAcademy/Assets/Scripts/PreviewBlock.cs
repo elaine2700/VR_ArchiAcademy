@@ -15,6 +15,7 @@ public class PreviewBlock : MonoBehaviour
     public bool positionOk = false;
     public List<Renderer> meshesWithMaterials = new List<Renderer>();
     public Vector3 blockSize = new Vector3(); // Set block size by collider size.
+    Vector3 blockCenter;
 
     private void Awake()
     {
@@ -25,7 +26,9 @@ public class PreviewBlock : MonoBehaviour
     private void OnEnable()
     {
         blockSize = blockCollider.bounds.size;
+        blockCenter = blockCollider.bounds.center;
         Debug.Log(blockSize);
+        Debug.Log(blockCenter);
     }
 
     private void Start()
@@ -73,12 +76,15 @@ public class PreviewBlock : MonoBehaviour
         //Use the OverlapBox to detect if there are any other colliders within this box area.
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
         //Vector3 centerPiece = new Vector3(placePosition.x, wallMeshRef.transform.position.y, placePosition.z);
-        Vector3 centerPiece = new Vector3(transform.position.x, transform.position.y + (blockSize.y / 2), transform.position.z); ;
+        Vector3 centerPiece = new Vector3(blockCenter.x + transform.position.x,
+            blockCenter.y + (blockSize.y / 2),
+            blockCenter.z + transform.position.z);
+
         Vector3 halfSizeOverlapBox = (blockSize / 2);
         //Check when there is a new collider coming into contact with the box
         for (int i = 0; i < 2; i++)
         {
-            Collider[] hitColliders = Physics.OverlapBox(centerPiece, halfSizeOverlapBox, Quaternion.identity, layerMasks);
+            Collider[] hitColliders = Physics.OverlapBox(blockCenter, halfSizeOverlapBox, Quaternion.identity, layerMasks);
             bool isPlaceable = hitColliders.Length == 0;
             ShowOverlap(isPlaceable);
             if (isPlaceable)
@@ -86,10 +92,11 @@ public class PreviewBlock : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Vector3 centerPiece = new Vector3(transform.position.x, transform.position.y + (blockSize.y/2), transform.position.z);
+        Vector3 centerPiece = new Vector3(transform.position.x + blockCenter.x,
+            transform.position.y + (blockSize.y/2), transform.position.z + blockCenter.z);
         Gizmos.DrawWireCube(centerPiece, blockSize);
     }
 

@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1350204246945955595
 Transform:
   m_ObjectHideFlags: 0
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb2d014e83af45ba9590d92d04fa66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adjustments: {x: 0.5, y: 0, z: -0.45}
+  adjustments: {x: 0, y: 0, z: 0}
   themeSettings: {fileID: 11400000, guid: 704a56bcff8e443f090f6d1a39ed99b6, type: 2}
   originalMaterial: {fileID: 2100000, guid: e29b9fd5b052344599bd8838f6676169, type: 2}
   layerMasks:
@@ -157,7 +157,7 @@ MonoBehaviour:
   positionOk: 0
   meshesWithMaterials:
   - {fileID: 2900946366278336090}
-  blockSize: {x: 0.9, y: 3, z: 0.1}
+  blockSize: {x: 0.84, y: 3, z: 0.1}
 --- !u!65 &3292545421346063476
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -169,8 +169,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 3, z: 0.1}
-  m_Center: {x: 0, y: 1.5, z: 0}
+  m_Size: {x: 0.84, y: 3, z: 0.1}
+  m_Center: {x: 0.5, y: 1.5, z: 0}
 --- !u!54 &8701334874680670613
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -344,6 +344,9 @@ MonoBehaviour:
   canMove: 1
   canRotate: 1
   canChangeSize: 0
+  editPosition: 0
+  editRotation: 0
+  editSize: 0
 --- !u!114 &8821612988288138472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +372,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
       propertyPath: m_LocalPosition.y

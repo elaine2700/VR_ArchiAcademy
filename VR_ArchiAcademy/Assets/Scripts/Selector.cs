@@ -7,10 +7,11 @@ public class Selector : MonoBehaviour
 
     [SerializeField] Vector3 offsetBlock = new Vector3();
     [SerializeField] GridTile gridTile;
+    [SerializeField] LayerMask onSelectedMask;
+    [SerializeField] LayerMask normalStateMask;
 
-    public Block blockToSpawn = null; // to use in Building mode
-    public Block selectedBlock = null; // to use in Transforming mode
-    public Block blockToMove = null;
+    public Block blockToSpawn = null; 
+    public Block selectedBlock = null; 
 
     bool isHovering = false;
     Vector3 hitPosition;
@@ -53,6 +54,7 @@ public class Selector : MonoBehaviour
             DeleteBlocks();
         else
             SelectMode();
+        
     }
 
     private void EnterBuildMode()
@@ -161,6 +163,7 @@ public class Selector : MonoBehaviour
     public void ForgetBlock()
     {
         selectedBlock = null;
+        rayController.raycastMask = normalStateMask;
     }
 
     
@@ -176,10 +179,12 @@ public class Selector : MonoBehaviour
     
     public void ChooseBlock(Block chosenBlock, bool isInScene)
     {
+        
         if (isInScene)
         {
             selectedBlock = chosenBlock;
             blockToSpawn = null;
+            
         }
         else
         {
@@ -190,7 +195,8 @@ public class Selector : MonoBehaviour
         if (chosenBlock.blockMaincollider != null && selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
         {
             chosenBlock.blockMaincollider.enabled = false;
-        }    
+        }
+        rayController.raycastMask = onSelectedMask;
     }
 
     private void DeleteBlocks()

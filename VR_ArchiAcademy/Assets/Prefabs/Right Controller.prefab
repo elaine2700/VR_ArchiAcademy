@@ -145,10 +145,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offsetBlock: {x: 0, y: 0, z: 0}
   gridTile: {fileID: 0}
-  transformBlock:
-    m_PersistentCalls:
-      m_Calls: []
-  blockRefToPlace: {fileID: 0}
+  onSelectedMask:
+    serializedVersion: 2
+    m_Bits: 65
+  normalStateMask:
+    serializedVersion: 2
+    m_Bits: 961
+  blockToSpawn: {fileID: 0}
   selectedBlock: {fileID: 0}
 --- !u!114 &109803030211481426
 MonoBehaviour:
