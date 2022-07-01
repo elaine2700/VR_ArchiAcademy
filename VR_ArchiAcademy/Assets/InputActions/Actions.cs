@@ -62,6 +62,15 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ScaleWorld"",
+                    ""type"": ""Button"",
+                    ""id"": ""c7f471cc-c28c-4d29-b89a-2d227a033d13"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -163,6 +172,39 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                     ""action"": ""Drag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ccaacd0f-2727-41ea-8dc7-ff8ae42de4cc"",
+                    ""path"": ""<HID::Unknown Joy-Con (R)>/button5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScaleWorld"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""806e827a-7bdc-4b41-8ede-4c556045e323"",
+                    ""path"": ""<XRController>{RightHand}/gripPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScaleWorld"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""be8c6758-cbba-4b98-8c9b-643d2b5b5917"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScaleWorld"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -175,6 +217,7 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         m_Interaction_RotateBlock = m_Interaction.FindAction("RotateBlock", throwIfNotFound: true);
         m_Interaction_ChooseBlock = m_Interaction.FindAction("ChooseBlock", throwIfNotFound: true);
         m_Interaction_Drag = m_Interaction.FindAction("Drag", throwIfNotFound: true);
+        m_Interaction_ScaleWorld = m_Interaction.FindAction("ScaleWorld", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -238,6 +281,7 @@ public partial class @Actions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Interaction_RotateBlock;
     private readonly InputAction m_Interaction_ChooseBlock;
     private readonly InputAction m_Interaction_Drag;
+    private readonly InputAction m_Interaction_ScaleWorld;
     public struct InteractionActions
     {
         private @Actions m_Wrapper;
@@ -246,6 +290,7 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         public InputAction @RotateBlock => m_Wrapper.m_Interaction_RotateBlock;
         public InputAction @ChooseBlock => m_Wrapper.m_Interaction_ChooseBlock;
         public InputAction @Drag => m_Wrapper.m_Interaction_Drag;
+        public InputAction @ScaleWorld => m_Wrapper.m_Interaction_ScaleWorld;
         public InputActionMap Get() { return m_Wrapper.m_Interaction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -267,6 +312,9 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 @Drag.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnDrag;
                 @Drag.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnDrag;
                 @Drag.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnDrag;
+                @ScaleWorld.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnScaleWorld;
+                @ScaleWorld.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnScaleWorld;
+                @ScaleWorld.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnScaleWorld;
             }
             m_Wrapper.m_InteractionActionsCallbackInterface = instance;
             if (instance != null)
@@ -283,6 +331,9 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 @Drag.started += instance.OnDrag;
                 @Drag.performed += instance.OnDrag;
                 @Drag.canceled += instance.OnDrag;
+                @ScaleWorld.started += instance.OnScaleWorld;
+                @ScaleWorld.performed += instance.OnScaleWorld;
+                @ScaleWorld.canceled += instance.OnScaleWorld;
             }
         }
     }
@@ -293,5 +344,6 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         void OnRotateBlock(InputAction.CallbackContext context);
         void OnChooseBlock(InputAction.CallbackContext context);
         void OnDrag(InputAction.CallbackContext context);
+        void OnScaleWorld(InputAction.CallbackContext context);
     }
 }

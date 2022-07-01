@@ -27,14 +27,18 @@ public class PreviewBlock : MonoBehaviour
     {
         blockSize = blockCollider.bounds.size;
         blockCenter = blockCollider.bounds.center;
-        Debug.Log(blockSize);
-        Debug.Log(blockCenter);
+        scaler.onChangeScale.AddListener(UpdateScale);
+    }
+
+    private void OnDisable()
+    {
+        scaler.onChangeScale.RemoveListener(UpdateScale);
     }
 
     private void Start()
     {
         ChangingMaterial(themeSettings.previewBlockMaterial, meshesWithMaterials);
-        adjustments *= scaler.modelScale;
+        UpdateScale();
     }
 
     public void AdjustPosition(Vector3 position)
@@ -135,5 +139,10 @@ public class PreviewBlock : MonoBehaviour
                 renderer.material = originalMaterial;
             }
         }
+    }
+
+    private void UpdateScale()
+    {
+        adjustments *= scaler.ModelScale;
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ThemeSettings", menuName ="ScriptableObjects/ThemeSettingsData", order = 1)]
+[CreateAssetMenu(fileName = "ThemeSettings", menuName ="ScriptableObjects/ThemeSettingsData")]
 public class ThemeSettings : ScriptableObject
 {
     public Material previewBlockMaterial;

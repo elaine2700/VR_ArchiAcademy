@@ -20,16 +20,24 @@ public class Block : MonoBehaviour
     {
         previewBlock = GetComponent<PreviewBlock>();
         blockMaincollider.enabled = true;
+        scaler = FindObjectOfType<Scaler>();
+    }
+
+    private void OnEnable()
+    {
+        scaler.onChangeScale.AddListener(UpdateScale);
+    }
+
+    private void OnDisable()
+    {
+        scaler.onChangeScale.RemoveListener(UpdateScale);
     }
 
     private void Start()
     {
         toolManager = FindObjectOfType<ToolManager>();
         blockTransform = GetComponent<TransformBlock>();
-        
         selector = FindObjectOfType<Selector>();
-        scaler = FindObjectOfType<Scaler>();
-        transform.localScale *= scaler.modelScale;
         //blockMaterial = GetComponentInChildren<MeshRenderer>().material;
         rotator = GetComponent<Rotate>();
         blockMaincollider.enabled = false;
@@ -97,6 +105,11 @@ public class Block : MonoBehaviour
         Destroy(gameObject);
         // todo particle systems maybe
         // todo audio
+    }
+
+    private void UpdateScale()
+    {
+        transform.localScale *= scaler.ModelScale;
     }
 
 }
