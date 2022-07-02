@@ -82,6 +82,8 @@ Material:
     - Vector1_bfaa6bac05c7442b94f4b9cb4badb2c8: 200
     - Vector1_c71e279814c34d2b9f58d5e8510e6c84: 100
     - _BumpScale: 1
+    - _Checker_contrast: 0.1
+    - _Checker_size__cm_: 200
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -92,10 +94,19 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Primary_Grid_line_Width: 0.06
+    - _Primary_grid_size__cm_: 100
+    - _Project_transition_contrast: 0
+    - _Secondary_Grid_size__cm_: 20
+    - _Secondary_grid_fade_length: 8
+    - _Secondary_grid_fade_offset: 100
+    - _Secondary_grid_line_width: 0.02
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _Use_secondary_grid: 1
     - _ZWrite: 1
     m_Colors:
     - Color_25dafce0562f42f4b546b2ad33659729: {r: 0.7985321, g: 1, b: 0.504717, a: 0}
@@ -103,4 +114,7 @@ Material:
     - Color_ef3f157da2ce424c91d7517488250332: {r: 0.26415092, g: 0.245461, b: 0.245461, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Floor_Color: {r: 0.3495016, g: 0.5060143, b: 0.6226415, a: 0}
+    - _Line_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Walls_color: {r: 0.22116414, g: 0.49029353, b: 0.6603774, a: 0}
   m_BuildTextureStacks: []

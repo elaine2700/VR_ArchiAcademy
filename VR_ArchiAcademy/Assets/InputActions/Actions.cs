@@ -62,15 +62,6 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""ScaleWorld"",
-                    ""type"": ""Button"",
-                    ""id"": ""c7f471cc-c28c-4d29-b89a-2d227a033d13"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,10 +163,36 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                     ""action"": ""Drag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Tools"",
+            ""id"": ""59c1f930-d793-4c05-8226-61a25c6caac6"",
+            ""actions"": [
+                {
+                    ""name"": ""Swaptools"",
+                    ""type"": ""Button"",
+                    ""id"": ""983d4f0c-4351-4b0c-ae49-e027936bace1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""ScaleWorld"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c17b7cf-fa27-41e9-949b-9a70c68a901a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
                     ""name"": """",
-                    ""id"": ""ccaacd0f-2727-41ea-8dc7-ff8ae42de4cc"",
+                    ""id"": ""da4252b1-978c-49a3-98da-75430bf74f90"",
                     ""path"": ""<HID::Unknown Joy-Con (R)>/button5"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -186,7 +203,7 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""806e827a-7bdc-4b41-8ede-4c556045e323"",
+                    ""id"": ""f4893d55-1778-4a08-be00-5bde99637a01"",
                     ""path"": ""<XRController>{RightHand}/gripPressed"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -197,12 +214,23 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""be8c6758-cbba-4b98-8c9b-643d2b5b5917"",
+                    ""id"": ""e8885433-1ac8-4944-bcab-17c1ae12da2a"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ScaleWorld"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4115a38-ad34-4588-b925-79a99f6eb954"",
+                    ""path"": ""<HID::Unknown Joy-Con (R)>/button6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swaptools"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -217,7 +245,10 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         m_Interaction_RotateBlock = m_Interaction.FindAction("RotateBlock", throwIfNotFound: true);
         m_Interaction_ChooseBlock = m_Interaction.FindAction("ChooseBlock", throwIfNotFound: true);
         m_Interaction_Drag = m_Interaction.FindAction("Drag", throwIfNotFound: true);
-        m_Interaction_ScaleWorld = m_Interaction.FindAction("ScaleWorld", throwIfNotFound: true);
+        // Tools
+        m_Tools = asset.FindActionMap("Tools", throwIfNotFound: true);
+        m_Tools_Swaptools = m_Tools.FindAction("Swaptools", throwIfNotFound: true);
+        m_Tools_ScaleWorld = m_Tools.FindAction("ScaleWorld", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -281,7 +312,6 @@ public partial class @Actions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Interaction_RotateBlock;
     private readonly InputAction m_Interaction_ChooseBlock;
     private readonly InputAction m_Interaction_Drag;
-    private readonly InputAction m_Interaction_ScaleWorld;
     public struct InteractionActions
     {
         private @Actions m_Wrapper;
@@ -290,7 +320,6 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         public InputAction @RotateBlock => m_Wrapper.m_Interaction_RotateBlock;
         public InputAction @ChooseBlock => m_Wrapper.m_Interaction_ChooseBlock;
         public InputAction @Drag => m_Wrapper.m_Interaction_Drag;
-        public InputAction @ScaleWorld => m_Wrapper.m_Interaction_ScaleWorld;
         public InputActionMap Get() { return m_Wrapper.m_Interaction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -312,9 +341,6 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 @Drag.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnDrag;
                 @Drag.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnDrag;
                 @Drag.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnDrag;
-                @ScaleWorld.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnScaleWorld;
-                @ScaleWorld.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnScaleWorld;
-                @ScaleWorld.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnScaleWorld;
             }
             m_Wrapper.m_InteractionActionsCallbackInterface = instance;
             if (instance != null)
@@ -331,19 +357,61 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 @Drag.started += instance.OnDrag;
                 @Drag.performed += instance.OnDrag;
                 @Drag.canceled += instance.OnDrag;
+            }
+        }
+    }
+    public InteractionActions @Interaction => new InteractionActions(this);
+
+    // Tools
+    private readonly InputActionMap m_Tools;
+    private IToolsActions m_ToolsActionsCallbackInterface;
+    private readonly InputAction m_Tools_Swaptools;
+    private readonly InputAction m_Tools_ScaleWorld;
+    public struct ToolsActions
+    {
+        private @Actions m_Wrapper;
+        public ToolsActions(@Actions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Swaptools => m_Wrapper.m_Tools_Swaptools;
+        public InputAction @ScaleWorld => m_Wrapper.m_Tools_ScaleWorld;
+        public InputActionMap Get() { return m_Wrapper.m_Tools; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ToolsActions set) { return set.Get(); }
+        public void SetCallbacks(IToolsActions instance)
+        {
+            if (m_Wrapper.m_ToolsActionsCallbackInterface != null)
+            {
+                @Swaptools.started -= m_Wrapper.m_ToolsActionsCallbackInterface.OnSwaptools;
+                @Swaptools.performed -= m_Wrapper.m_ToolsActionsCallbackInterface.OnSwaptools;
+                @Swaptools.canceled -= m_Wrapper.m_ToolsActionsCallbackInterface.OnSwaptools;
+                @ScaleWorld.started -= m_Wrapper.m_ToolsActionsCallbackInterface.OnScaleWorld;
+                @ScaleWorld.performed -= m_Wrapper.m_ToolsActionsCallbackInterface.OnScaleWorld;
+                @ScaleWorld.canceled -= m_Wrapper.m_ToolsActionsCallbackInterface.OnScaleWorld;
+            }
+            m_Wrapper.m_ToolsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Swaptools.started += instance.OnSwaptools;
+                @Swaptools.performed += instance.OnSwaptools;
+                @Swaptools.canceled += instance.OnSwaptools;
                 @ScaleWorld.started += instance.OnScaleWorld;
                 @ScaleWorld.performed += instance.OnScaleWorld;
                 @ScaleWorld.canceled += instance.OnScaleWorld;
             }
         }
     }
-    public InteractionActions @Interaction => new InteractionActions(this);
+    public ToolsActions @Tools => new ToolsActions(this);
     public interface IInteractionActions
     {
         void OnConfirm(InputAction.CallbackContext context);
         void OnRotateBlock(InputAction.CallbackContext context);
         void OnChooseBlock(InputAction.CallbackContext context);
         void OnDrag(InputAction.CallbackContext context);
+    }
+    public interface IToolsActions
+    {
+        void OnSwaptools(InputAction.CallbackContext context);
         void OnScaleWorld(InputAction.CallbackContext context);
     }
 }

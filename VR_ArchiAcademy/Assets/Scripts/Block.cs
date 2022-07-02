@@ -5,7 +5,7 @@ public class Block : MonoBehaviour
 {
     bool isPlaced = false;
     public bool IsPlaced {get {return isPlaced;}}
-    public Collider blockMaincollider;
+    public BoxCollider blockMainCollider;
     public bool snap;
     public bool isEditing = false;
 
@@ -19,7 +19,7 @@ public class Block : MonoBehaviour
     private void Awake()
     {
         previewBlock = GetComponent<PreviewBlock>();
-        blockMaincollider.enabled = true;
+        blockMainCollider.enabled = true;
         scaler = FindObjectOfType<Scaler>();
     }
 
@@ -40,7 +40,7 @@ public class Block : MonoBehaviour
         selector = FindObjectOfType<Selector>();
         //blockMaterial = GetComponentInChildren<MeshRenderer>().material;
         rotator = GetComponent<Rotate>();
-        blockMaincollider.enabled = false;
+        blockMainCollider.enabled = false;
     }
 
 
@@ -58,18 +58,19 @@ public class Block : MonoBehaviour
         }
     }
 
-    public void PlaceOnGrid(Vector3 newPos)
+    public bool PlaceOnGrid(Vector3 newPos)
     {
         Debug.Log("Placing block");
+        isPlaced = false;
         if (previewBlock.positionOk)
         {
             isPlaced = true;
             // todo test without this line.
             // transform.rotation = previewBlock.transform.rotation;
-            blockMaincollider.enabled = true;
+            
             previewBlock.ReverseOriginalMaterials();
             blockTransform.MakeBlockEditable(false);
-            
+            blockMainCollider.enabled = true;
             if (GetComponent<Blockfloor_V2>())
             {
                 toolManager.ChangeTool(2);
@@ -84,6 +85,7 @@ public class Block : MonoBehaviour
         {
             //Debug.Log("Place not available");
         }
+        return isPlaced;
     }
 
     public void SeeOnGrid(Vector3 hitPosition)

@@ -223,7 +223,7 @@ public class Blockfloor_V2 : MonoBehaviour
 
     private void UpdateCollider()
     {
-        BoxCollider boxCollider = GetComponent<Block>().blockMaincollider.GetComponent<BoxCollider>();
+        BoxCollider boxCollider = GetComponent<Block>().blockMainCollider.GetComponent<BoxCollider>();
         boxCollider.center = center;
         boxCollider.size = new Vector3(roomSize.x, 0.09f, roomSize.y);
     }

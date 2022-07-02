@@ -18,18 +18,18 @@ public class Scaler : MonoBehaviour
     private void Awake()
     {
         inputActions = new Actions();
-        inputActions.Interaction.ScaleWorld.performed += _ => NextScale();
+        inputActions.Tools.ScaleWorld.performed += _ => NextScale();
         Debug.Log("Scaler awake");
     }
 
     private void OnEnable()
     {
-        inputActions.Interaction.Enable();
+        inputActions.Tools.Enable();
     }
 
     private void OnDisable()
     {
-        inputActions.Interaction.Disable();
+        inputActions.Tools.Disable();
     }
 
     private void Start()

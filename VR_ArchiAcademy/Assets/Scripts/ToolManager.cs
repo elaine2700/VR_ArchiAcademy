@@ -20,6 +20,24 @@ public class ToolManager : MonoBehaviour
     public UnityEvent OnToolDelete;
     public UnityEvent OnToolExplore;
 
+    Actions inputActions;
+
+    private void Awake()
+    {
+        inputActions = new Actions();
+        inputActions.Tools.Swaptools.performed += _ => SwapTools();
+    }
+
+    private void OnEnable()
+    {
+        inputActions.Tools.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Tools.Disable();
+    }
+
     /// <summary>
     /// Changes the current tool used in application.
     /// Parameters can be 0 to 4. 0:select, 1:build, 2: Transform, 3:Edit, 4: delete, 5: Explore.
@@ -52,5 +70,14 @@ public class ToolManager : MonoBehaviour
         }
     }
 
+    public void SwapTools()
+    {
+        int nextToolIndex = (int)toolInUse + 1;
+        if(nextToolIndex >= 6)
+        {
+            nextToolIndex = 0;
+        }
+        ChangeTool(nextToolIndex);
+    }
 
 }

@@ -9,6 +9,7 @@ public class Selector : MonoBehaviour
     [SerializeField] GridTile gridTile;
     [SerializeField] LayerMask onSelectedMask;
     [SerializeField] LayerMask normalStateMask;
+    [SerializeField] LayerMask uiMask;
 
     public Block blockToSpawn = null; 
     public Block selectedBlock = null; 
@@ -40,12 +41,14 @@ public class Selector : MonoBehaviour
         rayController.selectEntered.RemoveListener(PlaceBlock);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         isHovering = gridTile.OnGrid();
 
         if (toolManager.toolInUse == ToolManager.ToolSelection.build)
+        {
             BuildingMode();
+        }    
         else if (toolManager.toolInUse == ToolManager.ToolSelection.transform)
             TransformingMode();
         else if (toolManager.toolInUse == ToolManager.ToolSelection.edit)
@@ -66,10 +69,17 @@ public class Selector : MonoBehaviour
     {
         Debug.Log("Entering Transform Mode");
         blockToSpawn = null;
-        if (!selectedBlock.IsPlaced)
+        if (selectedBlock != null)
         {
-            Destroy(selectedBlock.gameObject);
-            selectedBlock = null;
+            if (!selectedBlock.IsPlaced)
+            {
+                Destroy(selectedBlock.gameObject);
+                selectedBlock = null;
+            }
+        }
+        else
+        {
+            rayController.raycastMask = normalStateMask;
         }
     }
 
@@ -79,10 +89,16 @@ public class Selector : MonoBehaviour
         {
             if (!isHovering)
             {
-                selectedBlock.transform.position = transform.position + offsetBlock;
+                //selectedBlock.transform.position = transform.position + offsetBlock; not
+                // set meshrenderer disabled
+                selectedBlock.GetComponent<PreviewBlock>().meshesParent.gameObject.SetActive(false);
+                rayController.raycastMask = uiMask;
             }
             else
             {
+                selectedBlock.GetComponent<PreviewBlock>().meshesParent.gameObject.SetActive(true);
+                rayController.raycastMask = onSelectedMask;
+                // mask ground raycast
                 if (rayController.TryGetHitInfo(out hitPosition, out var hitNormals, out _, out _))
                 {
                     Vector3 rayHitPosition = hitPosition;
@@ -91,6 +107,7 @@ public class Selector : MonoBehaviour
                 }
             }
         }
+        
     }
 
     private void TransformingMode()
@@ -103,15 +120,21 @@ public class Selector : MonoBehaviour
                 {
                     // see on controller
                     selectedBlock.transform.position = transform.position + offsetBlock;
+                    rayController.raycastMask = uiMask;
                 }
                 else if (rayController.TryGetHitInfo(out hitPosition, out var hitNormals, out _, out _))
                 {
                     // see over grid
+                    rayController.raycastMask = onSelectedMask;
                     Vector3 rayHitPosition = hitPosition;
                     Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
                     selectedBlock.SeeOnGrid(blockPos);
                 }
             }
+        }
+        else
+        {
+            rayController.raycastMask = normalStateMask;
         }
     }
 
@@ -129,7 +152,7 @@ public class Selector : MonoBehaviour
     {
         Debug.Log("Selector placing block");
         //blockIsInScene = true;
-
+        
         if (selectedBlock != null)
         {
             if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
@@ -137,25 +160,27 @@ public class Selector : MonoBehaviour
                 // checks position of hit
                 Vector3 rayHitPosition = hitPosition;
                 Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
-                selectedBlock.PlaceOnGrid(blockPos);
-
-                if (selectedBlock.GetComponent<Blockfloor_V2>())
+                if (selectedBlock.PlaceOnGrid(blockPos))
                 {
-                    toolManager.ChangeTool(2);
-                    ForgetBlock();
-                }
-                else if (selectedBlock.GetComponent<BlockWall>() || selectedBlock.GetComponent<BlockFurniture>())
-                {
-                    // check if available to place multiple objects. and keep in building mode if in building mode
-                    if(toolManager.toolInUse == ToolManager.ToolSelection.build)
+                    if (selectedBlock.GetComponent<Blockfloor_V2>())
                     {
-                        ChooseBlock(blockToSpawn, false);
-                    }
-                    if(toolManager.toolInUse == ToolManager.ToolSelection.transform)
-                    {
+                        toolManager.ChangeTool(2);
                         ForgetBlock();
                     }
+                    else if (selectedBlock.GetComponent<BlockWall>() || selectedBlock.GetComponent<BlockFurniture>())
+                    {
+                        // check if available to place multiple objects. and keep in building mode if in building mode
+                        if (toolManager.toolInUse == ToolManager.ToolSelection.build)
+                        {
+                            ChooseBlock(selectedBlock, false);
+                        }
+                        if (toolManager.toolInUse == ToolManager.ToolSelection.transform)
+                        {
+                            ForgetBlock();
+                        }
+                    }
                 }
+                
             }
         }
     }
@@ -173,8 +198,8 @@ public class Selector : MonoBehaviour
         {
             Destroy(selectedBlock.gameObject);
         }
-        blockToSpawn = newBlockReference;
-        ChooseBlock(blockToSpawn, false);
+        //blockToSpawn = newBlockReference;
+        ChooseBlock(newBlockReference, false);
     }
     
     public void ChooseBlock(Block chosenBlock, bool isInScene)
@@ -183,18 +208,18 @@ public class Selector : MonoBehaviour
         if (isInScene)
         {
             selectedBlock = chosenBlock;
-            blockToSpawn = null;
+            //blockToSpawn = null;
             
         }
         else
         {
-            blockToSpawn = chosenBlock;
-            selectedBlock = Instantiate(blockToSpawn);
+            //blockToSpawn = chosenBlock;
+            selectedBlock = Instantiate(chosenBlock);
         }
         selectedBlock.GetComponent<TransformBlock>().MakeBlockEditable(true);
-        if (chosenBlock.blockMaincollider != null && selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
+        if (selectedBlock.blockMainCollider != null && selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
         {
-            chosenBlock.blockMaincollider.enabled = false;
+            chosenBlock.blockMainCollider.enabled = false;
         }
         rayController.raycastMask = onSelectedMask;
     }
