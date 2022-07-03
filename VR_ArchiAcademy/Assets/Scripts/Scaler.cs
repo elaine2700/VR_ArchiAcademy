@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class Scaler : MonoBehaviour
 {
     [SerializeField] int currentScale = 1;
+    public int CurrentScaleInverse { get { return currentScale; } }
     public List<int> scaleOptions = new List<int>();
 
     int indexCurrentScale = 0;

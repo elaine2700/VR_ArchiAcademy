@@ -647,7 +647,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentWorld: {fileID: 7163927537518333556}
   scaler: {fileID: 8510675013555510267}
-  gridMaterialSettings: []
+  gridMaterialSettings:
+  - {fileID: 11400000, guid: c44cebe41474f42fbba7cd52d2d04bd9, type: 2}
+  - {fileID: 11400000, guid: 9d824317c23ca4e17babf6ae6f6b1c85, type: 2}
+  - {fileID: 11400000, guid: 18c122f939cd54c2cbf5aeec9423761d, type: 2}
+  - {fileID: 11400000, guid: b932d1dc45cba4960a8aa89191e4dff1, type: 2}
+  - {fileID: 11400000, guid: 76ed4f1ec7a3a4269bee99c51c988fef, type: 2}
+  - {fileID: 11400000, guid: 208efe5f71e174712b727e5d3fd7fbcd, type: 2}
+  - {fileID: 11400000, guid: 74d68181007104e4ea097d2385fd5f46, type: 2}
+  - {fileID: 11400000, guid: 74e54b4b39bb1466d924e3b13531ec6c, type: 2}
+  - {fileID: 11400000, guid: fe973b922193f4873a45672a280d22b8, type: 2}
   gridMinUnit: {x: 1, y: 1}
 --- !u!114 &7964717481477162412
 MonoBehaviour:

@@ -31,14 +31,16 @@ public class Selector : MonoBehaviour
     {
         toolManager.OnToolBuild.AddListener(EnterBuildMode);
         toolManager.OnToolTransform.AddListener(EnterTransformMode);
-        rayController.selectEntered.AddListener(PlaceBlock);
+        rayController.selectExited.AddListener(PlaceBlock);
+        rayController.selectEntered.AddListener(RepositionBlock);
     }
 
     private void OnDisable()
     {
         toolManager.OnToolBuild.RemoveListener(EnterBuildMode);
         toolManager.OnToolTransform.RemoveListener(EnterTransformMode);
-        rayController.selectEntered.RemoveListener(PlaceBlock);
+        rayController.selectExited.RemoveListener(PlaceBlock);
+        rayController.selectEntered.RemoveListener(RepositionBlock);
     }
 
     private void FixedUpdate()
@@ -46,9 +48,7 @@ public class Selector : MonoBehaviour
         isHovering = gridTile.OnGrid();
 
         if (toolManager.toolInUse == ToolManager.ToolSelection.build)
-        {
-            BuildingMode();
-        }    
+            BuildingMode();   
         else if (toolManager.toolInUse == ToolManager.ToolSelection.transform)
             TransformingMode();
         else if (toolManager.toolInUse == ToolManager.ToolSelection.edit)
@@ -75,6 +75,7 @@ public class Selector : MonoBehaviour
             {
                 Destroy(selectedBlock.gameObject);
                 selectedBlock = null;
+                rayController.raycastMask = normalStateMask;
             }
         }
         else
@@ -107,7 +108,6 @@ public class Selector : MonoBehaviour
                 }
             }
         }
-        
     }
 
     private void TransformingMode()
@@ -119,16 +119,23 @@ public class Selector : MonoBehaviour
                 if (!isHovering)
                 {
                     // see on controller
-                    selectedBlock.transform.position = transform.position + offsetBlock;
+                    selectedBlock.GetComponent<PreviewBlock>().meshesParent.gameObject.SetActive(false);
+                    //selectedBlock.transform.position = transform.position + offsetBlock;
                     rayController.raycastMask = uiMask;
                 }
-                else if (rayController.TryGetHitInfo(out hitPosition, out var hitNormals, out _, out _))
+                else
                 {
-                    // see over grid
+
+                    selectedBlock.GetComponent<PreviewBlock>().meshesParent.gameObject.SetActive(true);
                     rayController.raycastMask = onSelectedMask;
-                    Vector3 rayHitPosition = hitPosition;
-                    Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
-                    selectedBlock.SeeOnGrid(blockPos);
+                    if (rayController.TryGetHitInfo(out hitPosition, out var hitNormals, out _, out _))
+                    {
+                        // see over grid
+                        //rayController.raycastMask = onSelectedMask;
+                        Vector3 rayHitPosition = hitPosition;
+                        Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
+                        selectedBlock.SeeOnGrid(blockPos);
+                    }
                 }
             }
         }
@@ -148,11 +155,24 @@ public class Selector : MonoBehaviour
 
     }
 
-    public void PlaceBlock(SelectEnterEventArgs args)
+    private void PlaceBlock(SelectExitEventArgs args)
     {
+        if (toolManager.toolInUse != ToolManager.ToolSelection.build)
+            return;
         Debug.Log("Selector placing block");
-        //blockIsInScene = true;
-        
+        PositionBlock();
+    }
+
+    private void RepositionBlock(SelectEnterEventArgs args)
+    {
+        if (toolManager.toolInUse != ToolManager.ToolSelection.transform)
+            return;
+        Debug.Log("Selector repositioning block");
+        PositionBlock();
+    }
+
+    private void PositionBlock()
+    {
         if (selectedBlock != null)
         {
             if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
@@ -162,6 +182,7 @@ public class Selector : MonoBehaviour
                 Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
                 if (selectedBlock.PlaceOnGrid(blockPos))
                 {
+                    selectedBlock.blockMainCollider.enabled = true;
                     if (selectedBlock.GetComponent<Blockfloor_V2>())
                     {
                         toolManager.ChangeTool(2);
@@ -180,7 +201,7 @@ public class Selector : MonoBehaviour
                         }
                     }
                 }
-                
+
             }
         }
     }
@@ -214,12 +235,13 @@ public class Selector : MonoBehaviour
         else
         {
             //blockToSpawn = chosenBlock;
-            selectedBlock = Instantiate(chosenBlock);
+            Vector3 spawnPos = transform.position + offsetBlock;
+            selectedBlock = Instantiate(chosenBlock, spawnPos, Quaternion.identity);
         }
         selectedBlock.GetComponent<TransformBlock>().MakeBlockEditable(true);
         if (selectedBlock.blockMainCollider != null && selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
         {
-            chosenBlock.blockMainCollider.enabled = false;
+            selectedBlock.blockMainCollider.enabled = false;
         }
         rayController.raycastMask = onSelectedMask;
     }

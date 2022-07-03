@@ -54,6 +54,10 @@ public class GridTile : MonoBehaviour
         {
             onGrid = true;
         }
+        else
+        {
+            onGrid = false;
+        }
         return onGrid;
     }
 

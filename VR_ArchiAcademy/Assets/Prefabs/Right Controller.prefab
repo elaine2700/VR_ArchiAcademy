@@ -179,7 +179,7 @@ MonoBehaviour:
         m_MethodName: ChangeToolPicture
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 21300000, guid: 122da99a22feb4f96865f9d7d6ac7f42, type: 3}
+          m_ObjectArgument: {fileID: 21300000, guid: 2efa5d95e48a8464187340cbd2fcc312, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -254,7 +254,7 @@ MonoBehaviour:
         m_MethodName: ChangeToolPicture
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 21300000, guid: b9298512c9ec14b7eb2e094873ceb016, type: 3}
+          m_ObjectArgument: {fileID: 21300000, guid: 4e1a41ea9f874452d858f575c3f91265, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -477,6 +477,30 @@ PrefabInstance:
     - target: {fileID: 369867195044820910, guid: 1b7a927d24a574a27a9dd1cdbba1c29c, type: 3}
       propertyPath: m_Name
       value: Tools Pictures
+      objectReference: {fileID: 0}
+    - target: {fileID: 863847056298985940, guid: 1b7a927d24a574a27a9dd1cdbba1c29c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2efa5d95e48a8464187340cbd2fcc312, type: 3}
+    - target: {fileID: 4919700316961518164, guid: 1b7a927d24a574a27a9dd1cdbba1c29c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919700316961518164, guid: 1b7a927d24a574a27a9dd1cdbba1c29c, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919700316961518164, guid: 1b7a927d24a574a27a9dd1cdbba1c29c, type: 3}
+      propertyPath: m_Color.b
+      value: 0.13968495
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919700316961518164, guid: 1b7a927d24a574a27a9dd1cdbba1c29c, type: 3}
+      propertyPath: m_Color.g
+      value: 0.26934797
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919700316961518164, guid: 1b7a927d24a574a27a9dd1cdbba1c29c, type: 3}
+      propertyPath: m_Color.r
+      value: 0.4056604
       objectReference: {fileID: 0}
     - target: {fileID: 7946706468644400124, guid: 1b7a927d24a574a27a9dd1cdbba1c29c, type: 3}
       propertyPath: m_Pivot.x
