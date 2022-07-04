@@ -29,16 +29,25 @@ public class Selector : MonoBehaviour
 
     private void OnEnable()
     {
+        toolManager.OnToolSelect.AddListener(EnterSelectMode);
         toolManager.OnToolBuild.AddListener(EnterBuildMode);
         toolManager.OnToolTransform.AddListener(EnterTransformMode);
+        toolManager.OnToolDelete.AddListener(EnterDeleteMode);
+        toolManager.OnToolEdit.AddListener(EnterEditMode);
+
         rayController.selectExited.AddListener(PlaceBlock);
         rayController.selectEntered.AddListener(RepositionBlock);
+
     }
 
     private void OnDisable()
     {
+        toolManager.OnToolSelect.RemoveListener(EnterSelectMode);
         toolManager.OnToolBuild.RemoveListener(EnterBuildMode);
         toolManager.OnToolTransform.RemoveListener(EnterTransformMode);
+        toolManager.OnToolDelete.RemoveListener(EnterDeleteMode);
+        toolManager.OnToolEdit.RemoveListener(EnterEditMode);
+
         rayController.selectExited.RemoveListener(PlaceBlock);
         rayController.selectEntered.RemoveListener(RepositionBlock);
     }
@@ -52,12 +61,17 @@ public class Selector : MonoBehaviour
         else if (toolManager.toolInUse == ToolManager.ToolSelection.transform)
             TransformingMode();
         else if (toolManager.toolInUse == ToolManager.ToolSelection.edit)
-            EditMode();
+            EnterEditMode();
         else if (toolManager.toolInUse == ToolManager.ToolSelection.delete)
             DeleteBlocks();
         else
-            SelectMode();
-        
+            EnterSelectMode();
+
+        /*if (isHovering)
+        {
+            rayController.TryGetCurrent3DRaycastHit(out var raycastHit);
+            Debug.Log(raycastHit.collider.name);
+        }*/
     }
 
     private void EnterBuildMode()
@@ -82,6 +96,21 @@ public class Selector : MonoBehaviour
         {
             rayController.raycastMask = normalStateMask;
         }
+    }
+
+    private void EnterEditMode()
+    {
+        rayController.raycastMask = normalStateMask;
+    }
+
+    private void EnterSelectMode()
+    {
+        rayController.raycastMask = normalStateMask;
+    }
+
+    private void EnterDeleteMode()
+    {
+        rayController.raycastMask = normalStateMask;
     }
 
     private void BuildingMode()
@@ -145,15 +174,6 @@ public class Selector : MonoBehaviour
         }
     }
 
-    private void EditMode()
-    {
-
-    }
-
-    private void SelectMode()
-    {
-
-    }
 
     private void PlaceBlock(SelectExitEventArgs args)
     {

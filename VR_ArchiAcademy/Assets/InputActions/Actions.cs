@@ -204,18 +204,7 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f4893d55-1778-4a08-be00-5bde99637a01"",
-                    ""path"": ""<XRController>{RightHand}/gripPressed"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ScaleWorld"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e8885433-1ac8-4944-bcab-17c1ae12da2a"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": ""<XRController>{LeftHand}/triggerPressed"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -227,6 +216,17 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""f4115a38-ad34-4588-b925-79a99f6eb954"",
                     ""path"": ""<HID::Unknown Joy-Con (R)>/button6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swaptools"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0c6a03b-8772-45c1-85b8-c49deefa17df"",
+                    ""path"": ""<XRController>{RightHand}/gripPressed"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

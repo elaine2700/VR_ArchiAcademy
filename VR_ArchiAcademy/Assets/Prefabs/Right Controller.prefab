@@ -152,7 +152,7 @@ MonoBehaviour:
     m_Bits: 65
   normalStateMask:
     serializedVersion: 2
-    m_Bits: 961
+    m_Bits: 993
   uiMask:
     serializedVersion: 2
     m_Bits: 96

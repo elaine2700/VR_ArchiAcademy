@@ -157,7 +157,7 @@ public class Blockfloor_V2 : MonoBehaviour
                 // set position or local position. first position starts at handlewest pos.x + adjustment.
                 float posX = handleWest.transform.position.x + x + 0.5f;
                 float posZ = handleNorth.transform.position.z - y - 0.5f;
-                newUnit.transform.position = new Vector3(posX, 0.05f, posZ);
+                newUnit.transform.position = new Vector3(posX, 0f, posZ);
                 unitFloorTiles.Add(newUnit.gameObject);
 
             }

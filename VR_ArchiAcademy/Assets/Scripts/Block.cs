@@ -111,7 +111,8 @@ public class Block : MonoBehaviour
 
     private void UpdateScale()
     {
-        transform.localScale *= scaler.ModelScale;
+        //float newScale = scaler.ModelScale;
+        //transform.localScale = new Vector3(newScale, newScale, newScale);
     }
 
 }
