@@ -24,7 +24,7 @@ public class Blockfloor_V2 : MonoBehaviour
     Handle handleWest;
 
     GridLayers gridLayers;
-    AreaType areaType;
+    RoomType areaType;
     TransformBlock blockTransform;
     BlocksTracker blocksTracker;
     XRSimpleInteractable baseInteractable;
@@ -52,10 +52,11 @@ public class Blockfloor_V2 : MonoBehaviour
         gridLayers = FindObjectOfType<GridLayers>();
         transform.parent = gridLayers.ParentToCurrentLayer(1).transform;
 
-        areaType = FindObjectOfType<AreaType>();
+        areaType = FindObjectOfType<RoomType>();
+        nameField.text = areaType.area;
+
         blockTransform = GetComponent<TransformBlock>();
         previewBlock = GetComponent<PreviewBlock>();
-
         SetHandles();
         blockTransform.MakeBlockEditable(false);
         ShowHandles(false);

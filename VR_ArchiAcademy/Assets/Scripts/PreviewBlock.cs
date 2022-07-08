@@ -133,7 +133,6 @@ public class PreviewBlock : MonoBehaviour
             ReverseOriginalMaterials();
     }
 
-
     public void ReverseOriginalMaterials()
     {
         if(meshesWithMaterials.Count >= 1)

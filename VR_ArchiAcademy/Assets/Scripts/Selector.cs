@@ -37,7 +37,7 @@ public class Selector : MonoBehaviour
 
         rayController.selectExited.AddListener(PlaceBlock);
         rayController.selectEntered.AddListener(RepositionBlock);
-
+        //rayController.selectEntered.AddListener(DeleteBlocks);
     }
 
     private void OnDisable()
@@ -49,10 +49,10 @@ public class Selector : MonoBehaviour
         toolManager.OnToolEdit.RemoveListener(EnterEditMode);
 
         rayController.selectExited.RemoveListener(PlaceBlock);
-        rayController.selectEntered.RemoveListener(RepositionBlock);
+        rayController.selectEntered.RemoveAllListeners();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         isHovering = gridTile.OnGrid();
 
@@ -60,10 +60,6 @@ public class Selector : MonoBehaviour
             BuildingMode();   
         else if (toolManager.toolInUse == ToolManager.ToolSelection.transform)
             TransformingMode();
-        else if (toolManager.toolInUse == ToolManager.ToolSelection.edit)
-            EnterEditMode();
-        else if (toolManager.toolInUse == ToolManager.ToolSelection.delete)
-            DeleteBlocks();
         else
             EnterSelectMode();
 
@@ -88,14 +84,10 @@ public class Selector : MonoBehaviour
             if (!selectedBlock.IsPlaced)
             {
                 Destroy(selectedBlock.gameObject);
-                selectedBlock = null;
-                rayController.raycastMask = normalStateMask;
+                selectedBlock = null; 
             }
         }
-        else
-        {
-            rayController.raycastMask = normalStateMask;
-        }
+        rayController.raycastMask = normalStateMask;
     }
 
     private void EnterEditMode()
@@ -110,6 +102,7 @@ public class Selector : MonoBehaviour
 
     private void EnterDeleteMode()
     {
+        selectedBlock = null;
         rayController.raycastMask = normalStateMask;
     }
 
@@ -177,9 +170,6 @@ public class Selector : MonoBehaviour
 
     private void PlaceBlock(SelectExitEventArgs args)
     {
-        if (toolManager.toolInUse != ToolManager.ToolSelection.build)
-            return;
-        Debug.Log("Selector placing block");
         PositionBlock();
     }
 
@@ -195,6 +185,10 @@ public class Selector : MonoBehaviour
     {
         if (selectedBlock != null)
         {
+            if(toolManager.toolInUse == ToolManager.ToolSelection.edit)
+            {
+                selectedBlock.blockMainCollider.enabled = true;
+            }
             if (rayController.TryGetHitInfo(out hitPosition, out _, out _, out _))
             {
                 // checks position of hit
@@ -250,7 +244,6 @@ public class Selector : MonoBehaviour
         {
             selectedBlock = chosenBlock;
             //blockToSpawn = null;
-            
         }
         else
         {
@@ -259,20 +252,19 @@ public class Selector : MonoBehaviour
             selectedBlock = Instantiate(chosenBlock, spawnPos, Quaternion.identity);
         }
         selectedBlock.GetComponent<TransformBlock>().MakeBlockEditable(true);
-        if (selectedBlock.blockMainCollider != null && selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
+        if (selectedBlock.blockMainCollider != null) //&& selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
         {
             selectedBlock.blockMainCollider.enabled = false;
         }
         rayController.raycastMask = onSelectedMask;
     }
 
-    private void DeleteBlocks()
+    private void DeleteBlocks(SelectEnterEventArgs args)
     {
-        if (selectedBlock != null)
+        if(toolManager.toolInUse == ToolManager.ToolSelection.delete)
         {
             selectedBlock.Delete();
-            selectedBlock = null;
-        }
+            EnterDeleteMode();
+        }    
     }
-
 }

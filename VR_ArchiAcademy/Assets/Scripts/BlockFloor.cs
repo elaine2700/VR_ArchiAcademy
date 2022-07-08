@@ -15,7 +15,7 @@ public class BlockFloor : MonoBehaviour
     Handle handleWest;
 
     XRBaseInteractable xRBaseInteractable;
-    AreaType areaType;
+    RoomType areaType;
     Block block;
     BlocksTracker areaManager;
     TransformBlock blockTransform;
@@ -37,7 +37,7 @@ public class BlockFloor : MonoBehaviour
         GenerateMeshData();
         CreateMesh();
         blockTransform = FindObjectOfType<TransformBlock>();
-        areaType = FindObjectOfType<AreaType>();
+        areaType = FindObjectOfType<RoomType>();
         areaManager = FindObjectOfType<BlocksTracker>();
         //areaManager.AddAreaToList(this);
         block = GetComponent<Block>();

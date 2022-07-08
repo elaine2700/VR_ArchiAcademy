@@ -43,8 +43,6 @@ public class Block : MonoBehaviour
         blockMainCollider.enabled = false;
     }
 
-
-
     private void Update()
     {
         if (toolManager.toolInUse == ToolManager.ToolSelection.build || toolManager.toolInUse == ToolManager.ToolSelection.transform)
@@ -65,20 +63,14 @@ public class Block : MonoBehaviour
         if (previewBlock.positionOk)
         {
             isPlaced = true;
-            // todo test without this line.
-            // transform.rotation = previewBlock.transform.rotation;
-            
+            blockMainCollider.enabled = true;
             previewBlock.ReverseOriginalMaterials();
             blockTransform.MakeBlockEditable(false);
-            blockMainCollider.enabled = true;
+            
             if (GetComponent<Blockfloor_V2>())
             {
                 toolManager.ChangeTool(2);
                 EditBlock();
-            }
-            else
-            {
-                //selector.DeselectBlock();
             }
         }
         else
@@ -94,17 +86,36 @@ public class Block : MonoBehaviour
         previewBlock.CheckPosition(hitPosition);
     }
 
-    public void EditBlock()
+    private void EditBlock()
     {
         // function called from XR event.
-        Debug.Log("editing block");
-        GetComponent<TransformBlock>().MakeBlockEditable(true);
-        selector.ChooseBlock(this, true);
+        //if(toolManager.toolInUse == ToolManager.ToolSelection.transform)
+        //{
+            Debug.Log("editing block");
+            GetComponent<TransformBlock>().MakeBlockEditable(true);
+            selector.ChooseBlock(this, true);
+        //}
+    }
+
+    public void InteractWithBlock()
+    {
+        EditBlock();
+        if(toolManager.toolInUse == ToolManager.ToolSelection.delete)
+        {
+            Delete();
+        }
+        blockMainCollider.enabled = true;
     }
 
     public void Delete()
     {
-        Destroy(gameObject);
+
+        if (toolManager.toolInUse != ToolManager.ToolSelection.delete)
+            return;
+        Debug.Log("deleting block");
+        //selector.ChooseBlock(this, true);
+        Destroy(this.gameObject);
+        
         // todo particle systems maybe
         // todo audio
     }

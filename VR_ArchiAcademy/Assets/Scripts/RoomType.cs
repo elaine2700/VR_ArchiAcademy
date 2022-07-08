@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class AreaType : MonoBehaviour
+public class RoomType : MonoBehaviour
 {
     [SerializeField] RectTransform areaLabel;
     [SerializeField] RectTransform contentLabel;
@@ -10,7 +10,7 @@ public class AreaType : MonoBehaviour
     public string area;
 
     int indexList;
-
+    
     public void GetAreaType()
     {
         indexList = GetComponent<TMP_Dropdown>().value;
@@ -22,16 +22,12 @@ public class AreaType : MonoBehaviour
     {
         if(area == null)
         {
-            Debug.Log("Choose an area type");
+            Debug.LogError("Choose an area type");
             return false;
         }
 
-        Debug.Log("Instantiating label");
         var newAreaLabel = Instantiate(areaLabel, contentLabel.transform);
-        Debug.Log(newAreaLabel.transform.parent);
-        Debug.Log(newAreaLabel.transform.position);
         newAreaLabel.GetComponentInChildren<TextMeshProUGUI>().text = area;
-        //ResetOptions();
         return true;
     }
 

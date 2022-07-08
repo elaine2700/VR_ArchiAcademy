@@ -254,21 +254,9 @@ MonoBehaviour:
   m_SelectEntered:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6327796123465099007}
-        m_TargetAssemblyTypeName: PreviewBlock, Assembly-CSharp
-        m_MethodName: SelectingBlock
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 2069916901384302416}
         m_TargetAssemblyTypeName: Block, Assembly-CSharp
-        m_MethodName: EditBlock
+        m_MethodName: InteractWithBlock
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -280,7 +268,19 @@ MonoBehaviour:
         m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2069916901384302416}
+        m_TargetAssemblyTypeName: Block, Assembly-CSharp
+        m_MethodName: InteractWithBlock
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_Activated:
     m_PersistentCalls:
       m_Calls: []
@@ -429,6 +429,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
+--- !u!1 &3693733625936043919 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
+  m_PrefabInstance: {fileID: 4576694028541125342}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4037784401019733301 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
@@ -439,3 +444,15 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
   m_PrefabInstance: {fileID: 4576694028541125342}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5560096475988013474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693733625936043919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b316394e33cd25641a338e87d4792ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -201,6 +201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6870611730829575962}
   - component: {fileID: 6870611730829575963}
+  - component: {fileID: 7609493015085426242}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -241,6 +242,20 @@ MonoBehaviour:
   m_CameraFloorOffsetObject: {fileID: 6870611731205907011}
   m_RequestedTrackingOriginMode: 2
   m_CameraYOffset: 1.1176
+--- !u!114 &7609493015085426242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6870611730829575964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017c5e3933235514c9520e1dace2a4b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ActionAssets:
+  - {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &6870611731205907011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +1026,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_InteractionLayers:
     m_Bits: 4294967295
-  m_AttachTransform: {fileID: 0}
+  m_AttachTransform: {fileID: 2193860764002430722}
   m_KeepSelectedTargetValid: 1
   m_StartingSelectedInteractable: {fileID: 0}
   m_HoverEntered:
@@ -1107,8 +1122,8 @@ MonoBehaviour:
   m_HoverToSelect: 0
   m_HoverTimeToSelect: 0.5
   m_EnableUIInteraction: 1
-  m_AllowAnchorControl: 1
-  m_UseForceGrab: 1
+  m_AllowAnchorControl: 0
+  m_UseForceGrab: 0
   m_RotateSpeed: 180
   m_TranslateSpeed: 1
   m_AnchorRotateReferenceFrame: {fileID: 0}
@@ -1492,6 +1507,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftController
       objectReference: {fileID: 0}
+    - target: {fileID: 6411490283717391254, guid: 78ce64ead11ad46b08ab7f10acf3ce10, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78ce64ead11ad46b08ab7f10acf3ce10, type: 3}
 --- !u!4 &888537873596895104 stripped
@@ -1626,8 +1645,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4695979297795564448, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.075
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695979297795564448, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.075
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695979297795564448, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.075
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695979297795564448, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.118
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695979297795564448, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.194
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695979297795564449, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
+--- !u!4 &2193860763490316245 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4695979296193815415, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
+  m_PrefabInstance: {fileID: 6870611731416698018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2193860763490316242 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4695979296193815408, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
@@ -1639,9 +1687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c6de8b1b93b4ee29ab393f98e87d7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &2193860763490316245 stripped
+--- !u!4 &2193860764002430722 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4695979296193815415, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4695979297795564448, guid: 5488116e101ff4ab3babe56dc6286475, type: 3}
   m_PrefabInstance: {fileID: 6870611731416698018}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &6836263786274161648 stripped
@@ -2198,6 +2246,14 @@ PrefabInstance:
       propertyPath: onTabSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6843580589351843399, guid: 66e38e22dc9e049f9b4dcf2d96fa9d7b, type: 3}
+      propertyPath: m_Size
+      value: 0.280803
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843580589351843399, guid: 66e38e22dc9e049f9b4dcf2d96fa9d7b, type: 3}
+      propertyPath: m_Value
+      value: 0.9999829
+      objectReference: {fileID: 0}
     - target: {fileID: 6977880401388171620, guid: 66e38e22dc9e049f9b4dcf2d96fa9d7b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2224,7 +2280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7212032841180881517, guid: 66e38e22dc9e049f9b4dcf2d96fa9d7b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.0004005219
+      value: 0.000035320536
       objectReference: {fileID: 0}
     - target: {fileID: 7301059046947699931, guid: 66e38e22dc9e049f9b4dcf2d96fa9d7b, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2285,6 +2341,10 @@ PrefabInstance:
     - target: {fileID: 7812046286917814365, guid: 66e38e22dc9e049f9b4dcf2d96fa9d7b, type: 3}
       propertyPath: onTabSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8010810753638662934, guid: 66e38e22dc9e049f9b4dcf2d96fa9d7b, type: 3}
+      propertyPath: m_Size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8663320364118564685, guid: 66e38e22dc9e049f9b4dcf2d96fa9d7b, type: 3}
       propertyPath: blockPrefab
