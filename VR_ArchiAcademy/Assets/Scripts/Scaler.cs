@@ -20,7 +20,7 @@ public class Scaler : MonoBehaviour
     {
         inputActions = new Actions();
         inputActions.Tools.ScaleWorld.performed += _ => NextScale();
-        Debug.Log("Scaler awake");
+        //Debug.Log("Scaler awake");
     }
 
     private void OnEnable()

@@ -7,7 +7,6 @@ public class PreviewBlock : MonoBehaviour
     [SerializeField] Vector3 adjustments;
     [SerializeField] ThemeSettings themeSettings;
     [SerializeField] Material originalMaterial;
-    [SerializeField] LayerMask findOverlapMask;
     public Transform meshesParent;
 
     Scaler scaler;
@@ -47,7 +46,7 @@ public class PreviewBlock : MonoBehaviour
         transform.position = adjustments + position;
     }
 
-    private void ShowOverlap(bool okPos)
+    public void ShowOverlap(bool okPos)
     {
         positionOk = okPos;
         if (positionOk)
@@ -74,38 +73,6 @@ public class PreviewBlock : MonoBehaviour
     public void ChangingMaterial(Material newMaterial, Renderer currentRenderer)
     {
         currentRenderer.material = newMaterial;
-    }
-
-    public void CheckPosition(Vector3 placePosition)
-    {
-        //Use the OverlapBox to detect if there are any other colliders within this box area.
-        //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
-        //Vector3 centerPiece = new Vector3(placePosition.x, wallMeshRef.transform.position.y, placePosition.z);
-        //Vector3 objectCenter = new Vector3(1,1,1);
-        Vector3 centerPiece = new Vector3(transform.position.x + blockCenter.x,
-            transform.position.y + (blockSize.y / 2),
-            transform.position.z + blockCenter.z);
-
-        Vector3 halfSizeOverlapBox = (blockSize / 2);
-        //Check when there is a new collider coming into contact with the box
-        for (int i = 0; i < 2; i++)
-        {
-            Collider[] hitColliders = Physics.OverlapBox(centerPiece, halfSizeOverlapBox, transform.rotation, findOverlapMask);
-            bool isPlaceable = hitColliders.Length == 0;
-            ShowOverlap(isPlaceable);
-            if (isPlaceable)
-                break;
-        }
-    }
-
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Vector3 centerPiece = new Vector3(transform.position.x + blockCenter.x,
-            transform.position.y + (blockSize.y/2),
-            transform.position.z + blockCenter.z);
-        Gizmos.DrawWireCube(centerPiece, blockSize);
     }
 
     // to use on blockFloor

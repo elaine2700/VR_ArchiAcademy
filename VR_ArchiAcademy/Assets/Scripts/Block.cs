@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    [SerializeField] OverlapFinder overlapFinder;
+
     bool isPlaced = false;
     public bool IsPlaced {get {return isPlaced;}}
     public BoxCollider blockMainCollider;
@@ -60,12 +62,13 @@ public class Block : MonoBehaviour
     {
         Debug.Log("Placing block");
         isPlaced = false;
-        if (previewBlock.positionOk)
+        if (overlapFinder.FindAvailablePosition())
         {
             isPlaced = true;
+            Debug.Log("Enabling collider");
             blockMainCollider.enabled = true;
-            previewBlock.ReverseOriginalMaterials();
             blockTransform.MakeBlockEditable(false);
+            previewBlock.ReverseOriginalMaterials();
             
             if (GetComponent<Blockfloor_V2>())
             {
@@ -83,7 +86,8 @@ public class Block : MonoBehaviour
     public void SeeOnGrid(Vector3 hitPosition)
     {
         previewBlock.AdjustPosition(hitPosition);
-        previewBlock.CheckPosition(hitPosition);
+        previewBlock.ShowOverlap(overlapFinder.FindAvailablePosition());
+        //overlapFinder.FindOverlaps();
     }
 
     private void EditBlock()
@@ -93,7 +97,7 @@ public class Block : MonoBehaviour
         //{
             Debug.Log("editing block");
             GetComponent<TransformBlock>().MakeBlockEditable(true);
-            selector.ChooseBlock(this, true);
+            selector.SelectBlock(this, true);
         //}
     }
 
@@ -104,7 +108,7 @@ public class Block : MonoBehaviour
         {
             Delete();
         }
-        blockMainCollider.enabled = true;
+        blockMainCollider.enabled = false;
     }
 
     public void Delete()

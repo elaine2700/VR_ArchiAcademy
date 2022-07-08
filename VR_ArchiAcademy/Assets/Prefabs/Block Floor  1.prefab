@@ -193,6 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dede8063c654c432cb8a7c13f351f74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overlapFinder: {fileID: 8020555803837283782}
   blockMainCollider: {fileID: 3650599200477883998}
   snap: 1
   isEditing: 0
@@ -211,9 +212,6 @@ MonoBehaviour:
   adjustments: {x: 0.5, y: 0, z: 0.5}
   themeSettings: {fileID: 11400000, guid: 704a56bcff8e443f090f6d1a39ed99b6, type: 2}
   originalMaterial: {fileID: 2100000, guid: e29b9fd5b052344599bd8838f6676169, type: 2}
-  findOverlapMask:
-    serializedVersion: 2
-    m_Bits: 896
   meshesParent: {fileID: 6661965810747441623}
   positionOk: 0
   meshesWithMaterials:
@@ -456,6 +454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6661965810747441623}
   - component: {fileID: 3650599200477883998}
+  - component: {fileID: 8020555803837283782}
   m_Layer: 7
   m_Name: Units
   m_TagString: Untagged
@@ -491,6 +490,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.08, z: 1}
   m_Center: {x: 0, y: 0.05, z: 0}
+--- !u!114 &8020555803837283782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8817545477542082161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b316394e33cd25641a338e87d4792ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectSize: {x: 1, y: 0.1, z: 1}
+  findOverlapMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &3448521015121908122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -742,11 +757,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a96a298baed874631872aa308c7bc0d8, type: 3}
---- !u!4 &8300242263448499335 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6695719921563814186, guid: a96a298baed874631872aa308c7bc0d8, type: 3}
-  m_PrefabInstance: {fileID: 3448521015726538157}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8300242263448499338 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6695719921563814183, guid: a96a298baed874631872aa308c7bc0d8, type: 3}
@@ -758,6 +768,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eee304ed1e8d48b8bf8e982ace0dc76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &8300242263448499335 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6695719921563814186, guid: a96a298baed874631872aa308c7bc0d8, type: 3}
+  m_PrefabInstance: {fileID: 3448521015726538157}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7064099590415959558
 PrefabInstance:
   m_ObjectHideFlags: 0

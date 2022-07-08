@@ -6,12 +6,11 @@ public class BlockButton : MonoBehaviour
     [SerializeField] Block blockPrefab;
 
     Selector selector;
-    RoomType areaType;
 
     private void Awake()
     {
         selector = FindObjectOfType<Selector>();
-        areaType = FindObjectOfType<RoomType>();
+        //areaType = FindObjectOfType<RoomType>();
     }
 
     private void OnEnable()

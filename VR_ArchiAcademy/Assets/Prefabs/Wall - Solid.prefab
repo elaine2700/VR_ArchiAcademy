@@ -112,7 +112,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8373489908958488203}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dede8063c654c432cb8a7c13f351f74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overlapFinder: {fileID: 5560096475988013474}
   blockMainCollider: {fileID: 3292545421346063476}
   snap: 1
   isEditing: 0
@@ -151,9 +152,6 @@ MonoBehaviour:
   adjustments: {x: 0, y: 0, z: 0}
   themeSettings: {fileID: 11400000, guid: 704a56bcff8e443f090f6d1a39ed99b6, type: 2}
   originalMaterial: {fileID: 2100000, guid: e29b9fd5b052344599bd8838f6676169, type: 2}
-  findOverlapMask:
-    serializedVersion: 2
-    m_Bits: 769
   meshesParent: {fileID: 4037784401019733301}
   positionOk: 0
   meshesWithMaterials:
@@ -393,11 +391,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 846a7bb7ff72c4647b126248a41d1676, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -456,3 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b316394e33cd25641a338e87d4792ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectSize: {x: 0.85, y: 2.95, z: 0.1}
+  findOverlapMask:
+    serializedVersion: 2
+    m_Bits: 768
