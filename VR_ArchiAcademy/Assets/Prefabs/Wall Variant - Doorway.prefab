@@ -15,6 +15,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3292545421346063476, guid: 589a836d69e1f4a4086e8b0fd0b389c1, type: 3}
+      propertyPath: m_Size.x
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292545421346063476, guid: 589a836d69e1f4a4086e8b0fd0b389c1, type: 3}
+      propertyPath: m_Size.y
+      value: 0.7311647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292545421346063476, guid: 589a836d69e1f4a4086e8b0fd0b389c1, type: 3}
+      propertyPath: m_Center.y
+      value: 2.6601233
+      objectReference: {fileID: 0}
     - target: {fileID: 3542695151096297209, guid: 589a836d69e1f4a4086e8b0fd0b389c1, type: 3}
       propertyPath: m_RootOrder
       value: 0
