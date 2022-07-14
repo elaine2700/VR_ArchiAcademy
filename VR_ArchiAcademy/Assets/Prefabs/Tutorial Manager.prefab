@@ -43,3 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c9457cbf5dc43d7aa5b634cb7d550a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instructionCanvas: {fileID: 0}
+  instructionText: {fileID: 0}
+  startTrigger: {fileID: 0}
+  toolCanvas: {fileID: 0}
+  stepInstructions:
+  - instructions:
+    - Explore the level
+    - Go towards the arrow to start building
+    index: 0
