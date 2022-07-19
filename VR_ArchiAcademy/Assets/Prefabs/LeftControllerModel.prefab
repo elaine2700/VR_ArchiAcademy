@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4059244840261562334}
   m_Layer: 0
-  m_Name: LeftController
+  m_Name: LeftControllerModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

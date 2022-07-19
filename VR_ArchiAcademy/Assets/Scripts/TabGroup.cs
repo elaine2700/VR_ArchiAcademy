@@ -12,6 +12,7 @@ public class TabGroup : MonoBehaviour
     public Color tabIdle;
     public Color tabHover;
     public Color tabSelected;
+    public Color tabDisabled;
     public TabButtons selectedTab;
     public List<GameObject> objectsToSwap;
 
@@ -71,6 +72,14 @@ public class TabGroup : MonoBehaviour
             if(selectedTab != null && selectedTab == button)
                 continue;
             button.background.color = tabIdle;
+        }
+    }
+
+    public void ShowPages(bool show)
+    {
+        foreach(GameObject page in objectsToSwap)
+        {
+            page.SetActive(show);
         }
     }
 

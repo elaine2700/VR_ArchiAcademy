@@ -1641,7 +1641,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2469802399110371732}
   m_HandleRect: {fileID: 5726092065298227390}
   m_Direction: 2
-  m_Value: 0.9999827
+  m_Value: 0.9999826
   m_Size: 0.280803
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2674,7 +2674,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00017430146, y: 0.0037224188}
+  m_AnchoredPosition: {x: 0.000013796157, y: 0.0037224188}
   m_SizeDelta: {x: -18, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1629206155087149114
@@ -2892,7 +2892,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &7718864263006892177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3026,6 +3026,7 @@ MonoBehaviour:
   onTabDeselected:
     m_PersistentCalls:
       m_Calls: []
+  buttonName: Floor
 --- !u!1 &7718864263099174731
 GameObject:
   m_ObjectHideFlags: 0
@@ -3334,6 +3335,7 @@ MonoBehaviour:
   onTabDeselected:
     m_PersistentCalls:
       m_Calls: []
+  buttonName: Walls
 --- !u!1 &7718864263774509241
 GameObject:
   m_ObjectHideFlags: 0
@@ -3691,6 +3693,7 @@ MonoBehaviour:
   onTabDeselected:
     m_PersistentCalls:
       m_Calls: []
+  buttonName: Furniture
 --- !u!1 &7718864264273220682
 GameObject:
   m_ObjectHideFlags: 0
@@ -3888,6 +3891,7 @@ MonoBehaviour:
   tabIdle: {r: 0, g: 0, b: 0, a: 1}
   tabHover: {r: 1, g: 0.8367292, b: 0.6273585, a: 1}
   tabSelected: {r: 1, g: 1, b: 1, a: 1}
+  tabDisabled: {r: 0, g: 0, b: 0, a: 0}
   selectedTab: {fileID: 0}
   objectsToSwap:
   - {fileID: 7718864264352587241}

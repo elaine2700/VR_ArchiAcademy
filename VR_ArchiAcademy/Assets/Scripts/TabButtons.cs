@@ -11,22 +11,29 @@ public class TabButtons : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public UnityEvent onTabSelected;
     public UnityEvent onTabDeselected;
 
-    // todo Open UI page depending on active layer
-    // todo Opening a page sets the active layer
+    [SerializeField] string buttonName;
+    public string ButtonName { get { return buttonName; } }
+    bool isSelected = false;
+    public bool IsSelected { get { return isSelected; } }
+    bool isActive = true;
+    public bool IsActive { get { return isActive; } set { isActive = value; } }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        tabGroup.OnTabSelected(this);
+        if(isActive)
+            tabGroup.OnTabSelected(this);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tabGroup.OnTabEnter(this);
+        if(isActive)
+            tabGroup.OnTabEnter(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        tabGroup.OnTabExit(this);
+        if(isActive)
+            tabGroup.OnTabExit(this);
     }
 
     private void Start()
@@ -37,13 +44,29 @@ public class TabButtons : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Select()
     {
-        if (onTabSelected != null)
+        if (onTabSelected != null && isActive)
             onTabSelected.Invoke();
+        isSelected = true;
     }
 
     public void Deselect()
     {
-        if (onTabDeselected != null)
+        if (onTabDeselected != null && isActive)
             onTabDeselected.Invoke();
+        isSelected = false;
+    }
+
+    public void MakeNonInteractable()
+    {
+        background.color = tabGroup.tabDisabled;
+        isActive = false;
+        this.enabled = false;
+    }
+
+    public void MakeInteractable()
+    {
+        isActive = true;
+        tabGroup.ResetTabs();
+        this.enabled = true;
     }
 }

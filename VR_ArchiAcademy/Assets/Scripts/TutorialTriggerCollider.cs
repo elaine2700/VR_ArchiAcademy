@@ -9,6 +9,7 @@ public class TutorialTriggerCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider otherCollider)
     {
+        Debug.Log($"{otherCollider.name} has entered");
         hasEntered = true;
     }
 }

@@ -49,6 +49,23 @@ MonoBehaviour:
   toolCanvas: {fileID: 0}
   stepInstructions:
   - instructions:
+    - Explore the scene
+    - Go towards the arrow to start building
+  - instructions:
+    - Information Tab
+  - instructions:
+    - Let's start building
+    - Choose a room from dropdown menu
+    - Place the block on the grid.
+    - Select a handle to edit the size of the room.
+    - When you finish editing the size, select again the object.
+  - instructions:
     - Explore the level
     - Go towards the arrow to start building
-    index: 0
+  - instructions:
+    - Explore the level
+    - Go towards the arrow to start building
+  - instructions:
+    - Explore the level
+    - Go towards the arrow to start building
+  mainTabsGroup: {fileID: 0}
