@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 /// <summary>
 /// This class manages the instructions to give the user in the first scene.
@@ -22,31 +21,47 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI instructionText;
     [SerializeField] TutorialTriggerCollider startTrigger;
     [SerializeField] GameObject toolCanvas;
-    [SerializeField] List<StepInstructions> stepInstructions = new List<StepInstructions>();
     [SerializeField] TabGroup mainTabsGroup;
     [SerializeField] TabGroup buildTabGroup;
     [SerializeField] Animator tutorialPointer;
+    [SerializeField] BlockButton addFloorButton;
+    [SerializeField] GameObject wallInventoryGroup;
+    [SerializeField] GameObject furnitureInventoryGroup;
+    [SerializeField] List<StepInstructions> stepInstructions = new List<StepInstructions>();
 
     TutorialEvents tutorialEvents;
+    BlocksTracker blocksTracker;
     int arrowIndex = 0;
 
     private void Awake()
     {
         tutorialEvents = GetComponent<TutorialEvents>();
+        blocksTracker = FindObjectOfType<BlocksTracker>();
+        if(blocksTracker == null)
+        {
+            Debug.LogError("BlockTracker is missing. Did you put the script on the scene?");
+        }
     }
 
     private void OnEnable()
     {
         tutorialEvents.NextStep.AddListener(StartNewInstruction);
+        
     }
 
     private void OnDisable()
     {
         tutorialEvents.NextStep.RemoveListener(StartNewInstruction);
+        
     }
 
     private void Start()
     {
+        buildTabGroup.HidePages();
+        mainTabsGroup.HidePages();
+        addFloorButton.ActivateButton(false);
+        toolCanvas.gameObject.SetActive(false);
+
         StopAllCoroutines();
         tutorialEvents.NextInstruction();
     }
@@ -107,11 +122,8 @@ public class TutorialManager : MonoBehaviour
         //This function lets the user explore the level and waits until they
         // go to the trigger area to start the next Instruction.
         Debug.Log("INTRODUCTION");
-
         yield return new WaitForSeconds(2f);
-
-        // Disable Main Canvas
-        toolCanvas.gameObject.SetActive(false);
+        
         // Todo activate haptics to indicate to look at the controllers
         // Text: Explore the level;
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
@@ -135,7 +147,7 @@ public class TutorialManager : MonoBehaviour
         // todo activate haptics to indicate to look at the controllers
         
         // Activate tools canvas without pages.
-        mainTabsGroup.ShowPages(false);
+        mainTabsGroup.HidePages();
         toolCanvas.SetActive(true);
         // Disable all buttons, except the info
         TabButtons InfoButton = null;
@@ -147,21 +159,25 @@ public class TutorialManager : MonoBehaviour
                 continue;
             }    
             tabButton.MakeNonInteractable();
-            if(tabButton == null)
-            {
-                Debug.LogError("InfoButton wasnt found. Do all TabButtons have names?." +
-                    "This coroutine will never end.");
-            }
+            
+        }
+        if (InfoButton == null)
+        {
+            Debug.LogError("InfoButton wasnt found. Do all TabButtons have names?." +
+                "This coroutine will never end.");
         }
 
         // Animation: Indicate towards the info page.
         ShowArrow(true);
         // Text: "This is the information of the project and what you have to know to design your project.
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
+
         // wait until player has pressed button.
         yield return new WaitUntil(() => InfoButton.IsSelected);
-        
-        mainTabsGroup.ShowPages(true);
+        ShowArrow(false);
+
+        // Give time to read.
+        yield return new WaitForSeconds(4f);
     }
 
     IEnumerator ThirdStep()
@@ -169,82 +185,105 @@ public class TutorialManager : MonoBehaviour
         // BUILD FLOOR
         Debug.Log("FLOOR");
         // todo haptics
-        // todo Move arrow to build tab.
+
+        // Move arrow to build tab.
         ArrowGoToNextPosition();
+        ShowArrow(true);
         // Text: Let's start...
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
 
         TabButtons buildTab = null;
         foreach(TabButtons tabButton in mainTabsGroup.tabButtons)
         {
-            if (tabButton.name == "Build")
+            if (tabButton.ButtonName == "Build")
             {
                 buildTab = tabButton;
                 buildTab.MakeInteractable();
                 break;
             }
-            if(buildTab == null)
-            {
-                Debug.LogError("BuildTab wasnt found. Do all TabButtons have names?. " +
-                    "This coroutine will never end");
-            }
+        }
+        if (buildTab == null)
+        {
+            Debug.LogError("BuildTab wasnt found. Do all TabButtons have names?. " +
+                "This coroutine will never end");
         }
         yield return new WaitUntil(() => buildTab.IsSelected);
-        
+
+        // Move arrow to floorTab
+        ArrowGoToNextPosition();
 
         // Disable walls and furniture tab
         TabButtons floorTab = null;
-        foreach(TabButtons tab in mainTabsGroup.tabButtons)
+        foreach(TabButtons tab in buildTabGroup.tabButtons)
         {
-            if(tab.name == "Floor")
+            if(tab.ButtonName == "Floor")
             {
                 floorTab = tab;
                 continue;
             }
             tab.MakeNonInteractable();
-            if(floorTab == null)
-            {
-                Debug.LogError("FloorTab wasnt found. Do all TabButtons have names?. " +
-                    "This coroutine will never end");
-            }
         }
+        if (floorTab == null)
+        {
+            Debug.LogError("FloorTab wasnt found. Do all TabButtons have names?. " +
+                "This coroutine will never end");
+        }
+        yield return new WaitUntil(() => floorTab.IsSelected);
+        // todo remove: buildTabGroup.OnTabSelected(floorTab);
 
         // Move arrow to dropdown
         ArrowGoToNextPosition();
-
+        
         // Text: Choose a room from dropdown menu. (Show only bedroom as interactable)
         instructionText.text = stepInstructions[instructionIndex].instructions[1];
-        // todo change to wait until
         yield return new WaitForSeconds(3f);
-        // todo Move arrow to add button.
-        // todo when choosen room type.
-        // todo wait until button has been pressed.
+
+        // Move arrow to add button.
+        ArrowGoToNextPosition();
+        addFloorButton.ActivateButton(true);
+        // Wait until button has been pressed.
+        yield return new WaitUntil(() => addFloorButton.IsPressed);
+        ShowArrow(false);
 
         // Text: Place the block on the grid.
         instructionText.text = stepInstructions[instructionIndex].instructions[2];
-        yield return new WaitForSeconds(3f);
+        // todo Test. wait until first block is placed.
+        Block floorBlock = blocksTracker.rooms[blocksTracker.rooms.Count - 1].GetComponent<Block>();
+        yield return new WaitUntil(() => floorBlock.IsPlaced);
 
         // Text: Edit the size of the room, moving the handles.
         instructionText.text = stepInstructions[instructionIndex].instructions[3];
-        yield return new WaitForSeconds(3f);
-        // Text: When you finish editing the size, select again the object.
+        // todo Test. wait until size is other than 1x1.
+        float currentFloorSizeX = floorBlock.GetComponent<Blockfloor_V2>().RoomSize.x;
+        float currentFloorSizeY = floorBlock.GetComponent<Blockfloor_V2>().RoomSize.y;
+        bool floorWasEdited = currentFloorSizeX > 1f || currentFloorSizeY > 1f;
+        yield return new WaitUntil(() => floorWasEdited);
+
+        // Text: When you finish editing the size, select again the object. 
         instructionText.text = stepInstructions[instructionIndex].instructions[3];
-        yield return new WaitForSeconds(3f);
+        // todo Test. wait until block is not in editMode
+        yield return new WaitUntil(() => !floorBlock.isEditing);
     }
 
     IEnumerator FourthStep()
     {
         // BUILD WALLS
         Debug.Log("WALLS");
-        // Move arrow to walls.
-
+        // Move arrow to wallsTab.
+        ArrowGoToNextPosition();
         // Text: It is time to add some walls.
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
         yield return new WaitForSeconds(3f);
 
+        // Move arrow to first BlockButton
+        ArrowGoToNextPosition();
         // Text: Choose a block to place on grid.
         instructionText.text = stepInstructions[instructionIndex].instructions[1];
+        // todo wait until block Button has been pressed.
+        // todo disable all walls buttons.
+        //Block wallBlock = blocksTracker.
         yield return new WaitForSeconds(3f);
+        // todo make arrow invisible.
 
         // Text: Rotate the direction with the rigth thumbstick.
         instructionText.text = stepInstructions[instructionIndex].instructions[2];
@@ -254,6 +293,7 @@ public class TutorialManager : MonoBehaviour
         instructionText.text = stepInstructions[instructionIndex].instructions[3];
         yield return new WaitForSeconds(3f);
 
+        // todo implement blocksTracker.
         // After placing five walls.
         yield return null;
     }
@@ -263,11 +303,16 @@ public class TutorialManager : MonoBehaviour
         // ADD FURNITURE
         Debug.Log("FURNITURE");
         // Move arrow to furniture tab.
+        ArrowGoToNextPosition();
         // Text: Decorate this room with some furniture.
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
         yield return new WaitForSeconds(3f);
 
-        // After placing three blocks
+        ArrowGoToNextPosition();
+        // todo wait until button is pressed
+        // todo Text: Place more furniture
+
+        // todo wait until After placing three blocks
         // Text: Keep designing this room. When you finish, you are ready to be a great designer.
         instructionText.text = stepInstructions[instructionIndex].instructions[1];
         yield return new WaitForSeconds(3f);
@@ -283,6 +328,7 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         // todo move arrow to help tab
+
         // todo wait until player presses the tab
         // todo move arrow to Next
 
@@ -304,5 +350,11 @@ public class TutorialManager : MonoBehaviour
     {
         arrowIndex++;
         tutorialPointer.SetInteger("ArrowPlaceIndex", arrowIndex);
+    }
+
+    private bool PressedNextButton(bool clicked)
+    {
+        bool clickedButton = clicked;
+        return clickedButton;
     }
 }

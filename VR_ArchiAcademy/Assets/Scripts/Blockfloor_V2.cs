@@ -15,6 +15,8 @@ public class Blockfloor_V2 : MonoBehaviour
     string roomName;
 
     Vector2 roomSize;
+    public Vector2 RoomSize { get { return roomSize; } }
+
     Vector2 unitSize;
     Vector3 center;
 

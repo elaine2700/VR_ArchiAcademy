@@ -71,15 +71,16 @@ public class TabGroup : MonoBehaviour
         {
             if(selectedTab != null && selectedTab == button)
                 continue;
-            button.background.color = tabIdle;
+            if(button.IsActive)
+                button.background.color = tabIdle;
         }
     }
 
-    public void ShowPages(bool show)
+    public void HidePages()
     {
-        foreach(GameObject page in objectsToSwap)
+        foreach(GameObject tabPage in objectsToSwap)
         {
-            page.SetActive(show);
+            tabPage.SetActive(false);
         }
     }
 

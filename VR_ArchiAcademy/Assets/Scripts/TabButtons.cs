@@ -60,13 +60,13 @@ public class TabButtons : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         background.color = tabGroup.tabDisabled;
         isActive = false;
-        this.enabled = false;
+        //this.enabled = false;
     }
 
     public void MakeInteractable()
     {
         isActive = true;
-        tabGroup.ResetTabs();
-        this.enabled = true;
+        background.color = tabGroup.tabIdle;
+        //this.enabled = true;
     }
 }

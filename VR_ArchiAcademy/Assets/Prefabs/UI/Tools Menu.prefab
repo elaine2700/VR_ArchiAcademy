@@ -4563,7 +4563,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8642338190653377538
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5201,6 +5201,10 @@ PrefabInstance:
     - target: {fileID: 2213901917365996434, guid: 733ff51d4343e4582a5250e02de8d801, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2698639413783804598, guid: 733ff51d4343e4582a5250e02de8d801, type: 3}
+      propertyPath: m_Name
+      value: Floor Create Button
       objectReference: {fileID: 0}
     - target: {fileID: 3631352830167705312, guid: 733ff51d4343e4582a5250e02de8d801, type: 3}
       propertyPath: m_Size

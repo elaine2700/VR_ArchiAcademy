@@ -204,6 +204,7 @@ public class Selector : MonoBehaviour
 
     public void ForgetBlock()
     {
+        selectedBlock.isEditing = false;
         selectedBlock = null;
         rayController.raycastMask = normalStateMask;
     }
@@ -232,6 +233,7 @@ public class Selector : MonoBehaviour
             selectedBlock = Instantiate(blockToSpawn, spawnPos, Quaternion.identity);
         }
         selectedBlock.GetComponent<TransformBlock>().MakeBlockEditable(true);
+        chosenBlock.isEditing = true;
         if (selectedBlock.blockMainCollider != null) //&& selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
         {
             Debug.Log("disabling collider");
