@@ -4557,6 +4557,7 @@ GameObject:
   - component: {fileID: 1535984976134591987}
   - component: {fileID: 3113870781488936514}
   - component: {fileID: 3782887787419590955}
+  - component: {fileID: 8354886712606320195}
   m_Layer: 5
   m_Name: Tutorial Pointer
   m_TagString: Untagged
@@ -4641,6 +4642,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8354886712606320195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052009884775490807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07af5c2db9cd4e443afd2077794a1892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowImage: {fileID: 181373005166881134}
 --- !u!1 &7120653213580055920
 GameObject:
   m_ObjectHideFlags: 0

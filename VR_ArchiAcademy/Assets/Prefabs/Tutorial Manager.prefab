@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3837299664481110810}
   - component: {fileID: 8594021517013761761}
+  - component: {fileID: 1376212060896128940}
   m_Layer: 0
   m_Name: Tutorial Manager
   m_TagString: Untagged
@@ -45,11 +46,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instructionCanvas: {fileID: 0}
   instructionText: {fileID: 0}
+  tutorialButton: {fileID: 0}
   startTrigger: {fileID: 0}
   toolCanvas: {fileID: 0}
+  mainTabsGroup: {fileID: 0}
+  buildTabsGroup: {fileID: 0}
+  tutorialPointer: {fileID: 0}
+  addFloorButton: {fileID: 0}
+  wallInventoryGroup: {fileID: 0}
+  furnitureInventoryGroup: {fileID: 0}
   stepInstructions:
   - instructions:
     - Explore the scene
+    - Move and rotate with the left thumbstick.
     - Go towards the arrow to start building
   - instructions:
     - Information Tab
@@ -60,12 +69,31 @@ MonoBehaviour:
     - Select a handle to edit the size of the room.
     - When you finish editing the size, select again the object.
   - instructions:
-    - Explore the level
-    - Go towards the arrow to start building
+    - It is time to add walls
+    - Choose a block to place on grid.
+    - Rotate the direction with the right thumbstick.
+    - Add more walls. Place at least 5 walls
+    - To delete blocks, press the grip until you see the delete icon
+    - Select a wall to delete it
   - instructions:
-    - Explore the level
-    - Go towards the arrow to start building
+    - Decorate this room with some furniture.
+    - Place more furniture
+    - Great! You are ready
   - instructions:
-    - Explore the level
-    - Go towards the arrow to start building
-  mainTabsGroup: {fileID: 0}
+    - Before you go to build amazing things...
+    - Important things to know...
+--- !u!114 &1376212060896128940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8712530623501127888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0186fa8e638542c3b5ec3cbd042bbd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NextStep:
+    m_PersistentCalls:
+      m_Calls: []

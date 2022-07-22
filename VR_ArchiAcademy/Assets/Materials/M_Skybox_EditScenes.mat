@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Skybox_EditScenes
   m_Shader: {fileID: 4800000, guid: 7705790d9e8e16344ad5d7960c568904, type: 3}
-  m_ShaderKeywords: _ENABLEROTATION_ON
+  m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -90,7 +90,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnableFog: 0
-    - _EnableRotation: 1
+    - _EnableRotation: 0
     - _Exposure: 1
     - _Float0: -0.21
     - _FogFill: 0

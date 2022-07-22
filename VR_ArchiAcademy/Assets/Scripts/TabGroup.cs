@@ -84,4 +84,12 @@ public class TabGroup : MonoBehaviour
         }
     }
 
+    public void DisableAllTabs()
+    {
+        foreach(TabButtons tab in tabButtons)
+        {
+            tab.MakeNonInteractable();
+        }
+    }
+
 }
