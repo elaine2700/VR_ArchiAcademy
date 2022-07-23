@@ -76,12 +76,19 @@ MonoBehaviour:
     - To delete blocks, press the grip until you see the delete icon
     - Select a wall to delete it
   - instructions:
+    - Press the grip button until the delete icon appears
+    - Select a block to delete it
+  - instructions:
     - Decorate this room with some furniture.
     - Place more furniture
     - Great! You are ready
   - instructions:
-    - Before you go to build amazing things...
-    - Important things to know...
+    - Something more...
+    - Now, go to design amazing things
+  leftController: {fileID: 0}
+  rightController: {fileID: 0}
+  defaultAmplitude: 0.2
+  defaultDuration: 0.5
 --- !u!114 &1376212060896128940
 MonoBehaviour:
   m_ObjectHideFlags: 0

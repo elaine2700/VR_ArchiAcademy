@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
 
 /// <summary>
 /// This class manages the instructions to give the user in the first scene.
@@ -31,6 +32,13 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] GameObject furnitureInventoryGroup;
     [SerializeField] List<StepInstructions> stepInstructions = new List<StepInstructions>();
 
+    [Header("Controllers")]
+    [SerializeField] XRBaseController leftController;
+    [SerializeField] XRBaseController rightController;
+    [SerializeField] float defaultAmplitude = 0.2f;
+    [SerializeField] float defaultDuration = 0.5f;
+
+    ToolManager toolManager;
     TutorialEvents tutorialEvents;
     BlocksTracker blocksTracker;
     int arrowIndex = 0;
@@ -42,6 +50,7 @@ public class TutorialManager : MonoBehaviour
     {
         tutorialEvents = GetComponent<TutorialEvents>();
         blocksTracker = FindObjectOfType<BlocksTracker>();
+        toolManager = FindObjectOfType<ToolManager>();
         if(blocksTracker == null)
         {
             Debug.LogError("BlockTracker is missing. Did you put the script on the scene?");
@@ -81,22 +90,25 @@ public class TutorialManager : MonoBehaviour
         switch (instructionIndex)
         {
             case 0:
-                yield return FirstStep();
+                yield return Introduction();
                 break;
             case 1:
-                yield return SecondStep();
+                yield return ShowProjectInformation();
                 break;
             case 2:
-                yield return ThirdStep();
+                yield return AddFloor();
                 break;
             case 3:
-                yield return FourthStep();
+                yield return AddWalls();
                 break;
             case 4:
-                yield return FifthStep();
+                yield return EraseObjects();
                 break;
             case 5:
-                yield return SixthStep();
+                yield return AddFurniture();
+                break;
+            case 6:
+                yield return FinalInformation();
                 break;
             default:
                 Debug.LogError("Instruction index out of bounds. Set int between 0 and 5");
@@ -115,7 +127,7 @@ public class TutorialManager : MonoBehaviour
     }
 
 
-    IEnumerator FirstStep()
+    IEnumerator Introduction()
     {
         addFloorButton.ActivateButton(false);
         toolCanvas.gameObject.SetActive(false);
@@ -125,26 +137,26 @@ public class TutorialManager : MonoBehaviour
         //This function lets the user explore the level and waits until they
         // go to the trigger area to start the next Instruction.
         Debug.Log("INTRODUCTION");
-        // Todo activate haptics to indicate to look at the controllers
+        StartHaptics(0);
         // Text: Explore the level;
         yield return WaitUntilPressedNext();
 
         // Text: Move and rotate with the left thumbstick.
         instructionText.text = stepInstructions[instructionIndex].instructions[1];
+        StartHaptics(0);
         yield return WaitUntilPressedNext();
 
         // Text: Go towards the arrow
         instructionText.text = stepInstructions[instructionIndex].instructions[2];
+        StartHaptics(0);
         // wait until tutorial trigger collider is true;
         yield return new WaitUntil(() => startTrigger.HasEntered);
     }
 
-    IEnumerator SecondStep()
+    IEnumerator ShowProjectInformation()
     {
         // INFORMATION
         Debug.Log("INFORMATION");
-
-        // todo activate haptics to indicate to look at the controllers
         
         // Activate tools canvas without pages.
         toolCanvas.SetActive(true);
@@ -164,11 +176,12 @@ public class TutorialManager : MonoBehaviour
         tutorialPointer.ShowArrow(true);
         // Text: "This is the information of the project and what you have to know to design your project.
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
+        StartHaptics(0);
         // wait until player has pressed button.
         yield return new WaitUntil(() => InfoButton.IsSelected);
     }
 
-    IEnumerator ThirdStep()
+    IEnumerator AddFloor()
     {
         // BUILD FLOOR
         Debug.Log("FLOOR");
@@ -187,6 +200,8 @@ public class TutorialManager : MonoBehaviour
             Debug.LogError("BuildTab wasnt found. Do all TabButtons have names?. " +
                 "This coroutine will never end");
         }
+
+        StartHaptics(0);
         yield return new WaitUntil(() => buildTab.IsSelected);
 
         // Move arrow to floorTab
@@ -201,6 +216,8 @@ public class TutorialManager : MonoBehaviour
             Debug.LogError("FloorTab wasnt found. Do all TabButtons have names?. " +
                 "This coroutine will never end");
         }
+
+        StartHaptics(0);
         yield return new WaitUntil(() => floorTab.IsSelected);
 
         // Move arrow to dropdown
@@ -214,6 +231,7 @@ public class TutorialManager : MonoBehaviour
         tutorialPointer.GoToNextPosition();
 
         addFloorButton.ActivateButton(true);
+        StartHaptics(0);
         // Wait until button has been pressed.
         yield return new WaitUntil(() => addFloorButton.IsPressed);
         tutorialPointer.ShowArrow(false);
@@ -222,12 +240,14 @@ public class TutorialManager : MonoBehaviour
         instructionText.text = stepInstructions[instructionIndex].instructions[2];
         // wait until first block is placed.
         Block floorBlock = blocksTracker.rooms[blocksTracker.rooms.Count - 1].GetComponent<Block>();
+        StartHaptics(2);
         yield return new WaitUntil(() => floorBlock.IsPlaced);
 
         
         // Text: Edit the size of the room, moving the handles.
         instructionText.text = stepInstructions[instructionIndex].instructions[3];
         // todo Test. wait until size is other than 1x1.
+        StartHaptics(2);
         yield return new WaitUntil(() => RoomSizeChanged(floorBlock));
 
         // -------Everything works before this line---------------------------
@@ -237,13 +257,14 @@ public class TutorialManager : MonoBehaviour
         instructionText.text = stepInstructions[instructionIndex].instructions[4];
         // ---repair here---
         // todo Test. wait until block is not in editMode
+        StartHaptics(2);
         yield return new WaitForSeconds(5f);
         yield return new WaitUntil(() => !floorBlock.isEditing);
     }
 
     
 
-    IEnumerator FourthStep()
+    IEnumerator AddWalls()
     {
         // BUILD WALLS
         Debug.Log("WALLS");
@@ -261,6 +282,7 @@ public class TutorialManager : MonoBehaviour
                 "This coroutine will never end");
         }
         wallTab.MakeInteractable();
+        StartHaptics(0);
         yield return new WaitUntil(() => wallTab.IsSelected);
 
         // Move arrow to first BlockButton
@@ -275,11 +297,13 @@ public class TutorialManager : MonoBehaviour
         instructionText.text = stepInstructions[instructionIndex].instructions[1];
 
         // todo wait until there is a Wall on the BlocksTracker
+        StartHaptics(2);
         yield return new WaitUntil(() => blocksTracker.blockWalls.Count >= 1);
         tutorialPointer.ShowArrow(false);
 
         // Text: Rotate the direction with the right thumbstick.
         instructionText.text = stepInstructions[instructionIndex].instructions[2];
+        StartHaptics(0);
         yield return WaitUntilPressedNext();
 
         // Text: Add some more.
@@ -287,14 +311,28 @@ public class TutorialManager : MonoBehaviour
         instructionText.text = stepInstructions[instructionIndex].instructions[3];
 
         // After placing five walls.
+        StartHaptics(2);
         yield return new WaitUntil(() => blocksTracker.blockWalls.Count >= 5);
 
-        // todo say how to erase.
-        // press grip until toolinUse is eraser
-        // Text: Select a wall to delete
+        
     }
 
-    IEnumerator FifthStep()
+    IEnumerator EraseObjects()
+    {
+        // todo say how to erase.
+        instructionText.text = stepInstructions[instructionIndex].instructions[0];
+        // todo change material(color) of grip.
+        StartHaptics(2);
+        // todo Test.- press grip - wait until until toolinUse is eraser
+        yield return new WaitUntil(() => toolManager.toolInUse == ToolManager.ToolSelection.delete);
+
+        // Text: Select a wall to delete
+        instructionText.text = stepInstructions[instructionIndex].instructions[1];
+        StartHaptics(0);
+        yield return WaitUntilPressedNext();
+    }
+
+    IEnumerator AddFurniture()
     {
         // ADD FURNITURE
         Debug.Log("FURNITURE");
@@ -306,30 +344,33 @@ public class TutorialManager : MonoBehaviour
         // wait until furniture tab is pressed
         TabButtons furnitureTab = FindTab(buildTabsGroup, "Furniture");
         furnitureTab.MakeInteractable();
+        StartHaptics(0);
         yield return new WaitUntil(() => furnitureTab.IsSelected);
 
         // Text: Decorate this room with some furniture.
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
         tutorialPointer.GoToNextPosition();
+        StartHaptics(2);
         yield return new WaitUntil(() => blocksTracker.blockFurnitures.Count >= 1);
 
         // Text: Place more furniture
         instructionText.text = stepInstructions[instructionIndex].instructions[1];
         // todo wait until After placing three blocks
+        StartHaptics(2);
         yield return new WaitUntil(() => blocksTracker.blockFurnitures.Count >= 3);
 
         // Text: Keep designing this room. When you finish, you are ready to be a great designer.
         instructionText.text = stepInstructions[instructionIndex].instructions[2];
+        StartHaptics(0);
         yield return WaitUntilPressedNext();
     }
 
-    IEnumerator SixthStep()
+    IEnumerator FinalInformation()
     {
         // FINAL INFORMATION
         Debug.Log("FINAL INFORMATION");
-        // Text: Before you go to build amazing things...
+        // Text: Something more...
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
-        yield return WaitUntilPressedNext();
 
         // todo Test. move arrow to Others tab
         tutorialPointer.GoToNextPosition();
@@ -337,12 +378,12 @@ public class TutorialManager : MonoBehaviour
         // todo wait until player presses the tab
         TabButtons helpTab = FindTab(mainTabsGroup, "Help");
         helpTab.MakeInteractable();
+        StartHaptics(0);
         yield return new WaitUntil(() => helpTab.IsSelected);
 
-        // Text: Some more information...
+        // Text: Now, go to design amazing things
         instructionText.text = stepInstructions[instructionIndex].instructions[1];
-
-        yield return WaitUntilPressedNext();
+        StartHaptics(0);
 
         tutorialPointer.GoToNextPosition();
         yield return null;
@@ -384,5 +425,33 @@ public class TutorialManager : MonoBehaviour
         tutorialButton.ShowButton(true);
         yield return new WaitUntil(() => tutorialButton.IsPressed);
         tutorialButton.ShowButton(false);
+    }
+
+    /// <summary>
+    /// Starts Haptics on VR controllers
+    /// 0: left controller, 1: right controller, 2: Both controllers
+    /// </summary>
+    /// <param name="controller">0: left controller, 1: right controller, 2: Both controllers</param>
+    private void StartHaptics(int controller)
+    {
+        switch (controller)
+        {
+            case 0:
+                // left
+                leftController.SendHapticImpulse(defaultAmplitude, defaultDuration);
+                break;
+            case 1:
+                // right
+                rightController.SendHapticImpulse(defaultAmplitude, defaultDuration);
+                break;
+            case 2:
+                // both
+                leftController.SendHapticImpulse(defaultAmplitude, defaultDuration);
+                rightController.SendHapticImpulse(defaultAmplitude, defaultDuration);
+                break;
+            default:
+                Debug.LogWarning("Int side should be between 0 and 2 to Start Haptics");
+                break;
+        }       
     }
 }
