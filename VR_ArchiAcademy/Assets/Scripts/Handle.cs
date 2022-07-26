@@ -15,7 +15,7 @@ public class Handle : MonoBehaviour
     [SerializeField] ThemeSettings themeSettings;
     Actions inputActions;
 
-    UnityEvent placedHandle; // todo to call constructFloor();
+    public UnityEvent OnPlacedHandle; // todo to call constructFloor();
 
     MeshRenderer meshRenderer;
     GridTile gridTile;
@@ -31,6 +31,7 @@ public class Handle : MonoBehaviour
         //inputActions.Interaction.Confirm.performed += _ => SetHandleInactive();
         inputActions.Interaction.Drag.performed += cntxt => buttonValue = cntxt.ReadValue<float>();
         inputActions.Interaction.Drag.canceled += cntxt => buttonValue = 0;
+        inputActions.Interaction.Drag.canceled += _ => SetHandleInactive();
         gridTile = FindObjectOfType<GridTile>();
     }
 
@@ -49,7 +50,7 @@ public class Handle : MonoBehaviour
         {
             dragging = buttonValue > 0.5f;
             if (!dragging)
-                SetHandleInactive();
+                //SetHandleInactive();
             isOnGrid = StillOnGrid();
         }
         if (debugMode)
@@ -79,7 +80,6 @@ public class Handle : MonoBehaviour
             // todo update information
         }
     }
-
 
     private void OnEnable()
     {
@@ -127,8 +127,8 @@ public class Handle : MonoBehaviour
     public void SetHandleInactive()
     {
         isActive = false;
-        
-        // todo set here updateblockSize()?
+        Debug.Log("Handle Inactive");
+        OnPlacedHandle.Invoke();
     }
 
     public void HoverHandle(bool isHovering)
@@ -140,8 +140,6 @@ public class Handle : MonoBehaviour
             meshRenderer.material = themeSettings.inactiveHandleMat;
     }
     
-
-
     private void FindOverlaps()
     {
         // todo
@@ -152,6 +150,11 @@ public class Handle : MonoBehaviour
             isActive = false;
             Debug.Log("colliding with something");
         }
+    }
+
+    private void Test()
+    {
+        Debug.Log(" Test");
     }
 
     private bool StillOnGrid()

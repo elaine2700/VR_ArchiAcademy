@@ -71,14 +71,15 @@ MonoBehaviour:
   - instructions:
     - It is time to add walls
     - Choose a block to place on grid.
-    - Rotate the direction with the right thumbstick.
-    - Add more walls. Place at least 5 walls
-    - To delete blocks, press the grip until you see the delete icon
-    - Select a wall to delete it
+    - 'Rotate the direction with the right thumbstick.
+
+      Add more walls. Place
+      at least 5 walls'
   - instructions:
     - Press the grip button until the delete icon appears
     - Select a block to delete it
   - instructions:
+    - FURNITURE
     - Decorate this room with some furniture.
     - Place more furniture
     - Great! You are ready

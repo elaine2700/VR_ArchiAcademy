@@ -20,7 +20,8 @@ public class PreviewBlock : MonoBehaviour
     private void Awake()
     {
         scaler = FindObjectOfType<Scaler>();
-        blockCollider = GetComponent<Block>().blockMainCollider;
+        //blockCollider = GetComponent<Block>().blockMainCollider;
+        blockCollider = GetComponent<Block>().colliders[0];
     }
 
     private void OnEnable()

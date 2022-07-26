@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.Events;
 
 public class Blockfloor_V2 : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class Blockfloor_V2 : MonoBehaviour
     [SerializeField] List<Handle> handles = new List<Handle>();
 
     [SerializeField] List<GameObject> unitFloorTiles = new List<GameObject>();
+
+    [Range(0f,2f)]
+    [SerializeField] float adjustmentCenter = 0.5f;
    
     string roomName;
 
@@ -42,11 +46,19 @@ public class Blockfloor_V2 : MonoBehaviour
     private void OnEnable()
     {
         baseInteractable.selectEntered.AddListener(EditFloor);
+        foreach (Handle handle in handles)
+        {
+            handle.OnPlacedHandle.AddListener(UpdateFloorInformation);
+        }
     }
 
     private void OnDisable()
     {
         baseInteractable.selectEntered.RemoveListener(EditFloor);
+        foreach (Handle handle in handles)
+        {
+            handle.OnPlacedHandle.RemoveListener(UpdateFloorInformation);
+        }
     }
 
     private void Start()
@@ -75,21 +87,39 @@ public class Blockfloor_V2 : MonoBehaviour
     {
         //isEditing = blockTransform.editSize && GetComponent<Block>().currentBlockState == Block.blockState.selected;
         //Debug.Log($"isEditing: {isEditing}");
+        EditSize();
+    }
+
+    private void EditSize()
+    {
+        
+
         ShowHandles(blockTransform.isEditing);
         if (blockTransform.isEditableSize)
         {
             // update size
-            
-            CalculateRoomSize();
             if (SeeIfHandleMoved())
             {
                 //count++;
                 //Debug.Log($"Construct count: {count}");
+                Block ablock = GetComponent<Block>();
+                ablock.EnableColliders(false);
                 ConstructFloor();
+                UpdateHandlesPosition();
+                
             }
-            UpdateHandlesPosition();
-            
+            //UpdateHandlesPosition();
+            Block block = GetComponent<Block>();
+            block.EnableColliders(true);
         }
+    }
+
+    private void UpdateFloorInformation()
+    {
+        CalculateRoomSize();
+        //CalculateCenter();
+        UpdateCollider();
+        
     }
 
     public void SetAreaType()
@@ -138,11 +168,10 @@ public class Blockfloor_V2 : MonoBehaviour
         //Debug.Log($"width: {width}, depth: {depth}");
         roomSize.x = Mathf.Abs(width);
         roomSize.y = Mathf.Abs(depth);
-
-        float centerX = (handleWest.transform.localPosition.x + handleEast.transform.localPosition.x) / 2;
-        float centerY = (handleSouth.transform.localPosition.y + handleNorth.transform.localPosition.y) / 2;
-        center = new Vector3(centerX, center.y, centerY);
     }
+
+
+    
 
     private void ConstructFloor()
     {
@@ -169,7 +198,7 @@ public class Blockfloor_V2 : MonoBehaviour
         {
             previewBlock.meshesWithMaterials.Add(unitTile.GetComponentInChildren<Renderer>());
         }
-        UpdateCollider();
+        //UpdateCollider();
     }
 
     private void DeleteFloor()
@@ -213,6 +242,18 @@ public class Blockfloor_V2 : MonoBehaviour
         }   
     }
 
+    private void CalculateCenter()
+    {
+        float centerX = (handleWest.transform.localPosition.x + handleEast.transform.localPosition.x) / 2;
+        float centerY = ((handleSouth.transform.localPosition.y + handleNorth.transform.localPosition.y) / 2);
+
+        //float centerX = transform.TransformPoint(handleWest.transform.position + handleEast.transform.position).x;
+        //float centerY = transform.TransformPoint(handleSouth.transform.position + handleNorth.transform.position).y;
+        //centerY += adjustmentCenter;
+        //centerX += adjustmentCenter;
+        center = new Vector3(centerX, center.y, centerY);
+    }
+
     private void EditFloor(SelectEnterEventArgs args)
     {
         blockTransform.MakeBlockEditable(!blockTransform.isEditing);
@@ -226,10 +267,25 @@ public class Blockfloor_V2 : MonoBehaviour
 
     private void UpdateCollider()
     {
-        BoxCollider boxCollider = GetComponent<Block>().blockMainCollider;
+        CalculateCenter();
+        BoxCollider boxCollider = GetComponent<Block>().colliders[0];
         boxCollider.center = center;
         boxCollider.size = new Vector3(roomSize.x, 0.09f, roomSize.y);
+
+        /*Block block = GetComponent<Block>();
+        baseInteractable.colliders.Clear();
+        block.colliders.Clear();
+        foreach(GameObject unit in unitFloorTiles)
+        {
+            baseInteractable.colliders.Add(unit.GetComponentInChildren<Collider>());
+            block.colliders.Add(unit.GetComponentInChildren<BoxCollider>());
+        }
+        */
     }
+
+    // ideas
+    // Make a list of XR interactables
+    // 
 
 
 }

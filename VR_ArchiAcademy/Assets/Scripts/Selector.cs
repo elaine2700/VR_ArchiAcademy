@@ -174,7 +174,8 @@ public class Selector : MonoBehaviour
                 Vector3 blockPos = gridTile.SnapPosition(rayHitPosition, selectedBlock.snap);
                 if (selectedBlock.PlaceOnGrid(blockPos))
                 {
-                    selectedBlock.blockMainCollider.enabled = true;
+                    //selectedBlock.blockMainCollider.enabled = true;
+                    selectedBlock.EnableColliders(true);
                     if (selectedBlock.GetComponent<Blockfloor_V2>())
                     {
                         toolManager.ChangeTool(2);
@@ -197,7 +198,8 @@ public class Selector : MonoBehaviour
             }
             if (toolManager.toolInUse == ToolManager.ToolSelection.edit)
             {
-                selectedBlock.blockMainCollider.enabled = true;
+                //selectedBlock.blockMainCollider.enabled = true;
+                selectedBlock.EnableColliders(true);
             }
         }
     }
@@ -234,10 +236,11 @@ public class Selector : MonoBehaviour
         }
         selectedBlock.GetComponent<TransformBlock>().MakeBlockEditable(true);
         chosenBlock.isEditing = true;
-        if (selectedBlock.blockMainCollider != null) //&& selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
+        if (selectedBlock.colliders != null) //&& selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
         {
             Debug.Log("disabling collider");
-            selectedBlock.blockMainCollider.enabled = false;
+            //selectedBlock.blockMainCollider.enabled = false;
+            selectedBlock.EnableColliders(false);
         }
         rayController.raycastMask = onSelectedMask;
     }

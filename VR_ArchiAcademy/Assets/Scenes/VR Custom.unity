@@ -417,7 +417,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &529139873
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1207,6 +1207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5816f5d6e9983400982bb4f68dbf7cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rooms: []
+  blockWalls: []
+  blockFurnitures: []
 --- !u!4 &1636813521
 Transform:
   m_ObjectHideFlags: 0
@@ -1419,9 +1422,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0.00000022365992
       objectReference: {fileID: 0}
+    - target: {fileID: 4504889730166204107, guid: 29ec105f9f131cd4e8d7f1d47191cf0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4556241592303890702, guid: 29ec105f9f131cd4e8d7f1d47191cf0b, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589951017938815885, guid: 29ec105f9f131cd4e8d7f1d47191cf0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4697802118539091138, guid: 29ec105f9f131cd4e8d7f1d47191cf0b, type: 3}
       propertyPath: tabSelected.a
@@ -1728,6 +1739,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8773655798647389101, guid: 29ec105f9f131cd4e8d7f1d47191cf0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9096428974305278310, guid: 29ec105f9f131cd4e8d7f1d47191cf0b, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

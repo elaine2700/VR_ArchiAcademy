@@ -41,10 +41,11 @@ public class TutorialManager : MonoBehaviour
     ToolManager toolManager;
     TutorialEvents tutorialEvents;
     BlocksTracker blocksTracker;
-    int arrowIndex = 0;
+    ControllerMaterial leftControllerMaterial;
+    ControllerMaterial rightControllerMaterial;
 
-    // todo missing how to delete
     // bug. floor doesnt let place objects on grid because of collider
+    // block scaler script.
 
     private void Awake()
     {
@@ -60,7 +61,6 @@ public class TutorialManager : MonoBehaviour
     private void OnEnable()
     {
         tutorialEvents.NextStep.AddListener(StartNewInstruction);
-        
     }
 
     private void OnDisable()
@@ -71,10 +71,7 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
-        //buildTabsGroup.HidePages();
-        //
-        
-
+        FindControllerComponents();
         StopAllCoroutines();
         tutorialEvents.NextInstruction();
     }
@@ -133,9 +130,11 @@ public class TutorialManager : MonoBehaviour
         toolCanvas.gameObject.SetActive(false);
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
         yield return new WaitForSeconds(3f);
+
         // INTRODUCTION
         //This function lets the user explore the level and waits until they
         // go to the trigger area to start the next Instruction.
+
         Debug.Log("INTRODUCTION");
         StartHaptics(0);
         // Text: Explore the level;
@@ -144,7 +143,10 @@ public class TutorialManager : MonoBehaviour
         // Text: Move and rotate with the left thumbstick.
         instructionText.text = stepInstructions[instructionIndex].instructions[1];
         StartHaptics(0);
+
+        StartCoroutine(leftControllerMaterial.BlinkThumstick());
         yield return WaitUntilPressedNext();
+        leftControllerMaterial.StopBlinking();
 
         // Text: Go towards the arrow
         instructionText.text = stepInstructions[instructionIndex].instructions[2];
@@ -179,15 +181,17 @@ public class TutorialManager : MonoBehaviour
         StartHaptics(0);
         // wait until player has pressed button.
         yield return new WaitUntil(() => InfoButton.IsSelected);
+        tutorialPointer.ShowArrow(false);
     }
 
     IEnumerator AddFloor()
     {
         // BUILD FLOOR
+        buildTabsGroup.HidePages();
         Debug.Log("FLOOR");
-        // todo haptics
-
+        yield return new WaitForSeconds(2f);
         // Move arrow to build tab.
+        tutorialPointer.ShowArrow(true);
         tutorialPointer.GoToNextPosition();
 
         // Text: Let's start...
@@ -234,12 +238,13 @@ public class TutorialManager : MonoBehaviour
         StartHaptics(0);
         // Wait until button has been pressed.
         yield return new WaitUntil(() => addFloorButton.IsPressed);
+        StartHaptics(1);
         tutorialPointer.ShowArrow(false);
 
         // Text: Place the block on the grid.
         instructionText.text = stepInstructions[instructionIndex].instructions[2];
         // wait until first block is placed.
-        Block floorBlock = blocksTracker.rooms[blocksTracker.rooms.Count - 1].GetComponent<Block>();
+        Block floorBlock = blocksTracker.rooms[0].GetComponent<Block>();
         StartHaptics(2);
         yield return new WaitUntil(() => floorBlock.IsPlaced);
 
@@ -250,19 +255,11 @@ public class TutorialManager : MonoBehaviour
         StartHaptics(2);
         yield return new WaitUntil(() => RoomSizeChanged(floorBlock));
 
-        // -------Everything works before this line---------------------------
-        // ---------------------------
-
         // Text: When you finish editing the size, select again the object. 
         instructionText.text = stepInstructions[instructionIndex].instructions[4];
-        // ---repair here---
-        // todo Test. wait until block is not in editMode
         StartHaptics(2);
-        yield return new WaitForSeconds(5f);
-        yield return new WaitUntil(() => !floorBlock.isEditing);
+        yield return new WaitUntil(() => !floorBlock.GetComponent<TransformBlock>().isEditing);
     }
-
-    
 
     IEnumerator AddWalls()
     {
@@ -303,15 +300,12 @@ public class TutorialManager : MonoBehaviour
 
         // Text: Rotate the direction with the right thumbstick.
         instructionText.text = stepInstructions[instructionIndex].instructions[2];
-        StartHaptics(0);
-        yield return WaitUntilPressedNext();
+        StartHaptics(1); 
 
         // Text: Add some more.
         EnableButtons(wallButtons, true);
-        instructionText.text = stepInstructions[instructionIndex].instructions[3];
 
         // After placing five walls.
-        StartHaptics(2);
         yield return new WaitUntil(() => blocksTracker.blockWalls.Count >= 5);
 
         
@@ -322,9 +316,11 @@ public class TutorialManager : MonoBehaviour
         // todo say how to erase.
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
         // todo change material(color) of grip.
-        StartHaptics(2);
+        StartHaptics(1);
         // todo Test.- press grip - wait until until toolinUse is eraser
+        StartCoroutine(rightControllerMaterial.BlinkGripButton());
         yield return new WaitUntil(() => toolManager.toolInUse == ToolManager.ToolSelection.delete);
+        rightControllerMaterial.StopBlinking();
 
         // Text: Select a wall to delete
         instructionText.text = stepInstructions[instructionIndex].instructions[1];
@@ -336,7 +332,10 @@ public class TutorialManager : MonoBehaviour
     {
         // ADD FURNITURE
         Debug.Log("FURNITURE");
-
+        // Text: Furniture
+        instructionText.text = stepInstructions[instructionIndex].instructions[0];
+        // Go back to Build Tab
+        mainTabsGroup.OnTabSelected(FindTab(mainTabsGroup,"Build"));
         // Move arrow to furniture tab.
         tutorialPointer.GoToNextPosition();
         tutorialPointer.ShowArrow(true);
@@ -348,19 +347,20 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitUntil(() => furnitureTab.IsSelected);
 
         // Text: Decorate this room with some furniture.
-        instructionText.text = stepInstructions[instructionIndex].instructions[0];
+        instructionText.text = stepInstructions[instructionIndex].instructions[1];
         tutorialPointer.GoToNextPosition();
         StartHaptics(2);
         yield return new WaitUntil(() => blocksTracker.blockFurnitures.Count >= 1);
+        tutorialPointer.ShowArrow(false);
 
         // Text: Place more furniture
-        instructionText.text = stepInstructions[instructionIndex].instructions[1];
+        instructionText.text = stepInstructions[instructionIndex].instructions[2];
         // todo wait until After placing three blocks
         StartHaptics(2);
         yield return new WaitUntil(() => blocksTracker.blockFurnitures.Count >= 3);
 
         // Text: Keep designing this room. When you finish, you are ready to be a great designer.
-        instructionText.text = stepInstructions[instructionIndex].instructions[2];
+        instructionText.text = stepInstructions[instructionIndex].instructions[3];
         StartHaptics(0);
         yield return WaitUntilPressedNext();
     }
@@ -373,6 +373,7 @@ public class TutorialManager : MonoBehaviour
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
 
         // todo Test. move arrow to Others tab
+        tutorialPointer.ShowArrow(true);
         tutorialPointer.GoToNextPosition();
 
         // todo wait until player presses the tab
@@ -387,6 +388,7 @@ public class TutorialManager : MonoBehaviour
 
         tutorialPointer.GoToNextPosition();
         yield return null;
+        tutorialPointer.ShowArrow(false);
     }
 
     private static bool RoomSizeChanged(Block floorBlock)
@@ -417,6 +419,8 @@ public class TutorialManager : MonoBehaviour
                 break;
             }   
         }
+        if (foundTab == null)
+            Debug.LogWarning($"{tabName} doesnt correspond to any Tab, do all TabButtons have names?");
         return foundTab;
     }
 
@@ -454,4 +458,16 @@ public class TutorialManager : MonoBehaviour
                 break;
         }       
     }
+
+    private void FindControllerComponents()
+    {
+        leftControllerMaterial = leftController.GetComponentInChildren<ControllerMaterial>();
+        if (leftControllerMaterial == null)
+            Debug.LogError("ControllerMaterial component wasn't found in left Controller");
+
+        rightControllerMaterial = rightController.GetComponentInChildren<ControllerMaterial>();
+        if (rightControllerMaterial == null)
+            Debug.LogError("ControllerMaterial component wasn't found in Right Controller");
+    }
+
 }

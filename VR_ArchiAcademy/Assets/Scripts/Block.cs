@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 //using UnityEngine.InputSystem;
 
@@ -7,6 +8,7 @@ public class Block : MonoBehaviour
 
     bool isPlaced = false;
     public bool IsPlaced {get {return isPlaced;}}
+    public List<BoxCollider> colliders = new List<BoxCollider>();
     public BoxCollider blockMainCollider;
     public bool snap;
     public bool isEditing = false;
@@ -21,8 +23,17 @@ public class Block : MonoBehaviour
     private void Awake()
     {
         previewBlock = GetComponent<PreviewBlock>();
-        blockMainCollider.enabled = true;
+        EnableColliders(true);
+        //blockMainCollider.enabled = true;
         scaler = FindObjectOfType<Scaler>();
+    }
+
+    public void EnableColliders(bool enable)
+    {
+        foreach(Collider collider in colliders)
+        {
+            collider.enabled = enable;
+        }
     }
 
     private void OnEnable()
@@ -42,7 +53,8 @@ public class Block : MonoBehaviour
         selector = FindObjectOfType<Selector>();
         //blockMaterial = GetComponentInChildren<MeshRenderer>().material;
         rotator = GetComponent<Rotate>();
-        blockMainCollider.enabled = false;
+        //blockMainCollider.enabled = false;
+        EnableColliders(false);
     }
 
     private void Update()
@@ -66,7 +78,8 @@ public class Block : MonoBehaviour
         {
             isPlaced = true;
             Debug.Log("Enabling collider");
-            blockMainCollider.enabled = true;
+            //blockMainCollider.enabled = true;
+            EnableColliders(true);
             blockTransform.MakeBlockEditable(false);
             previewBlock.ReverseOriginalMaterials();
             
@@ -108,7 +121,8 @@ public class Block : MonoBehaviour
         {
             Delete();
         }
-        blockMainCollider.enabled = false;
+        //blockMainCollider.enabled = false;
+        EnableColliders(false);
     }
 
     public void Delete()

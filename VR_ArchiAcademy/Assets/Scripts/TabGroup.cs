@@ -44,6 +44,10 @@ public class TabGroup : MonoBehaviour
     public void OnTabSelected(TabButtons button)
     {
         //Debug.Log("Tab selected");
+        if (!button.IsActive)
+        {
+            return;
+        }
         if(selectedTab != null)
         {
             selectedTab.Deselect();
