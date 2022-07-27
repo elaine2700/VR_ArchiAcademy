@@ -33,19 +33,18 @@ public class Blockfloor_V2 : MonoBehaviour
     RoomType areaType;
     TransformBlock blockTransform;
     BlocksTracker blocksTracker;
-    XRSimpleInteractable baseInteractable;
     PreviewBlock previewBlock;
 
     int count = 0;
 
     private void Awake()
     {
-        baseInteractable = GetComponent<XRSimpleInteractable>();
+        //baseInteractable = GetComponent<XRSimpleInteractable>();
     }
 
     private void OnEnable()
     {
-        baseInteractable.selectEntered.AddListener(EditFloor);
+        //baseInteractable.selectEntered.AddListener(EditFloor);
         foreach (Handle handle in handles)
         {
             handle.OnPlacedHandle.AddListener(UpdateFloorInformation);
@@ -54,7 +53,7 @@ public class Blockfloor_V2 : MonoBehaviour
 
     private void OnDisable()
     {
-        baseInteractable.selectEntered.RemoveListener(EditFloor);
+        //baseInteractable.selectEntered.RemoveListener(EditFloor);
         foreach (Handle handle in handles)
         {
             handle.OnPlacedHandle.RemoveListener(UpdateFloorInformation);
@@ -73,7 +72,7 @@ public class Blockfloor_V2 : MonoBehaviour
         previewBlock = GetComponent<PreviewBlock>();
         SetHandles();
         blockTransform.MakeBlockEditable(false);
-        ShowHandles(false);
+        //ShowHandles(false);
         unitSize = new Vector2(1, 1);
         blocksTracker = FindObjectOfType<BlocksTracker>();
         blocksTracker.AddRoomToList(this);
@@ -92,8 +91,6 @@ public class Blockfloor_V2 : MonoBehaviour
 
     private void EditSize()
     {
-        
-
         ShowHandles(blockTransform.isEditing);
         if (blockTransform.isEditableSize)
         {
@@ -102,15 +99,15 @@ public class Blockfloor_V2 : MonoBehaviour
             {
                 //count++;
                 //Debug.Log($"Construct count: {count}");
-                Block ablock = GetComponent<Block>();
-                ablock.EnableColliders(false);
+                //Block ablock = GetComponent<Block>();
+                //ablock.EnableColliders(false);
                 ConstructFloor();
                 UpdateHandlesPosition();
                 
             }
             //UpdateHandlesPosition();
-            Block block = GetComponent<Block>();
-            block.EnableColliders(true);
+            //Block block = GetComponent<Block>();
+            //block.EnableColliders(true);
         }
     }
 
@@ -151,7 +148,7 @@ public class Blockfloor_V2 : MonoBehaviour
         ShowHandles(false);
     }
 
-    private void ShowHandles(bool showHandles)
+    public void ShowHandles(bool showHandles)
     {
         foreach(Handle handle in handles)
         {
@@ -169,9 +166,6 @@ public class Blockfloor_V2 : MonoBehaviour
         roomSize.x = Mathf.Abs(width);
         roomSize.y = Mathf.Abs(depth);
     }
-
-
-    
 
     private void ConstructFloor()
     {
@@ -267,20 +261,21 @@ public class Blockfloor_V2 : MonoBehaviour
 
     private void UpdateCollider()
     {
-        CalculateCenter();
+        /*CalculateCenter();
         BoxCollider boxCollider = GetComponent<Block>().colliders[0];
         boxCollider.center = center;
         boxCollider.size = new Vector3(roomSize.x, 0.09f, roomSize.y);
+        */
 
-        /*Block block = GetComponent<Block>();
-        baseInteractable.colliders.Clear();
+        Block block = GetComponent<Block>();
+        //baseInteractable.colliders.Clear();
         block.colliders.Clear();
         foreach(GameObject unit in unitFloorTiles)
         {
-            baseInteractable.colliders.Add(unit.GetComponentInChildren<Collider>());
+            //baseInteractable.colliders.Add(unit.GetComponentInChildren<Collider>());
             block.colliders.Add(unit.GetComponentInChildren<BoxCollider>());
         }
-        */
+        
     }
 
     // ideas

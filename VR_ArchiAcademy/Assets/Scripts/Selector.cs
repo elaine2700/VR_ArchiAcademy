@@ -12,7 +12,7 @@ public class Selector : MonoBehaviour
     [SerializeField] LayerMask uiMask;
 
     public Block blockToSpawn = null; 
-    public Block selectedBlock = null; 
+    public Block selectedBlock = null;
 
     bool isHovering = false;
     Vector3 hitPosition;
@@ -36,8 +36,6 @@ public class Selector : MonoBehaviour
         toolManager.OnToolEdit.AddListener(EnterEditMode);
 
         rayController.selectExited.AddListener(PlaceBlock);
-        //rayController.selectEntered.AddListener(RepositionBlock);
-        //rayController.selectEntered.AddListener(DeleteBlocks);
     }
 
     private void OnDisable()
@@ -67,7 +65,6 @@ public class Selector : MonoBehaviour
     private void EnterBuildMode()
     {
         Debug.Log("Entering Build Mode");
-        
     }
 
     private void EnterTransformMode()
@@ -93,6 +90,7 @@ public class Selector : MonoBehaviour
     private void EnterSelectMode()
     {
         rayController.raycastMask = normalStateMask;
+        selectedBlock = null;
     }
 
     private void EnterDeleteMode()

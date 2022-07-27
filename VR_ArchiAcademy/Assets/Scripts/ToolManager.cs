@@ -21,11 +21,13 @@ public class ToolManager : MonoBehaviour
     public UnityEvent OnToolExplore;
 
     Actions inputActions;
+    Scaler scaler;
 
     private void Awake()
     {
         inputActions = new Actions();
         inputActions.Tools.Swaptools.performed += _ => SwapTools();
+        scaler = FindObjectOfType<Scaler>();
     }
 
     private void OnEnable()
@@ -45,6 +47,11 @@ public class ToolManager : MonoBehaviour
     /// <param name="newTool">Number to cast as enum ToolSelection</param>
     public void ChangeTool(int newTool)
     {
+        if(scaler.CurrentScaleInverse != 1)
+        {
+            toolInUse = ToolSelection.select;
+            return;
+        }
         toolInUse = (ToolSelection)newTool;
         switch (toolInUse)
         {

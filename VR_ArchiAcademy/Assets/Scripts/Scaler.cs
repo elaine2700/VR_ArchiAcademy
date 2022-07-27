@@ -1,17 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class Scaler : MonoBehaviour
 {
     [SerializeField] int currentScale = 1;
+    /// <summary>
+    /// The current scale. Ex: 1 is 1:1, 2 is 1:2 ...
+    /// </summary>
     public int CurrentScaleInverse { get { return currentScale; } }
     public List<int> scaleOptions = new List<int>();
 
     int indexCurrentScale = 0;
     float modelScale = 1f;
+    /// <summary>
+    /// The current scale in decimal. Eg. 0.5 is 1:2 ...
+    /// </summary>
     public float ModelScale { get { return modelScale; } }
+
+    private bool canChangeScale = true;
 
     Actions inputActions;
     public UnityEvent onChangeScale;
@@ -40,9 +47,12 @@ public class Scaler : MonoBehaviour
 
     private void ModifyingScale(int newScale)
     {
-        currentScale = newScale;
-        modelScale = 1f / currentScale;
-        onChangeScale.Invoke();
+        if (canChangeScale)
+        {
+            currentScale = newScale;
+            modelScale = 1f / currentScale;
+            onChangeScale.Invoke();
+        }
     }
 
     private void NextScale()
@@ -53,5 +63,14 @@ public class Scaler : MonoBehaviour
             indexCurrentScale = 0;
         }
         ModifyingScale(scaleOptions[indexCurrentScale]);
+    }
+
+    /// <summary>
+    /// Enables or disables the ability to change scales at runtime.
+    /// </summary>
+    /// <param name="changeScale"></param>
+    public void EnableChangeScale(bool changeScale)
+    {
+        canChangeScale = changeScale;
     }
 }

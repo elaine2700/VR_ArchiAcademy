@@ -43,6 +43,7 @@ public class TutorialManager : MonoBehaviour
     BlocksTracker blocksTracker;
     ControllerMaterial leftControllerMaterial;
     ControllerMaterial rightControllerMaterial;
+    Scaler scaler;
 
     // bug. floor doesnt let place objects on grid because of collider
     // block scaler script.
@@ -56,6 +57,7 @@ public class TutorialManager : MonoBehaviour
         {
             Debug.LogError("BlockTracker is missing. Did you put the script on the scene?");
         }
+        scaler = FindObjectOfType<Scaler>();
     }
 
     private void OnEnable()
@@ -74,6 +76,7 @@ public class TutorialManager : MonoBehaviour
         FindControllerComponents();
         StopAllCoroutines();
         tutorialEvents.NextInstruction();
+        scaler.EnableChangeScale(false);
     }
 
     private void StartNewInstruction()
@@ -149,6 +152,7 @@ public class TutorialManager : MonoBehaviour
         leftControllerMaterial.StopBlinking();
 
         // Text: Go towards the arrow
+        startTrigger.ShowArrow();
         instructionText.text = stepInstructions[instructionIndex].instructions[2];
         StartHaptics(0);
         // wait until tutorial trigger collider is true;

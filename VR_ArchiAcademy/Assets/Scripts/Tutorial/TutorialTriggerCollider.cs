@@ -4,12 +4,31 @@ using UnityEngine;
 
 public class TutorialTriggerCollider : MonoBehaviour
 {
+    [SerializeField] GameObject arrow;
     bool hasEntered = false;
     public bool HasEntered { get { return hasEntered; } }
+
+    private void Start()
+    {
+        arrow.SetActive(false);
+    }
 
     private void OnTriggerEnter(Collider otherCollider)
     {
         Debug.Log($"{otherCollider.name} has entered");
-        hasEntered = true;
+        Entered();
     }
+
+    private void Entered()
+    {
+        hasEntered = true;
+        arrow.SetActive(false);
+        Destroy(this, 2f);
+    }
+
+    public void ShowArrow()
+    {
+        arrow.SetActive(true);
+    }
+
 }
