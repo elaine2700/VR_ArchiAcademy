@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7793284117292753207}
   - component: {fileID: 519216321136047164}
   - component: {fileID: 3691069839748203908}
+  - component: {fileID: 1509744134037799937}
   m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e97a2a477fc3e4ab3884759cdc36100b, type: 2}
+  - {fileID: 2100000, guid: e29b9fd5b052344599bd8838f6676169, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,6 +113,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1509744134037799937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592817972242862801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b316394e33cd25641a338e87d4792ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectSize: {x: 0.95, y: 0.1, z: 0.95}
+  findOverlapMask:
+    serializedVersion: 2
+    m_Bits: 129
 --- !u!1 &6534488648382059630
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +141,7 @@ GameObject:
   - component: {fileID: 2900793343312816856}
   - component: {fileID: 4420920734133964394}
   m_Layer: 6
-  m_Name: Unit Floor without Collider
+  m_Name: Unit Floor Dynamic
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -235,3 +252,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e0a6d60d269f4b65ad6040d8031d349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOverlapFinder: 0

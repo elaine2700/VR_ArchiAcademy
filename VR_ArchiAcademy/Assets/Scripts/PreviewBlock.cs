@@ -15,7 +15,7 @@ public class PreviewBlock : MonoBehaviour
     public bool positionOk = false;
     public List<Renderer> meshesWithMaterials = new List<Renderer>();
     public Vector3 blockSize = new Vector3(); // Set block size by collider size.
-    Vector3 blockCenter;
+    //Vector3 blockCenter;
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class PreviewBlock : MonoBehaviour
     private void OnEnable()
     {
         blockSize = blockCollider.size;
-        blockCenter = blockCollider.center;
+        //blockCenter = blockCollider.center;
         scaler.onChangeScale.AddListener(UpdateScale);
     }
 
@@ -47,6 +47,11 @@ public class PreviewBlock : MonoBehaviour
         transform.position = adjustments + position;
     }
 
+    /// <summary>
+    /// Changes the material if this object is overlapping with the
+    /// collider of another object, and reverts it when it is not.
+    /// </summary>
+    /// <param name="okPos"></param>
     public void ShowOverlap(bool okPos)
     {
         positionOk = okPos;
@@ -76,8 +81,12 @@ public class PreviewBlock : MonoBehaviour
         currentRenderer.material = newMaterial;
     }
 
-    // to use on blockFloor
-    public void SetBlockSize(Vector3 updatedSize)
+    /// <summary>
+    /// Updates the information of the size when it needs to change.
+    /// Function made for the BlockFloor script.
+    /// </summary>
+    /// <param name="updatedSize"></param>
+    public void UpdateBlockSize(Vector3 updatedSize)
     {
         blockSize.x = updatedSize.x;
         blockSize.z = updatedSize.z;
@@ -90,7 +99,6 @@ public class PreviewBlock : MonoBehaviour
             ChangingMaterial(themeSettings.hoveredBlockMaterial, meshesWithMaterials);
         else
             ReverseOriginalMaterials();
-            //meshRenderer.material = GetComponent<Block>().blockMaterial;
     }
 
     public void SelectingBlock(bool selected)

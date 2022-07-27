@@ -134,7 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   overlapFinder: {fileID: 5560096475988013474}
-  blockMainCollider: {fileID: 3292545421346063476}
+  colliders:
+  - {fileID: 3292545421346063476}
   snap: 1
   isEditing: 0
 --- !u!114 &6327796123465099007

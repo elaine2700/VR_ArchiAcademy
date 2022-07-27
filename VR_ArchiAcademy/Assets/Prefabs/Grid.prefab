@@ -136,7 +136,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7163927537518333556}
   - component: {fileID: 7163927537518333555}
-  - component: {fileID: 8510675013555510267}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -177,23 +176,6 @@ MonoBehaviour:
   folderFloor: {fileID: 7163927536918665721}
   folderWalls: {fileID: 7163927537996203018}
   folderFurniture: {fileID: 7163927537646973351}
---- !u!114 &8510675013555510267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7163927537518333557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5db1c20b323a40409c19285c67bafe2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentScale: 1
-  scaleOptions: 0100000002000000050000000a0000001400000019000000320000004b00000064000000
-  onChangeScale:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7163927537646973351
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +282,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentWorld: {fileID: 7163927537518333556}
-  scaler: {fileID: 8510675013555510267}
   gridMaterialSettings:
   - {fileID: 11400000, guid: c44cebe41474f42fbba7cd52d2d04bd9, type: 2}
   - {fileID: 11400000, guid: 9d824317c23ca4e17babf6ae6f6b1c85, type: 2}

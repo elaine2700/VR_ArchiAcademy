@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.Events;
@@ -15,11 +16,11 @@ public class Handle : MonoBehaviour
     [SerializeField] ThemeSettings themeSettings;
     Actions inputActions;
 
-    public UnityEvent OnPlacedHandle; // todo to call constructFloor();
+    public UnityEvent OnPlacedHandle;
 
     MeshRenderer meshRenderer;
     GridTile gridTile;
-    //ChangeMaterial changeMaterial;
+    Blockfloor_V2 blockFloor;
 
     float buttonValue;
     public bool dragging = false;
@@ -38,7 +39,7 @@ public class Handle : MonoBehaviour
     private void Start()
     {
         //changeMaterial = FindObjectOfType<ChangeMaterial>();
-        
+        blockFloor = GetComponentInParent<Blockfloor_V2>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         SetHandleInactive();
         meshRenderer.material = themeSettings.inactiveHandleMat;
@@ -51,7 +52,7 @@ public class Handle : MonoBehaviour
             dragging = buttonValue > 0.5f;
             if (!dragging)
                 //SetHandleInactive();
-            isOnGrid = StillOnGrid();
+                isOnGrid = StillOnGrid();
         }
         if (debugMode)
         {
@@ -59,26 +60,108 @@ public class Handle : MonoBehaviour
             dragging = true;
         }
 
-        Debug.Log($"isActive: {isActive}, isOnGrid: {isOnGrid}, dragging: {dragging}");
-        if (isActive && isOnGrid && dragging)
+        if (isActive  && dragging)
         {
-            //FindOverlaps();
             Vector3 newPos = new Vector3();
             if (!debugMode)
             {
-                xrRayInteractor.TryGetHitInfo(out newPos, out _, out _, out _);
+                bool rayHit = xrRayInteractor.TryGetHitInfo(out newPos, out _, out _, out _);
+                if (!rayHit)
+                {
+                    return;
+                }
             }
             else
             {
                 newPos = pointer.transform.position;
+                
             }
             
+            
+            if (FindOverlapsInDirection(handleDir))
+            {
+                // if there is an overlap in the perimeter,
+                // this function checks the position the user wants to
+                // move the handle, if it is in the opposite direction of
+                // the overlap the handle can move, otherwise it exits and doesn't
+                // change the position
+                if (!CanChangeSize(newPos))
+                {
+                    return;
+                }
+            }
             // Sets the handle in a NewPos
             Vector3 newHandlePos = gridTile.SnapPosition(newPos, true);
-            if(isActive)
+            if (isActive)
                 transform.position = ConstrainPosition(newHandlePos);
-            // todo update information
         }
+    }
+
+    private bool FindOverlapsInDirection(handleDirection direction)
+    {
+        bool foundOverlap = false;
+        List<OverlapFinder> overlapFinders = new List<OverlapFinder>();
+        switch (direction)
+        {
+            case handleDirection.north:
+                overlapFinders = blockFloor.northOverlapFinders;
+                break;
+            case handleDirection.east:
+                overlapFinders = blockFloor.eastOverlapFinders;
+                break;
+            case handleDirection.south:
+                overlapFinders = blockFloor.southOverlapFinders;
+                break;
+            case handleDirection.west:
+                overlapFinders = blockFloor.westOverlapFinders;
+                break;
+        }
+        if (handleDir == direction)
+        {
+            foreach (OverlapFinder overlap in overlapFinders)
+            {
+                if (!overlap.FindAvailablePosition())
+                {
+                    foundOverlap = true;
+                }
+            }
+        }
+        return foundOverlap;
+    }
+
+    private bool CanChangeSize(Vector3 newPos)
+    {
+        bool canChangeSize = true;
+        if (handleDir == handleDirection.north)
+        {
+            if (newPos.y > transform.position.y)
+            {
+                canChangeSize = false;
+            }
+        }
+        if (handleDir == handleDirection.east)
+        {
+            if(newPos.x > transform.position.x)
+            {
+                canChangeSize = false;
+            }
+        }
+        if(handleDir == handleDirection.south)
+        {
+            if (newPos.y < transform.position.y)
+            {
+                canChangeSize = false;
+            }
+        }
+        if(handleDir == handleDirection.west)
+        {
+            if (newPos.x < transform.position.x)
+            {
+                canChangeSize = false;
+            }
+        }
+        return canChangeSize;
+        
     }
 
     private void OnEnable()
@@ -91,6 +174,12 @@ public class Handle : MonoBehaviour
         inputActions.Interaction.Disable();
     }
 
+    /// <summary>
+    /// Constrains the position in only one direction depending
+    /// on the enum settings of the handle.
+    /// </summary>
+    /// <param name="followPos"></param>
+    /// <returns></returns>
     private Vector3 ConstrainPosition(Vector3 followPos)
     {
         Vector3 constrainedPos = transform.position;
@@ -114,7 +203,7 @@ public class Handle : MonoBehaviour
 
     public void SetHandleActive(SelectEnterEventArgs args)
     {
-        Debug.Log("Set Handle Active");
+        //Debug.Log("Set Handle Active");
         isActive = true;
         meshRenderer.material = themeSettings.activeHandleMat;
         pointer = args.interactorObject.transform.gameObject;
@@ -122,12 +211,10 @@ public class Handle : MonoBehaviour
         //Debug.Log(pointer.name);
     }
 
-
-    // Called from button X
+    // Called from button X, or after deselecting handle.
     public void SetHandleInactive()
     {
         isActive = false;
-        Debug.Log("Handle Inactive");
         OnPlacedHandle.Invoke();
     }
 
@@ -139,23 +226,6 @@ public class Handle : MonoBehaviour
         else
             meshRenderer.material = themeSettings.inactiveHandleMat;
     }
-    
-    private void FindOverlaps()
-    {
-        // todo
-        // check collisions with physics,overlapsphere
-        Collider[] otherColliders = Physics.OverlapSphere(transform.position, 0.05f);
-        if(otherColliders.Length > 0)
-        {
-            isActive = false;
-            Debug.Log("colliding with something");
-        }
-    }
-
-    private void Test()
-    {
-        Debug.Log(" Test");
-    }
 
     private bool StillOnGrid()
     {
@@ -164,6 +234,7 @@ public class Handle : MonoBehaviour
         //stillOnGrid = true;
         // Search if handle is inside grid collider bounds
         stillOnGrid = gridTile.GetComponentInChildren<Collider>().bounds.Contains(transform.position);
+        
 
         return stillOnGrid;
     }

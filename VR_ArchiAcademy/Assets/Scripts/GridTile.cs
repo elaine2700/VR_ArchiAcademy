@@ -5,11 +5,18 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class GridTile : MonoBehaviour
 {
     [SerializeField] Transform parentWorld;
-    [SerializeField] Scaler scaler;
+    Scaler scaler;
     [SerializeField] List<GridMaterialSettings> gridMaterialSettings = new List<GridMaterialSettings>();
     int indexGridSettings = 9;
     Material gridMaterial;
     public Vector2 gridMinUnit;
+
+    private void Awake()
+    {
+        scaler = FindObjectOfType<Scaler>();
+        if (scaler == null)
+            Debug.Log("Missing Scaler Script. It is not in the scene");
+    }
 
     private void OnEnable()
     {

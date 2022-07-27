@@ -6,20 +6,25 @@ using UnityEngine.Events;
 
 public class Blockfloor_V2 : MonoBehaviour
 {
-    [SerializeField] Transform floorUnit;
+    [SerializeField] UnitFloor floorUnit;
     [SerializeField] Transform unitsParent;
     [SerializeField] TextMeshPro nameField;
     [SerializeField] List<Handle> handles = new List<Handle>();
 
-    [SerializeField] List<GameObject> unitFloorTiles = new List<GameObject>();
+    [SerializeField] List<UnitFloor> unitFloorTiles = new List<UnitFloor>();
+
+    public List<OverlapFinder> northOverlapFinders = new List<OverlapFinder>();
+    public List<OverlapFinder> eastOverlapFinders = new List<OverlapFinder>();
+    public List<OverlapFinder> southOverlapFinders = new List<OverlapFinder>();
+    public List<OverlapFinder> westOverlapFinders = new List<OverlapFinder>();
 
     [Range(0f,2f)]
     [SerializeField] float adjustmentCenter = 0.5f;
    
     string roomName;
 
-    Vector2 roomSize;
-    public Vector2 RoomSize { get { return roomSize; } }
+    Vector2Int roomSize;
+    public Vector2Int RoomSize { get { return roomSize; } }
 
     Vector2 unitSize;
     Vector3 center;
@@ -97,26 +102,20 @@ public class Blockfloor_V2 : MonoBehaviour
             // update size
             if (SeeIfHandleMoved())
             {
-                //count++;
-                //Debug.Log($"Construct count: {count}");
-                //Block ablock = GetComponent<Block>();
-                //ablock.EnableColliders(false);
+                CalculateRoomSize();
                 ConstructFloor();
                 UpdateHandlesPosition();
-                
+                //DeleteOverlapFinders();
             }
             //UpdateHandlesPosition();
-            //Block block = GetComponent<Block>();
-            //block.EnableColliders(true);
+            
         }
     }
 
     private void UpdateFloorInformation()
     {
-        CalculateRoomSize();
-        //CalculateCenter();
         UpdateCollider();
-        
+        DeleteOverlapFinders();
     }
 
     public void SetAreaType()
@@ -156,6 +155,9 @@ public class Blockfloor_V2 : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calculates the new room size with the distance of each handle position.
+    /// </summary>
     private void CalculateRoomSize()
     {
         // width  x
@@ -172,35 +174,116 @@ public class Blockfloor_V2 : MonoBehaviour
         DeleteFloor();
         previewBlock.meshesWithMaterials.Clear();
         unitFloorTiles.Clear();
-
-        for (int x = 0; x < roomSize.x; x++)
+        DeleteOverlapFinders();
+        // The number starts at -1 because it creates an invisible perimeter of UnitFloors
+        // that check if the next grid unit is free of objects.
+        for (int x = -1; x < roomSize.x + 1; x++)
         {
-            for (int y = 0; y < roomSize.y; y++)
+            for (int y = -1; y < roomSize.y + 1; y++)
             {
-                Transform newUnit = Instantiate(floorUnit, unitsParent);
-                newUnit.gameObject.SetActive(true);
-                // todo adjust to every scale.
-                // set position or local position. first position starts at handlewest pos.x + adjustment.
-                float posX = handleWest.transform.position.x + x + 0.5f;
-                float posZ = handleNorth.transform.position.z - y - 0.5f;
-                newUnit.transform.position = new Vector3(posX, 0f, posZ);
-                unitFloorTiles.Add(newUnit.gameObject);
-
+                if (x == -1 && y == -1)
+                    continue;
+                else if (x == roomSize.x && y == -1)
+                    continue;
+                else if (x == -1 && y == roomSize.y)
+                    continue;
+                else if (x == roomSize.x && y == roomSize.y)
+                    continue;
+                else
+                {
+                    UnitFloor newUnit = Instantiate(floorUnit, unitsParent);
+                    newUnit.gameObject.SetActive(true);
+                    if (x == -1)
+                    {
+                        newUnit.OverlapFinder();
+                        westOverlapFinders.Add(newUnit.GetComponentInChildren<OverlapFinder>());
+                    }
+                    else if(y == -1)
+                    {
+                        newUnit.OverlapFinder();
+                        northOverlapFinders.Add(newUnit.GetComponentInChildren<OverlapFinder>());
+                    }
+                    else if(x == roomSize.x)
+                    {
+                        newUnit.OverlapFinder();
+                        eastOverlapFinders.Add(newUnit.GetComponentInChildren<OverlapFinder>());
+                    }
+                    else if(y == roomSize.y)
+                    {
+                        newUnit.OverlapFinder();
+                        southOverlapFinders.Add(newUnit.GetComponentInChildren<OverlapFinder>());
+                    }
+                    // todo adjust to every scale.
+                    // set position or local position. first position starts at handlewest pos.x + adjustment.
+                    float posX = handleWest.transform.position.x + x + 0.5f;
+                    float posZ = handleNorth.transform.position.z - y - 0.5f;
+                    newUnit.transform.position = new Vector3(posX, 0f, posZ);
+                    if(newUnit.isOverlapFinder == false)
+                    {
+                        unitFloorTiles.Add(newUnit);
+                        previewBlock.meshesWithMaterials.Add(newUnit.GetComponentInChildren<Renderer>());
+                    }
+                        
+                }
+                
             }
         }
-        foreach (GameObject unitTile in unitFloorTiles)
+        /*foreach (UnitFloor unitTile in unitFloorTiles)
         {
-            previewBlock.meshesWithMaterials.Add(unitTile.GetComponentInChildren<Renderer>());
-        }
+
+            if(!unitTile.isOverlapFinder)
+                previewBlock.meshesWithMaterials.Add(unitTile.GetComponentInChildren<Renderer>());
+        }*/
         //UpdateCollider();
     }
 
+
+
     private void DeleteFloor()
     {
-        foreach(GameObject unit in unitFloorTiles)
+        foreach(UnitFloor unit in unitFloorTiles)
         {
-            Destroy(unit);
+            Destroy(unit.gameObject);
         }
+    }
+
+    private void DeleteOverlapFinders()
+    {
+        if(northOverlapFinders.Count >= 1)
+        {
+            foreach (OverlapFinder overlapFinder in northOverlapFinders)
+            {
+                Destroy(overlapFinder.transform.parent.gameObject);
+            }
+        }
+        northOverlapFinders.Clear();
+
+        if (eastOverlapFinders.Count >= 1)
+        {
+            foreach (OverlapFinder overlapFinder in eastOverlapFinders)
+            {
+                Destroy(overlapFinder.transform.parent.gameObject);
+            }
+        }
+        eastOverlapFinders.Clear();
+
+        if (southOverlapFinders.Count >= 1)
+        {
+            foreach (OverlapFinder overlapFinder in southOverlapFinders)
+            {
+                Destroy(overlapFinder.transform.parent.gameObject);
+            }
+        }
+        southOverlapFinders.Clear();
+
+        if (westOverlapFinders.Count >= 1)
+        {
+            foreach (OverlapFinder overlapFinder in westOverlapFinders)
+            {
+                Destroy(overlapFinder.transform.parent.gameObject);
+            }
+        }
+        westOverlapFinders.Clear();
     }
 
     private bool SeeIfHandleMoved()
@@ -214,6 +297,9 @@ public class Blockfloor_V2 : MonoBehaviour
         return handleMoved;
     }
 
+    /// <summary>
+    /// Updates the position of handles that are not being dragged by the selector.
+    /// </summary>
     private void UpdateHandlesPosition()
     {
         foreach (Handle handle in handles)
@@ -270,7 +356,7 @@ public class Blockfloor_V2 : MonoBehaviour
         Block block = GetComponent<Block>();
         //baseInteractable.colliders.Clear();
         block.colliders.Clear();
-        foreach(GameObject unit in unitFloorTiles)
+        foreach(UnitFloor unit in unitFloorTiles)
         {
             //baseInteractable.colliders.Add(unit.GetComponentInChildren<Collider>());
             block.colliders.Add(unit.GetComponentInChildren<BoxCollider>());

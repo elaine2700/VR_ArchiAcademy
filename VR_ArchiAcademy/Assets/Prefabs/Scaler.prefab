@@ -43,4 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5db1c20b323a40409c19285c67bafe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modelScale: 0.05
+  currentScale: 1
+  scaleOptions: 0100000002000000050000000a0000001400000019000000320000004b00000064000000
+  onChangeScale:
+    m_PersistentCalls:
+      m_Calls: []

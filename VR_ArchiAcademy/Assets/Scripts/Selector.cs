@@ -128,9 +128,9 @@ public class Selector : MonoBehaviour
         //Debug.Log("Moving block on grid");
         if (!isHovering)
         {
-            // see on controller
+            // TODO see on controller
+            // It hides the selectedBlock.
             selectedBlock.GetComponent<PreviewBlock>().meshesParent.gameObject.SetActive(false);
-            //selectedBlock.transform.position = transform.position + offsetBlock;
             rayController.raycastMask = uiMask;
         }
         else

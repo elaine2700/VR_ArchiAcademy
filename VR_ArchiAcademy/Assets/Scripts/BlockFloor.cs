@@ -14,10 +14,10 @@ public class BlockFloor : MonoBehaviour
     Handle handleSouth;
     Handle handleWest;
 
-    XRBaseInteractable xRBaseInteractable;
+    //XRBaseInteractable xRBaseInteractable;
     RoomType areaType;
-    Block block;
-    BlocksTracker areaManager;
+    //Block block;
+    //BlocksTracker areaManager;
     TransformBlock blockTransform;
     bool enterEditMode = false;
 
@@ -38,9 +38,9 @@ public class BlockFloor : MonoBehaviour
         CreateMesh();
         blockTransform = FindObjectOfType<TransformBlock>();
         areaType = FindObjectOfType<RoomType>();
-        areaManager = FindObjectOfType<BlocksTracker>();
+        //areaManager = FindObjectOfType<BlocksTracker>();
         //areaManager.AddAreaToList(this);
-        block = GetComponent<Block>();
+        //block = GetComponent<Block>();
 
         SetHandles();
         //SetAreaType();
@@ -203,8 +203,7 @@ public class BlockFloor : MonoBehaviour
         newSize.y = 0;
         newSize.x = handleWest.transform.position.x - handleEast.transform.position.x;
         newSize.z = handleNorth.transform.position.z - handleSouth.transform.position.z;
-        GetComponent<PreviewBlock>().SetBlockSize(newSize);
-        // todo see newCollider
+        GetComponent<PreviewBlock>().UpdateBlockSize(newSize);
         GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 

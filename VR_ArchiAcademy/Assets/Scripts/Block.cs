@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.InputSystem;
 
 public class Block : MonoBehaviour
 {
@@ -9,7 +8,6 @@ public class Block : MonoBehaviour
     bool isPlaced = false;
     public bool IsPlaced {get {return isPlaced;}}
     public List<BoxCollider> colliders = new List<BoxCollider>();
-    public BoxCollider blockMainCollider;
     public bool snap;
     public bool isEditing = false;
 
@@ -24,7 +22,6 @@ public class Block : MonoBehaviour
     {
         previewBlock = GetComponent<PreviewBlock>();
         EnableColliders(true);
-        //blockMainCollider.enabled = true;
         scaler = FindObjectOfType<Scaler>();
     }
 
@@ -51,9 +48,7 @@ public class Block : MonoBehaviour
         toolManager = FindObjectOfType<ToolManager>();
         blockTransform = GetComponent<TransformBlock>();
         selector = FindObjectOfType<Selector>();
-        //blockMaterial = GetComponentInChildren<MeshRenderer>().material;
         rotator = GetComponent<Rotate>();
-        //blockMainCollider.enabled = false;
         EnableColliders(false);
     }
 
@@ -78,7 +73,6 @@ public class Block : MonoBehaviour
         {
             isPlaced = true;
             Debug.Log("Enabling collider");
-            //blockMainCollider.enabled = true;
             EnableColliders(true);
             blockTransform.MakeBlockEditable(false);
             previewBlock.ReverseOriginalMaterials();
@@ -121,19 +115,14 @@ public class Block : MonoBehaviour
         {
             Delete();
         }
-        //blockMainCollider.enabled = false;
         EnableColliders(false);
     }
 
     public void Delete()
     {
-
         if (toolManager.toolInUse != ToolManager.ToolSelection.delete)
             return;
-        Debug.Log("deleting block");
-        //selector.ChooseBlock(this, true);
         Destroy(this.gameObject);
-        
         // todo particle systems maybe
         // todo audio
     }
