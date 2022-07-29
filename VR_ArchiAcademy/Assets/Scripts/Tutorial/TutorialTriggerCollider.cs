@@ -23,7 +23,7 @@ public class TutorialTriggerCollider : MonoBehaviour
     {
         hasEntered = true;
         arrow.SetActive(false);
-        Destroy(this, 2f);
+        Destroy(this.gameObject, 2f);
     }
 
     public void ShowArrow()

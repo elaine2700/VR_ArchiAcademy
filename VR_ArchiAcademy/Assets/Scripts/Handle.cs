@@ -47,21 +47,24 @@ public class Handle : MonoBehaviour
 
     private void Update()
     {
-        if (!debugMode)
+        /*if (!debugMode)
         {
-            dragging = buttonValue > 0.5f;
+            //dragging = buttonValue > 0.5f;
             if (!dragging)
                 //SetHandleInactive();
                 isOnGrid = StillOnGrid();
-        }
+        }*/
         if (debugMode)
         {
-            isOnGrid = true;
+            //isOnGrid = true;
             dragging = true;
         }
 
-        if (isActive  && dragging)
+        if (isActive)  //&& dragging)
         {
+            dragging = buttonValue > 0.5f;
+            if (!dragging)
+                return;
             Vector3 newPos = new Vector3();
             if (!debugMode)
             {
@@ -74,10 +77,8 @@ public class Handle : MonoBehaviour
             else
             {
                 newPos = pointer.transform.position;
-                
             }
-            
-            
+
             if (FindOverlapsInDirection(handleDir))
             {
                 // if there is an overlap in the perimeter,
@@ -161,7 +162,6 @@ public class Handle : MonoBehaviour
             }
         }
         return canChangeSize;
-        
     }
 
     private void OnEnable()
@@ -215,6 +215,7 @@ public class Handle : MonoBehaviour
     public void SetHandleInactive()
     {
         isActive = false;
+        dragging = false;
         OnPlacedHandle.Invoke();
     }
 
@@ -234,8 +235,6 @@ public class Handle : MonoBehaviour
         //stillOnGrid = true;
         // Search if handle is inside grid collider bounds
         stillOnGrid = gridTile.GetComponentInChildren<Collider>().bounds.Contains(transform.position);
-        
-
         return stillOnGrid;
     }
 

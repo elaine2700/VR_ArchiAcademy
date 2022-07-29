@@ -2,14 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.Events;
 
 public class Blockfloor_V2 : MonoBehaviour
 {
     [SerializeField] UnitFloor floorUnit;
     [SerializeField] Transform unitsParent;
     [SerializeField] TextMeshPro nameField;
-    [SerializeField] List<Handle> handles = new List<Handle>();
+    public List<Handle> handles = new List<Handle>();
 
     [SerializeField] List<UnitFloor> unitFloorTiles = new List<UnitFloor>();
 
@@ -105,6 +104,7 @@ public class Blockfloor_V2 : MonoBehaviour
                 CalculateRoomSize();
                 ConstructFloor();
                 UpdateHandlesPosition();
+                CalculateCenter();
                 //DeleteOverlapFinders();
             }
             //UpdateHandlesPosition();
@@ -115,7 +115,8 @@ public class Blockfloor_V2 : MonoBehaviour
     private void UpdateFloorInformation()
     {
         UpdateCollider();
-        DeleteOverlapFinders();
+        //DeleteOverlapFinders();
+        
     }
 
     public void SetAreaType()
@@ -171,7 +172,7 @@ public class Blockfloor_V2 : MonoBehaviour
 
     private void ConstructFloor()
     {
-        DeleteFloor();
+        DeleteUnits();
         previewBlock.meshesWithMaterials.Clear();
         unitFloorTiles.Clear();
         DeleteOverlapFinders();
@@ -237,17 +238,16 @@ public class Blockfloor_V2 : MonoBehaviour
         //UpdateCollider();
     }
 
-
-
-    private void DeleteFloor()
+    private void DeleteUnits()
     {
+        Debug.Log("Deleting Units");
         foreach(UnitFloor unit in unitFloorTiles)
         {
             Destroy(unit.gameObject);
         }
     }
 
-    private void DeleteOverlapFinders()
+    public void DeleteOverlapFinders()
     {
         if(northOverlapFinders.Count >= 1)
         {
@@ -291,8 +291,11 @@ public class Blockfloor_V2 : MonoBehaviour
         bool handleMoved = false;
         foreach (Handle handle in handles)
         {
-            if (handle.dragging)
+            if (handle.isActive && handle.dragging)
+            {
                 handleMoved = true;
+                break;
+            }   
         }
         return handleMoved;
     }
@@ -302,6 +305,7 @@ public class Blockfloor_V2 : MonoBehaviour
     /// </summary>
     private void UpdateHandlesPosition()
     {
+        
         foreach (Handle handle in handles)
         {
             if (!handle.isActive)
@@ -311,33 +315,38 @@ public class Blockfloor_V2 : MonoBehaviour
                 {
                     float newPosX = ((handleWest.transform.position.x + handleEast.transform.position.x) / 2);
                     handle.transform.position = new Vector3(newPosX, currentPos.y, currentPos.z);
+                    
                 }
                 if(handle.handleDir == Handle.handleDirection.west || handle.handleDir == Handle.handleDirection.east)
                 {
                     float newPosZ = ((handleSouth.transform.position.z + handleNorth.transform.position.z) / 2);
                     handle.transform.position = new Vector3(currentPos.x, currentPos.y, newPosZ);
+                    
                 } 
             }
-            
         }   
     }
 
     private void CalculateCenter()
     {
         float centerX = (handleWest.transform.localPosition.x + handleEast.transform.localPosition.x) / 2;
-        float centerY = ((handleSouth.transform.localPosition.y + handleNorth.transform.localPosition.y) / 2);
+        float centerY = ((handleSouth.transform.localPosition.z + handleNorth.transform.localPosition.z) / 2);
 
         //float centerX = transform.TransformPoint(handleWest.transform.position + handleEast.transform.position).x;
         //float centerY = transform.TransformPoint(handleSouth.transform.position + handleNorth.transform.position).y;
         //centerY += adjustmentCenter;
         //centerX += adjustmentCenter;
+
         center = new Vector3(centerX, center.y, centerY);
+        nameField.GetComponent<RoomNameLabel>().UpdateLabelPosition(center);
     }
 
-    private void EditFloor(SelectEnterEventArgs args)
+    public void EditFloor(SelectEnterEventArgs args)
     {
         blockTransform.MakeBlockEditable(!blockTransform.isEditing);
+        Debug.Log($"EditingFloor: {blockTransform.isEditing}");
         ShowHandles(blockTransform.isEditing);
+        //DeleteOverlapFinders();
     }
 
     private void FindName()
@@ -354,19 +363,13 @@ public class Blockfloor_V2 : MonoBehaviour
         */
 
         Block block = GetComponent<Block>();
-        //baseInteractable.colliders.Clear();
         block.colliders.Clear();
         foreach(UnitFloor unit in unitFloorTiles)
         {
             //baseInteractable.colliders.Add(unit.GetComponentInChildren<Collider>());
             block.colliders.Add(unit.GetComponentInChildren<BoxCollider>());
         }
-        
+        block.EnableColliders(true);
     }
-
-    // ideas
-    // Make a list of XR interactables
-    // 
-
 
 }

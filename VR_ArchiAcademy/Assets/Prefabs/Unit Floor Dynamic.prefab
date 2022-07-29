@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 519216321136047164}
   - component: {fileID: 3691069839748203908}
   - component: {fileID: 1509744134037799937}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e29b9fd5b052344599bd8838f6676169, type: 2}
+  - {fileID: 2100000, guid: 19148df0e0fd1b84780a03170cb82702, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   findOverlapMask:
     serializedVersion: 2
     m_Bits: 129
+  newLayer: 0
 --- !u!1 &6534488648382059630
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +141,7 @@ GameObject:
   - component: {fileID: 6032224341791713657}
   - component: {fileID: 2900793343312816856}
   - component: {fileID: 4420920734133964394}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Unit Floor Dynamic
   m_TagString: Tile
   m_Icon: {fileID: 0}

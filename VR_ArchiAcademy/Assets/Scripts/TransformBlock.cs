@@ -34,7 +34,7 @@ public class TransformBlock : MonoBehaviour
 
     public void MakeBlockEditable(bool isEditable)
     {
-        //Debug.Log($"Size is Editable: { isEditableSize}");
+        Debug.Log($"Size is Editable: { isEditableSize}");
         isEditing = isEditable;
         if (canMove)
             editPosition = isEditing;

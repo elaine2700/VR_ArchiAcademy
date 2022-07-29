@@ -4,6 +4,12 @@ public class OverlapFinder : MonoBehaviour
 {
     [SerializeField] Vector3 objectSize = new Vector3();
     [SerializeField] LayerMask findOverlapMask;
+    [SerializeField] int newLayer = 0;
+
+    public void ChangeLayer()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Tiles");
+    }
 
     public bool FindAvailablePosition()
     {

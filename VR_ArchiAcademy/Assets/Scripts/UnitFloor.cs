@@ -9,9 +9,7 @@ public class UnitFloor : MonoBehaviour
     Blockfloor_V2 blockFloor;
     Renderer mesh;
 
-    [HideInInspector]
-    public bool isOverlapFinder = false;
-    
+    public bool isOverlapFinder = false; 
 
     private void Awake()
     {
@@ -31,6 +29,11 @@ public class UnitFloor : MonoBehaviour
         
     }
 
+    private void Start()
+    {
+        DisableCollider();
+    }
+
     private void OnEnable()
     {
         mesh = GetComponentInChildren<Renderer>();
@@ -39,20 +42,12 @@ public class UnitFloor : MonoBehaviour
             Debug.LogWarning("Didnt find MeshRenderer");
         }
 
-        simpleInteractable.selectEntered.AddListener(EditFloor);
-
-        
+        simpleInteractable.selectEntered.AddListener(blockFloor.EditFloor);
     }
 
     private void OnDisable()
     {
         simpleInteractable.selectEntered.RemoveAllListeners();
-    }
-
-    private void EditFloor(SelectEnterEventArgs args)
-    {
-        transformBlock.MakeBlockEditable(!transformBlock.isEditing);
-        blockFloor.ShowHandles(transformBlock.isEditing);
     }
 
     public void OverlapFinder()
@@ -61,5 +56,12 @@ public class UnitFloor : MonoBehaviour
         simpleInteractable.enabled = false;
         mesh.enabled = false;
         GetComponentInChildren<Collider>().enabled = false;
+        GetComponentInChildren<OverlapFinder>().ChangeLayer();
+    }
+
+    private void DisableCollider()
+    {
+        // Disable Units colliders while the handle is editing the size.
+        GetComponentInChildren<BoxCollider>().enabled = false;
     }
 }
