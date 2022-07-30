@@ -121,7 +121,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1649388505268570987}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99997383
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1641,7 +1641,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2469802399110371732}
   m_HandleRect: {fileID: 5726092065298227390}
   m_Direction: 2
-  m_Value: 0.9999826
+  m_Value: 0.9999827
   m_Size: 0.280803
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2674,7 +2674,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000012096819, y: 0.0037224188}
+  m_AnchoredPosition: {x: 0.000006221682, y: 0.0037224188}
   m_SizeDelta: {x: -18, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1629206155087149114
@@ -3178,7 +3178,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -4836,8 +4836,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1994669698424424861, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
       propertyPath: m_Name
-      value: Wall Button (3)
+      value: Sofa big - Button
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2bc0065849c9c4a71bcdfea699a3f6fa, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &931795482326034431 stripped
@@ -4954,8 +4958,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1994669698424424861, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
       propertyPath: m_Name
-      value: Wall Button (6)
+      value: Side Table - Button
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6339974c91b194c0fbed721a0cbc7ef5, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &4083290175663737300 stripped
@@ -5072,8 +5080,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1994669698424424861, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
       propertyPath: m_Name
-      value: Wall Button (4)
+      value: Kitchen Table - Button
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 702238ec6756e4453ae6ad5396e26ecc, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &4043008994497419565 stripped
@@ -5190,8 +5202,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1994669698424424861, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
       propertyPath: m_Name
-      value: Wall Button (5)
+      value: Lamp - Button
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 18d67be78a5df4cc2ba6c35591e53a10, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &4508921231341034120 stripped
@@ -5308,8 +5324,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1994669698424424861, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
       propertyPath: m_Name
-      value: Wall Button (2)
+      value: Kitchen Module - Button
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 82177dc40a299457ea3323c40262cad4, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &4440369488409695378 stripped
@@ -5658,6 +5678,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chair - Button
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b609173bce10445fdb54ed012c152eb8, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &5613458882409102848 stripped
@@ -5778,6 +5802,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall Button (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f99355f6ff9984b59ae70d9b19b773ef, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &8120156855851521709 stripped
@@ -5898,6 +5926,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall Button (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f3f81a711c6eb44e094fd46277c6aacb, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &8120156856171368041 stripped
@@ -6018,6 +6050,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall Button (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 628353d8ca0d243c29f69f3517a60e8f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &8120156855092662151 stripped
@@ -6032,10 +6068,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7718864264089809759}
     m_Modifications:
+    - target: {fileID: 329867618196421952, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 329867618196421952, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 329867618196421952, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 329867618196421952, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1994669698424424848, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
       propertyPath: blockPrefab
       value: 
       objectReference: {fileID: 2069916901384302416, guid: 589a836d69e1f4a4086e8b0fd0b389c1, type: 3}
+    - target: {fileID: 1994669698424424850, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e6282a2dc9be44949bb71879eb346eb5, type: 3}
     - target: {fileID: 1994669698424424860, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6124,6 +6180,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall Button
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 561c5466c57644ceb8baba9420eb706e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &7718864263263911561 stripped
@@ -6240,8 +6300,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1994669698424424861, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
       propertyPath: m_Name
-      value: Wall Button (7)
+      value: Sofa Chair - Button
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6e713f63844f54c229fd058149b3cb2d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &7107840882615048309 stripped
@@ -6360,6 +6424,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bed - Button
       objectReference: {fileID: 0}
+    - target: {fileID: 4520153328441548650, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 93ec2ffb1b922430eb59a41f799aba28, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &6992406785147794642 stripped
