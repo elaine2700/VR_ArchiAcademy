@@ -82,7 +82,7 @@ public class Blockfloor_V2 : MonoBehaviour
         blocksTracker.AddRoomToList(this);
         FindName();
         center.y = 0.05f;
-        //CalculateRoomSize();
+        CalculateRoomSize();
         //ConstructFloor();
     }
 
@@ -370,6 +370,30 @@ public class Blockfloor_V2 : MonoBehaviour
             block.colliders.Add(unit.GetComponentInChildren<BoxCollider>());
         }
         block.EnableColliders(true);
+    }
+
+    public Handle FindHandle(Handle.handleDirection handleDirection)
+    {
+        Handle handle = null;
+        switch (handleDirection)
+        {
+            case Handle.handleDirection.north:
+                handle = handleNorth;
+                break;
+            case Handle.handleDirection.east:
+                handle = handleEast;
+                break;
+            case Handle.handleDirection.south:
+                handle = handleSouth;
+                break;
+            case Handle.handleDirection.west:
+                handle = handleWest;
+                break;
+            default:
+                Debug.LogWarning("There isnt a handle with that direction");
+                break;
+        }
+        return handle;
     }
 
 }

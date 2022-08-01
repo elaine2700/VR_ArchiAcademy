@@ -235,6 +235,204 @@ public partial class @Actions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Camera"",
+            ""id"": ""cdfa5f63-6156-4b48-bd5f-472c1bba229a"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""c95fd3e0-0d1d-4088-b700-36334095ec38"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""ddf41fa0-d5e3-4f87-98dc-e70d65800102"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Fly"",
+                    ""type"": ""Value"",
+                    ""id"": ""628e572a-2ca3-439e-9992-33e8d059ba89"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Reset Horizontal"",
+                    ""type"": ""Button"",
+                    ""id"": ""0eff3ae2-9652-4262-a4fb-3d6693363bf8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""5effbf6c-5a4c-4721-8ce8-f738c8679e4d"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a3415c69-fedf-4861-b473-f4e35f1263b5"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""7a6aa438-ac53-48bc-b37f-290ab5b103c0"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""f7d00309-74cb-4445-821a-2e3520904ca7"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""9d6d9cb0-70c5-4d5c-9499-f81eacc4f950"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""ee16eb8a-f56d-4916-9da4-a5f104a41d03"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""75b53d40-e8e5-4f0e-8328-3ce551824873"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b4256420-e53b-4ee3-b840-dd8009a04104"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""cb8d8612-e81d-4031-a83e-48bef256e8ac"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""d7259c48-0f7b-4b9e-b6aa-61d4c1615db8"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""IK"",
+                    ""id"": ""9e98ae3b-2066-4426-8188-62413c5b705f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fly"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""21b3b10d-77c3-41d4-b892-505ce0054cb9"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fly"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""445ff544-7a74-4520-b65b-544af74c484a"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fly"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26d9fc60-c068-4ff2-a90d-cd5cf6d16acc"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset Horizontal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -249,6 +447,12 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         m_Tools = asset.FindActionMap("Tools", throwIfNotFound: true);
         m_Tools_Swaptools = m_Tools.FindAction("Swaptools", throwIfNotFound: true);
         m_Tools_ScaleWorld = m_Tools.FindAction("ScaleWorld", throwIfNotFound: true);
+        // Camera
+        m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
+        m_Camera_Move = m_Camera.FindAction("Move", throwIfNotFound: true);
+        m_Camera_Look = m_Camera.FindAction("Look", throwIfNotFound: true);
+        m_Camera_Fly = m_Camera.FindAction("Fly", throwIfNotFound: true);
+        m_Camera_ResetHorizontal = m_Camera.FindAction("Reset Horizontal", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -402,6 +606,63 @@ public partial class @Actions : IInputActionCollection2, IDisposable
         }
     }
     public ToolsActions @Tools => new ToolsActions(this);
+
+    // Camera
+    private readonly InputActionMap m_Camera;
+    private ICameraActions m_CameraActionsCallbackInterface;
+    private readonly InputAction m_Camera_Move;
+    private readonly InputAction m_Camera_Look;
+    private readonly InputAction m_Camera_Fly;
+    private readonly InputAction m_Camera_ResetHorizontal;
+    public struct CameraActions
+    {
+        private @Actions m_Wrapper;
+        public CameraActions(@Actions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Camera_Move;
+        public InputAction @Look => m_Wrapper.m_Camera_Look;
+        public InputAction @Fly => m_Wrapper.m_Camera_Fly;
+        public InputAction @ResetHorizontal => m_Wrapper.m_Camera_ResetHorizontal;
+        public InputActionMap Get() { return m_Wrapper.m_Camera; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
+        public void SetCallbacks(ICameraActions instance)
+        {
+            if (m_Wrapper.m_CameraActionsCallbackInterface != null)
+            {
+                @Move.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnMove;
+                @Look.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnLook;
+                @Fly.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnFly;
+                @Fly.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnFly;
+                @Fly.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnFly;
+                @ResetHorizontal.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnResetHorizontal;
+                @ResetHorizontal.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnResetHorizontal;
+                @ResetHorizontal.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnResetHorizontal;
+            }
+            m_Wrapper.m_CameraActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+                @Fly.started += instance.OnFly;
+                @Fly.performed += instance.OnFly;
+                @Fly.canceled += instance.OnFly;
+                @ResetHorizontal.started += instance.OnResetHorizontal;
+                @ResetHorizontal.performed += instance.OnResetHorizontal;
+                @ResetHorizontal.canceled += instance.OnResetHorizontal;
+            }
+        }
+    }
+    public CameraActions @Camera => new CameraActions(this);
     public interface IInteractionActions
     {
         void OnConfirm(InputAction.CallbackContext context);
@@ -413,5 +674,12 @@ public partial class @Actions : IInputActionCollection2, IDisposable
     {
         void OnSwaptools(InputAction.CallbackContext context);
         void OnScaleWorld(InputAction.CallbackContext context);
+    }
+    public interface ICameraActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
+        void OnFly(InputAction.CallbackContext context);
+        void OnResetHorizontal(InputAction.CallbackContext context);
     }
 }

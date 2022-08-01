@@ -29,7 +29,6 @@ public class Handle : MonoBehaviour
     private void Awake()
     {
         inputActions = new Actions();
-        //inputActions.Interaction.Confirm.performed += _ => SetHandleInactive();
         inputActions.Interaction.Drag.performed += cntxt => buttonValue = cntxt.ReadValue<float>();
         inputActions.Interaction.Drag.canceled += cntxt => buttonValue = 0;
         inputActions.Interaction.Drag.canceled += _ => SetHandleInactive();
@@ -38,22 +37,24 @@ public class Handle : MonoBehaviour
 
     private void Start()
     {
-        //changeMaterial = FindObjectOfType<ChangeMaterial>();
         blockFloor = GetComponentInParent<Blockfloor_V2>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         SetHandleInactive();
         meshRenderer.material = themeSettings.inactiveHandleMat;
     }
 
+    private void OnEnable()
+    {
+        inputActions.Interaction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Interaction.Disable();
+    }
+
     private void Update()
     {
-        /*if (!debugMode)
-        {
-            //dragging = buttonValue > 0.5f;
-            if (!dragging)
-                //SetHandleInactive();
-                isOnGrid = StillOnGrid();
-        }*/
         if (debugMode)
         {
             //isOnGrid = true;
@@ -79,18 +80,11 @@ public class Handle : MonoBehaviour
                 newPos = pointer.transform.position;
             }
 
-            if (FindOverlapsInDirection(handleDir))
+            if (!CanChangeSize(newPos))
             {
-                // if there is an overlap in the perimeter,
-                // this function checks the position the user wants to
-                // move the handle, if it is in the opposite direction of
-                // the overlap the handle can move, otherwise it exits and doesn't
-                // change the position
-                if (!CanChangeSize(newPos))
-                {
-                    return;
-                }
+                return;
             }
+            
             // Sets the handle in a NewPos
             Vector3 newHandlePos = gridTile.SnapPosition(newPos, true);
             if (isActive)
@@ -98,6 +92,12 @@ public class Handle : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Finds overlap in the direction of this handle and returns true
+    /// if it finds something
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
     private bool FindOverlapsInDirection(handleDirection direction)
     {
         bool foundOverlap = false;
@@ -130,53 +130,84 @@ public class Handle : MonoBehaviour
         return foundOverlap;
     }
 
+    /// <summary>
+    /// First it checks the direction of the handle,
+    /// then, sees in which direction it wants to move.
+    /// If the newPos is towards the outside, it checks if there are objects in the perimeter.
+    /// If the newPos goes towards the inside, it can move until the size is minimum 1.
+    /// </summary>
+    /// <param name="newPos"></param>
+    /// <returns>Returns false when there are objects with colliders in the perimeter,
+    /// or when it tries to change smaller than 1.
+    /// </returns>
     private bool CanChangeSize(Vector3 newPos)
     {
         bool canChangeSize = true;
+        
         if (handleDir == handleDirection.north)
         {
-            if (newPos.y > transform.position.y)
+            // If the newPos is bigger than before, it tries to find
+            // overlap objects in the perimeter, if there are objects in the next grid unit,
+            // it cannot change size.
+            if (newPos.z > transform.position.z)
             {
-                canChangeSize = false;
+                if(FindOverlapsInDirection(handleDir))
+                    canChangeSize = false;
+            }
+            // If the newPos makes the roomSize to be smaller than 1,
+            // the handle cannot move towards that direction.
+            else if(newPos.z < transform.position.z)
+            {
+                if(blockFloor.RoomSize.y == 1)
+                    canChangeSize = false;
             }
         }
         if (handleDir == handleDirection.east)
         {
             if(newPos.x > transform.position.x)
             {
-                canChangeSize = false;
+                if(FindOverlapsInDirection(handleDir))
+                    canChangeSize = false;
+            }
+            else if (newPos.x < transform.position.x)
+            {
+                if(blockFloor.RoomSize.x == 1)
+                    canChangeSize = false;
             }
         }
         if(handleDir == handleDirection.south)
         {
-            if (newPos.y < transform.position.y)
+            if (newPos.z < transform.position.z)
             {
-                canChangeSize = false;
+                if (FindOverlapsInDirection(handleDir))
+                    canChangeSize = false;
+            }
+            else if (newPos.z > transform.position.z)
+            {
+                if (blockFloor.RoomSize.y == 1)
+                    canChangeSize = false;
             }
         }
         if(handleDir == handleDirection.west)
         {
             if (newPos.x < transform.position.x)
             {
-                canChangeSize = false;
+                if (FindOverlapsInDirection(handleDir))
+                    canChangeSize = false;
+            }
+            else if (newPos.x > transform.position.x)
+            {
+                if (blockFloor.RoomSize.x == 1)
+                    canChangeSize = false;
             }
         }
         return canChangeSize;
     }
 
-    private void OnEnable()
-    {
-        inputActions.Interaction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        inputActions.Interaction.Disable();
-    }
-
     /// <summary>
-    /// Constrains the position in only one direction depending
-    /// on the enum settings of the handle.
+    /// Constrains the position in only one axis depending
+    /// on the enum settings (direction) of the handle.
+    /// Example: The north handle can only move in the z axis.
     /// </summary>
     /// <param name="followPos"></param>
     /// <returns></returns>
@@ -203,12 +234,10 @@ public class Handle : MonoBehaviour
 
     public void SetHandleActive(SelectEnterEventArgs args)
     {
-        //Debug.Log("Set Handle Active");
         isActive = true;
         meshRenderer.material = themeSettings.activeHandleMat;
         pointer = args.interactorObject.transform.gameObject;
         xrRayInteractor = pointer.GetComponent<XRRayInteractor>();
-        //Debug.Log(pointer.name);
     }
 
     // Called from button X, or after deselecting handle.
@@ -231,8 +260,6 @@ public class Handle : MonoBehaviour
     private bool StillOnGrid()
     {
         bool stillOnGrid = false;
-        //stillOnGrid = gridTile.isHovered;
-        //stillOnGrid = true;
         // Search if handle is inside grid collider bounds
         stillOnGrid = gridTile.GetComponentInChildren<Collider>().bounds.Contains(transform.position);
         return stillOnGrid;
