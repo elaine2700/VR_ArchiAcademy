@@ -7,4 +7,10 @@ public class LevelLoader : MonoBehaviour
     {
         SceneManager.LoadScene(nextScene);
     }
+
+    public void ExitApplication()
+    {
+        // todo ask if it is okay to quit.
+        Application.Quit();
+    }
 }
