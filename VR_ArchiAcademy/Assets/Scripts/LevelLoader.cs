@@ -10,7 +10,6 @@ public class LevelLoader : MonoBehaviour
 
     public void ExitApplication()
     {
-        // todo ask if it is okay to quit.
         Application.Quit();
     }
 }

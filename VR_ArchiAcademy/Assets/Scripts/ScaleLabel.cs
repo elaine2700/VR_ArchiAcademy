@@ -9,6 +9,10 @@ public class ScaleLabel : MonoBehaviour
     private void Awake()
     {
         scaler = FindObjectOfType<Scaler>();
+        if(scaler == null)
+        {
+            Debug.LogError("Scaler script is not in the scene");
+        }
     }
 
     private void Start()
