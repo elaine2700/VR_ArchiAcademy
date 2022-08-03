@@ -121,7 +121,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1649388505268570987}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99996924
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2674,7 +2674,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000006221682, y: 0.0037224188}
+  m_AnchoredPosition: {x: 0.000018909479, y: 0.0037224188}
   m_SizeDelta: {x: -18, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1629206155087149114
@@ -5463,6 +5463,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 122da99a22feb4f96865f9d7d6ac7f42, type: 3}
     - target: {fileID: 1994669698424424851, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 2698639413783804601}
+    - target: {fileID: 1994669698424424851, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ChooseFloor
       objectReference: {fileID: 0}
@@ -5554,6 +5558,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall Button
       objectReference: {fileID: 0}
+    - target: {fileID: 3906877224770119997, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
 --- !u!224 &2698639413783804599 stripped
@@ -5561,6 +5569,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1994669698424424860, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
   m_PrefabInstance: {fileID: 4529780899509793579}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2698639413783804601 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1994669698424424850, guid: 6ca74fb1e22a946128b021ed238d88e9, type: 3}
+  m_PrefabInstance: {fileID: 4529780899509793579}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6217639958129391516
 PrefabInstance:
   m_ObjectHideFlags: 0

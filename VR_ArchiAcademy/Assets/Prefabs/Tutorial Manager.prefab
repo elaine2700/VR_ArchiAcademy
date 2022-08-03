@@ -57,8 +57,8 @@ MonoBehaviour:
   furnitureInventoryGroup: {fileID: 0}
   stepInstructions:
   - instructions:
-    - Explore the scene
     - Move and rotate with the left thumbstick.
+    - Explore the scene
     - Go towards the arrow to start building
   - instructions:
     - Information Tab
