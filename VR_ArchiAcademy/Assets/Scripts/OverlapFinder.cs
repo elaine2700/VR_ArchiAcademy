@@ -4,7 +4,11 @@ public class OverlapFinder : MonoBehaviour
 {
     [SerializeField] Vector3 objectSize = new Vector3();
     [SerializeField] LayerMask findOverlapMask;
-    [SerializeField] int newLayer = 0;
+
+    public void UpdateSize(Vector3 newSize)
+    {
+        objectSize = newSize;
+    }
 
     public void ChangeLayer()
     {
@@ -27,7 +31,7 @@ public class OverlapFinder : MonoBehaviour
         return isPlaceable;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, objectSize);

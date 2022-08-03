@@ -1544,7 +1544,7 @@ MonoBehaviour:
   tabButtons: []
   tabIdle: {r: 0, g: 0, b: 0, a: 1}
   tabHover: {r: 1, g: 0.854902, b: 0.5764706, a: 1}
-  tabSelected: {r: 1, g: 1, b: 1, a: 0}
+  tabSelected: {r: 1, g: 1, b: 1, a: 1}
   tabDisabled: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
   selectedTab: {fileID: 6225999814396694132}
   objectsToSwap:
