@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -7,13 +9,23 @@ using UnityEngine;
 /// </summary>
 public class SpectatorCamera : MonoBehaviour
 {
+    enum cameraMode {manual, waypoint};
+    [SerializeField] cameraMode cameraModeState = cameraMode.manual;
+
     Actions droneController;
 
+    [Header("Manual")]
     [Range(0f, 20f)]
     [SerializeField] float movementSpeed = 2;
 
     [Range(0f, 20f)]
     [SerializeField] float rotationSpeed = 1;
+
+    [Header("Waypoints")]
+    [SerializeField] List<Transform> waypoints = new List<Transform>();
+    [SerializeField] int waypointCounter = 0;
+    //Transform currentWaypoint;
+    [SerializeField] Transform nextWaypoint;
  
     Vector2 move;
     Vector2 rotation;
@@ -36,6 +48,11 @@ public class SpectatorCamera : MonoBehaviour
         droneController.Camera.ResetHorizontal.performed += _ => ResetHorizontal();
     }
 
+    private void Start()
+    {
+        nextWaypoint = waypoints[waypointCounter + 1];
+    }
+
     private void OnEnable()
     {
         droneController.Camera.Enable();
@@ -50,9 +67,16 @@ public class SpectatorCamera : MonoBehaviour
 
     private void Update()
     {
-        MoveDrone();
-        RotateDrone();
-        Fly();
+        if(cameraModeState == cameraMode.manual)
+        {
+            MoveDrone();
+            RotateDrone();
+            Fly();
+        }
+        if(cameraModeState == cameraMode.waypoint)
+        {
+            FollowWaypoints();
+        }
     }
 
     /// <summary>
@@ -112,5 +136,25 @@ public class SpectatorCamera : MonoBehaviour
     private void ResetHorizontal()
     {
         transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
+    }
+
+    private void FollowWaypoints()
+    {
+        transform.position = Vector3.Lerp(transform.position, nextWaypoint.position, Time.deltaTime * movementSpeed);
+    }
+
+    public void NextWaypoint()
+    {
+        waypointCounter++;
+        //currentWaypoint = nextWaypoint;
+        if(waypointCounter == waypoints.Count)
+        {
+            Debug.Log("Finished Waypoints");
+            //this.gameObject.SetActive(false);
+            return;
+        }
+        nextWaypoint = waypoints[waypointCounter + 1];
+
+        
     }
 }
