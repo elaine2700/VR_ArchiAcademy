@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraWaypoint : MonoBehaviour
 {
     [SerializeField] SpectatorCamera recorder;
-    bool triggerEntered = false;
+    public bool triggerEntered = false;
 
     private void OnTriggerEnter(Collider other)
     {

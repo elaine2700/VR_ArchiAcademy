@@ -9,8 +9,8 @@ using UnityEngine;
 /// </summary>
 public class SpectatorCamera : MonoBehaviour
 {
-    enum cameraMode {manual, waypoint};
-    [SerializeField] cameraMode cameraModeState = cameraMode.manual;
+    enum cameraMode {manual, waypoint, fpCamera};
+    [SerializeField] cameraMode recordingMode = cameraMode.manual;
 
     Actions droneController;
 
@@ -26,6 +26,11 @@ public class SpectatorCamera : MonoBehaviour
     [SerializeField] int waypointCounter = 0;
     //Transform currentWaypoint;
     [SerializeField] Transform nextWaypoint;
+    [SerializeField] bool loop = false;
+
+    [Header("First Person")]
+    [SerializeField] Camera fpCamera;
+    [SerializeField] List<GameObject> playerObjects = new List<GameObject>();
  
     Vector2 move;
     Vector2 rotation;
@@ -50,7 +55,16 @@ public class SpectatorCamera : MonoBehaviour
 
     private void Start()
     {
-        nextWaypoint = waypoints[waypointCounter + 1];
+        NextWaypoint();
+        //nextWaypoint = waypoints[waypointCounter + 1];
+        if(recordingMode == cameraMode.fpCamera)
+        {
+            foreach(GameObject playerObject in playerObjects)
+            {
+                playerObject.SetActive(false);
+            }
+        }
+
     }
 
     private void OnEnable()
@@ -67,15 +81,19 @@ public class SpectatorCamera : MonoBehaviour
 
     private void Update()
     {
-        if(cameraModeState == cameraMode.manual)
+        if(recordingMode == cameraMode.manual)
         {
             MoveDrone();
             RotateDrone();
             Fly();
         }
-        if(cameraModeState == cameraMode.waypoint)
+        if(recordingMode == cameraMode.waypoint)
         {
-            FollowWaypoints();
+            FollowTarget(transform, nextWaypoint, true);
+        }
+        if(recordingMode == cameraMode.fpCamera)
+        {
+            FollowTarget(transform, fpCamera.transform, true);
         }
     }
 
@@ -138,23 +156,43 @@ public class SpectatorCamera : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
     }
 
-    private void FollowWaypoints()
+    private void FollowTarget(Transform start, Transform to, bool followRotation)
     {
-        transform.position = Vector3.Lerp(transform.position, nextWaypoint.position, Time.deltaTime * movementSpeed);
+        transform.position = Vector3.Lerp(transform.position, to.position, Time.deltaTime * movementSpeed);
+        if(followRotation)
+            transform.rotation = Quaternion.Lerp(transform.rotation, to.rotation, Time.deltaTime * rotationSpeed);
     }
 
     public void NextWaypoint()
     {
+        Debug.Log("Next waypoint");
         waypointCounter++;
         //currentWaypoint = nextWaypoint;
         if(waypointCounter == waypoints.Count)
         {
             Debug.Log("Finished Waypoints");
             //this.gameObject.SetActive(false);
-            return;
+            if (loop)
+            {
+                waypointCounter = -1;
+                ResetWaypoints();
+                NextWaypoint();
+            }
+            else
+            {
+                return;
+            }
         }
-        nextWaypoint = waypoints[waypointCounter + 1];
+        Debug.Log("Changing waypoint");
+        nextWaypoint = waypoints[waypointCounter]; 
+    }
 
-        
+
+    void ResetWaypoints()
+    {
+        foreach(Transform Waypoint in waypoints)
+        {
+            Waypoint.GetComponent<CameraWaypoint>().triggerEntered = false;
+        }
     }
 }

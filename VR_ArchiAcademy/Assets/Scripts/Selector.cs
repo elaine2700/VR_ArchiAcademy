@@ -221,6 +221,8 @@ public class Selector : MonoBehaviour
     
     public void SelectBlock(Block chosenBlock, bool isInScene)
     {
+        if (selectedBlock != null)
+            selectedBlock.EnableColliders(true);
         if (isInScene)
         {
             blockToSpawn = null;
@@ -236,8 +238,6 @@ public class Selector : MonoBehaviour
         chosenBlock.isEditing = true;
         if (selectedBlock.colliders != null) //&& selectedBlock.GetComponent<TransformBlock>().isEditablePosition)
         {
-            Debug.Log("disabling collider");
-            //selectedBlock.blockMainCollider.enabled = false;
             selectedBlock.EnableColliders(false);
         }
         rayController.raycastMask = onSelectedMask;

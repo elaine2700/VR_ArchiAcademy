@@ -65,8 +65,8 @@ MonoBehaviour:
   - instructions:
     - Let's start building
     - Choose a room from dropdown menu
-    - Place the block on the grid.
-    - Select a handle to edit the size of the room.
+    - Point at the ground to place the object.
+    - Select an arrow to edit the size of the room.
     - When you finish editing the size, select again the object.
   - instructions:
     - It is time to add walls
@@ -76,7 +76,7 @@ MonoBehaviour:
       Add more walls. Place
       at least 5 walls'
   - instructions:
-    - Press the grip button until the delete icon appears
+    - Press the grip button on the right controller until the delete icon appears
     - Select a block to delete it
   - instructions:
     - FURNITURE

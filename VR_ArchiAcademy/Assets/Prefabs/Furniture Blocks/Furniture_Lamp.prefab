@@ -229,6 +229,18 @@ PrefabInstance:
       propertyPath: meshesWithMaterials.Array.data[1]
       value: 
       objectReference: {fileID: 6792995683551033689}
+    - target: {fileID: 2471340018554159900, guid: ee66f14d1a6b54f6eb49f29006ffd732, type: 3}
+      propertyPath: objectSize.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471340018554159900, guid: ee66f14d1a6b54f6eb49f29006ffd732, type: 3}
+      propertyPath: objectSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2471340018554159900, guid: ee66f14d1a6b54f6eb49f29006ffd732, type: 3}
+      propertyPath: objectSize.z
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5976480250602553710, guid: ee66f14d1a6b54f6eb49f29006ffd732, type: 3}
       propertyPath: m_Size.x
       value: 0.4

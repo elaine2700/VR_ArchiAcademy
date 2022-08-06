@@ -65,11 +65,10 @@ public class ToolManager : MonoBehaviour
                 OnToolBuild.Invoke();
                 break;
             case ToolSelection.edit:
-                OnToolEdit.Invoke();
+                //OnToolEdit.Invoke();
                 break;
             case ToolSelection.explore:
                 OnToolExplore.Invoke();
-                // todo set all block to not editable
                 break;
             case ToolSelection.delete:
                 OnToolDelete.Invoke();
@@ -83,6 +82,10 @@ public class ToolManager : MonoBehaviour
         if(nextToolIndex >= 6)
         {
             nextToolIndex = 0;
+        }
+        if(nextToolIndex == 3)
+        {
+            nextToolIndex = 4;
         }
         ChangeTool(nextToolIndex);
     }

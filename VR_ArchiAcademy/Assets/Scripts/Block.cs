@@ -100,12 +100,13 @@ public class Block : MonoBehaviour
     private void EditBlock()
     {
         // function called from XR event.
-        //if(toolManager.toolInUse == ToolManager.ToolSelection.transform)
-        //{
+        if(toolManager.toolInUse == ToolManager.ToolSelection.transform)
+        {
             Debug.Log("editing block");
             GetComponent<TransformBlock>().MakeBlockEditable(true);
             selector.SelectBlock(this, true);
-        //}
+            //EnableColliders(false);
+        }
     }
 
     public void InteractWithBlock()
@@ -115,7 +116,7 @@ public class Block : MonoBehaviour
         {
             Delete();
         }
-        EnableColliders(false);
+        
     }
 
     public void Delete()

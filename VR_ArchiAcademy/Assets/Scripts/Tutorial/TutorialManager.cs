@@ -131,6 +131,7 @@ public class TutorialManager : MonoBehaviour
     {
         addFloorButton.ActivateButton(false);
         toolCanvas.gameObject.SetActive(false);
+
         instructionText.text = stepInstructions[instructionIndex].instructions[0];
         yield return new WaitForSeconds(3f);
 
@@ -140,16 +141,15 @@ public class TutorialManager : MonoBehaviour
 
         Debug.Log("INTRODUCTION");
         StartHaptics(0);
-        // Text: Explore the level;
-        yield return WaitUntilPressedNext();
-
-        // Text: Move and rotate with the left thumbstick.
-        instructionText.text = stepInstructions[instructionIndex].instructions[1];
-        StartHaptics(0);
-
+        // Text: Move and rotate;
         StartCoroutine(leftControllerMaterial.BlinkThumstick());
         yield return WaitUntilPressedNext();
         leftControllerMaterial.StopBlinking();
+
+        // Text: Explore the level.
+        instructionText.text = stepInstructions[instructionIndex].instructions[1];
+        StartHaptics(0); 
+        yield return WaitUntilPressedNext();
 
         // Text: Go towards the arrow
         startTrigger.ShowArrow();
